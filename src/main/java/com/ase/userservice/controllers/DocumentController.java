@@ -1,8 +1,9 @@
 package com.ase.userservice.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.ResponseEntity;
+
 
 @RestController
 public class DocumentController {
