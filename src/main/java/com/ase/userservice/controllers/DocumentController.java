@@ -11,4 +11,9 @@ public class DocumentController {
   public ResponseEntity<String> nachklausur() {
     return ResponseEntity.ok("hello world");
   }
+
+  @PostMapping("/studienbescheinigung")
+  public ResponseEntity<String> studienbescheinigung() {
+    return ResponseEntity.ok("hello world");
+  }
 }
