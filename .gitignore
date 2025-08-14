@@ -35,3 +35,6 @@ build/
 
 ### MacOs ###
 */.DS_STORE
+
+### Database ###
+**/mydb.mv.db

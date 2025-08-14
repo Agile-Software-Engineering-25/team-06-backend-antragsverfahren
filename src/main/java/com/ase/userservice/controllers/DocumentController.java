@@ -16,4 +16,9 @@ public class DocumentController {
   public ResponseEntity<String> studienbescheinigung() {
     return ResponseEntity.ok("hello world");
   }
+
+  @PostMapping("/bachelorarbeit")
+  public ResponseEntity<String> bachelorarbeit() {
+    return ResponseEntity.ok("hello world");
+  }
 }
