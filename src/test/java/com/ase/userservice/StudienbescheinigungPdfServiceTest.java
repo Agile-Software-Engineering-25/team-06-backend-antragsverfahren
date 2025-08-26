@@ -42,20 +42,23 @@ public class StudienbescheinigungPdfServiceTest {
     @Test
     void testPdfGeneration() {
         // Test PDF generation
-        byte[] pdfContent = studienbescheinigungService.generateStudienbescheinigungPdf(testUser);
+        byte[] pdfContent = studienbescheinigungService
+                .generateStudienbescheinigungPdf(testUser);
 
         assertNotNull(pdfContent);
         assertTrue(pdfContent.length > 0);
 
         // Check PDF header
-        String pdfHeader = new String(pdfContent, 0, Math.min(4, pdfContent.length));
+        String pdfHeader = new String(pdfContent, 0,
+                Math.min(4, pdfContent.length));
         assertEquals("%PDF", pdfHeader);
     }
 
     @Test
     void testPdfContentContainsUserData() {
         // Test that PDF contains user data
-        byte[] pdfContent = studienbescheinigungService.generateStudienbescheinigungPdf(testUser);
+        byte[] pdfContent = studienbescheinigungService
+                .generateStudienbescheinigungPdf(testUser);
 
         assertNotNull(pdfContent);
         assertTrue(pdfContent.length > 0);
@@ -63,8 +66,9 @@ public class StudienbescheinigungPdfServiceTest {
         // Convert to string to check content (simplified check)
         String pdfAsString = new String(pdfContent);
 
-        // These assertions may need adjustment based on actual PDF content structure
-        // For now, we just verify that the PDF was generated successfully
+        // These assertions may need adjustment based on actual PDF
+        // content structure. For now, we just verify that the PDF
+        // was generated successfully
         assertTrue(pdfAsString.contains("PDF") || pdfContent.length > 100);
     }
 }

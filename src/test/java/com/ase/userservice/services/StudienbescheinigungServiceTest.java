@@ -1,7 +1,6 @@
 package com.ase.userservice.services;
 
 import com.ase.userservice.entities.User;
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +50,8 @@ class StudienbescheinigungServiceTest {
     @Test
     void testGenerateStudienbescheinigungPdf_Success() {
         // When
-        byte[] pdfContent = studienbescheinigungService.generateStudienbescheinigungPdf(testUser);
+        byte[] pdfContent = studienbescheinigungService
+                .generateStudienbescheinigungPdf(testUser);
 
         // Then
         assertNotNull(pdfContent);
@@ -65,23 +65,22 @@ class StudienbescheinigungServiceTest {
     @Test
     void testGenerateStudienbescheinigungPdf_NullUser() {
         // When & Then
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            studienbescheinigungService.generateStudienbescheinigungPdf(null);
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> studienbescheinigungService
+                        .generateStudienbescheinigungPdf(null));
 
         assertEquals("User cannot be null", exception.getMessage());
     }
 
     @Test
-    void testSendStudienbescheinigungByEmail_Success() throws MessagingException {
+    void testSendStudienbescheinigungByEmail_Success() {
         // Given
         byte[] pdfContent = new byte[]{1, 2, 3, 4, 5}; // Mock PDF content
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
 
         // When
-        assertDoesNotThrow(() -> {
-            studienbescheinigungService.sendStudienbescheinigungByEmail(testUser, pdfContent);
-        });
+        assertDoesNotThrow(() -> studienbescheinigungService
+                .sendStudienbescheinigungByEmail(testUser, pdfContent));
 
         // Then
         verify(mailSender, times(1)).createMimeMessage();
@@ -94,9 +93,9 @@ class StudienbescheinigungServiceTest {
         byte[] pdfContent = new byte[]{1, 2, 3, 4, 5};
 
         // When & Then
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            studienbescheinigungService.sendStudienbescheinigungByEmail(null, pdfContent);
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> studienbescheinigungService
+                        .sendStudienbescheinigungByEmail(null, pdfContent));
 
         assertEquals("User cannot be null", exception.getMessage());
     }
@@ -104,11 +103,12 @@ class StudienbescheinigungServiceTest {
     @Test
     void testSendStudienbescheinigungByEmail_NullPdfContent() {
         // When & Then
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            studienbescheinigungService.sendStudienbescheinigungByEmail(testUser, null);
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> studienbescheinigungService
+                        .sendStudienbescheinigungByEmail(testUser, null));
 
-        assertEquals("PDF content cannot be null or empty", exception.getMessage());
+        assertEquals("PDF content cannot be null or empty",
+                exception.getMessage());
     }
 
     @Test
@@ -117,36 +117,37 @@ class StudienbescheinigungServiceTest {
         byte[] emptyPdfContent = new byte[0];
 
         // When & Then
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            studienbescheinigungService.sendStudienbescheinigungByEmail(testUser, emptyPdfContent);
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> studienbescheinigungService
+                        .sendStudienbescheinigungByEmail(testUser, emptyPdfContent));
 
-        assertEquals("PDF content cannot be null or empty", exception.getMessage());
+        assertEquals("PDF content cannot be null or empty",
+                exception.getMessage());
     }
 
     @Test
-    void testSendStudienbescheinigungByEmail_MessagingException() throws MessagingException {
+    void testSendStudienbescheinigungByEmail_MessagingException() {
         // Given
         byte[] pdfContent = new byte[]{1, 2, 3, 4, 5};
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
         doThrow(RuntimeException.class).when(mailSender).send(mimeMessage);
 
         // When & Then
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            studienbescheinigungService.sendStudienbescheinigungByEmail(testUser, pdfContent);
-        });
+        assertThrows(RuntimeException.class, () -> studienbescheinigungService
+                .sendStudienbescheinigungByEmail(testUser, pdfContent));
 
         verify(mailSender, times(1)).createMimeMessage();
         verify(mailSender, times(1)).send(mimeMessage);
     }
 
     @Test
-    void testIntegratedPdfGenerationAndEmailSending() throws MessagingException {
+    void testIntegratedPdfGenerationAndEmailSending() {
         // Given
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
 
         // When
-        byte[] pdfContent = studienbescheinigungService.generateStudienbescheinigungPdf(testUser);
+        byte[] pdfContent = studienbescheinigungService
+                .generateStudienbescheinigungPdf(testUser);
 
         // Then
         assertNotNull(pdfContent);
@@ -157,9 +158,8 @@ class StudienbescheinigungServiceTest {
         assertEquals("%PDF", pdfHeader);
 
         // Test email sending with generated PDF
-        assertDoesNotThrow(() -> {
-            studienbescheinigungService.sendStudienbescheinigungByEmail(testUser, pdfContent);
-        });
+        assertDoesNotThrow(() -> studienbescheinigungService
+                .sendStudienbescheinigungByEmail(testUser, pdfContent));
 
         verify(mailSender, times(1)).createMimeMessage();
         verify(mailSender, times(1)).send(mimeMessage);

@@ -18,7 +18,9 @@ public class DocumentController {
     private StudienbescheinigungService studienbescheinigungService;
 
     /**
-     * Creates a test user with predefined data
+     * Creates a test user with predefined data.
+     *
+     * @return a test user instance
      */
     private User createTestUser() {
         User testUser = new User();
@@ -38,40 +40,52 @@ public class DocumentController {
         return testUser;
     }
 
-
     /**
-     * Generates PDF for test user and returns it as downloadable file
+     * Generates PDF for test user and returns it as downloadable file.
+     *
+     * @return ResponseEntity containing the PDF file
      */
     @PostMapping("/studienbescheinigung")
     public ResponseEntity<byte[]> sendStudienbescheinigung() {
         User testUser = createTestUser();
 
         try {
-            byte[] pdfContent = studienbescheinigungService.generateStudienbescheinigungPdf(testUser);
-           // studienbescheinigungService.sendStudienbescheinigungByEmail(testUser, pdfContent);
+            byte[] pdfContent = studienbescheinigungService
+                    .generateStudienbescheinigungPdf(testUser);
+            // studienbescheinigungService
+            //         .sendStudienbescheinigungByEmail(testUser, pdfContent);
 
-          // Set headers for PDF download
+            // Set headers for PDF download
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", "studienbescheinigung.pdf");
+            headers.setContentDispositionFormData("attachment",
+                    "studienbescheinigung.pdf");
             headers.setContentLength(pdfContent.length);
 
             return ResponseEntity.ok()
-                .headers(headers)
-                .body(pdfContent);
+                    .headers(headers)
+                    .body(pdfContent);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(null);
+                    .body(null);
         }
     }
 
-
-
+    /**
+     * Placeholder endpoint for Nachklausur functionality.
+     *
+     * @return ResponseEntity with hello world message
+     */
     @PostMapping("/nachklausur")
     public ResponseEntity<String> nachklausur() {
         return ResponseEntity.ok("hello world");
     }
 
+    /**
+     * Placeholder endpoint for Bachelorarbeit functionality.
+     *
+     * @return ResponseEntity with hello world message
+     */
     @PostMapping("/bachelorarbeit")
     public ResponseEntity<String> bachelorarbeit() {
         return ResponseEntity.ok("hello world");

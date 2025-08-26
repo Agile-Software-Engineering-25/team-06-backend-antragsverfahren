@@ -26,32 +26,45 @@ public class StudienbescheinigungService {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${semester.validity.summer:gueltig fuer Summer Semester 2025 (10.06.2025-24.11.2025)}")
+    @Value("${semester.validity.summer:gueltig fuer Summer Semester 2025 "
+            + "(10.06.2025-24.11.2025)}")
     private String summerSemesterValidity;
 
-    @Value("${semester.validity.winter:gueltig fuer Winter Semester 2025/2026 (01.10.2025-31.03.2026)}")
+    @Value("${semester.validity.winter:gueltig fuer Winter Semester 2025/2026 "
+            + "(01.10.2025-31.03.2026)}")
     private String winterSemesterValidity;
 
     /**
-     * Determines the current semester validity text based on the current date
+     * Determines the current semester validity text based on the current date.
+     *
+     * @return the validity text for the current semester
      */
     private String getCurrentSemesterValidityText() {
         LocalDate now = LocalDate.now();
 
         // Handle null values (can happen in unit tests)
-        String summer = summerSemesterValidity != null ? summerSemesterValidity : "gueltig fuer Summer Semester 2025 (10.06.2025-24.11.2025)";
-        String winter = winterSemesterValidity != null ? winterSemesterValidity : "gueltig fuer Winter Semester 2025/2026 (01.10.2025-31.03.2026)";
+        String summer = summerSemesterValidity != null ? summerSemesterValidity
+                : "gueltig fuer Summer Semester 2025 (10.06.2025-24.11.2025)";
+        String winter = winterSemesterValidity != null ? winterSemesterValidity
+                : "gueltig fuer Winter Semester 2025/2026 (01.10.2025-31.03.2026)";
 
         // Summer semester: April 1 - September 30
         // Winter semester: October 1 - March 31 (next year)
-        if (now.getMonth().getValue() >= Month.APRIL.getValue() &&
-            now.getMonth().getValue() <= Month.SEPTEMBER.getValue()) {
+        if (now.getMonth().getValue() >= Month.APRIL.getValue()
+                && now.getMonth().getValue() <= Month.SEPTEMBER.getValue()) {
             return summer;
         } else {
             return winter;
         }
     }
 
+    /**
+     * Generates a PDF document for a student certificate.
+     *
+     * @param user the user for whom to generate the certificate
+     * @return the PDF content as byte array
+     * @throws RuntimeException if user is null or PDF generation fails
+     */
     public byte[] generateStudienbescheinigungPdf(User user) {
         if (user == null) {
             throw new RuntimeException("User cannot be null");
@@ -66,17 +79,17 @@ public class StudienbescheinigungService {
 
             // Title
             Paragraph title = new Paragraph("Studienbescheinigung")
-                .setFontSize(18)
-                .setBold()
-                .setTextAlignment(TextAlignment.CENTER);
+                    .setFontSize(18)
+                    .setBold()
+                    .setTextAlignment(TextAlignment.CENTER);
             document.add(title);
 
             // Current semester info - now configurable with null check
             String validityText = getCurrentSemesterValidityText();
             if (validityText != null && !validityText.trim().isEmpty()) {
                 Paragraph semesterInfo = new Paragraph(validityText)
-                    .setFontSize(12)
-                    .setTextAlignment(TextAlignment.CENTER);
+                        .setFontSize(12)
+                        .setTextAlignment(TextAlignment.CENTER);
                 document.add(semesterInfo);
             }
 
@@ -87,39 +100,48 @@ public class StudienbescheinigungService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             String birthDate = user.getDateOfBirth().format(formatter);
 
-            document.add(new Paragraph(String.format("%s %s, geboren am %s, Matrikelnummer %s",
-                user.getFirstName(), user.getLastName(), birthDate, user.getMatriculationNumber()))
-                .setFontSize(12));
+            String studentInfo = String.format("%s %s, geboren am %s, "
+                    + "Matrikelnummer %s", user.getFirstName(),
+                    user.getLastName(), birthDate, user.getMatriculationNumber());
+            document.add(new Paragraph(studentInfo).setFontSize(12));
 
-            document.add(new Paragraph(String.format("Studiengang %s", user.getStudyProgram()))
-                .setFontSize(12));
+            String studyProgramInfo = String.format("Studiengang %s",
+                    user.getStudyProgram());
+            document.add(new Paragraph(studyProgramInfo).setFontSize(12));
 
-            document.add(new Paragraph(String.format("Abschluss %s", user.getDegree()))
-                .setFontSize(12));
+            String degreeInfo = String.format("Abschluss %s", user.getDegree());
+            document.add(new Paragraph(degreeInfo).setFontSize(12));
 
-            document.add(new Paragraph(String.format("Fachsemester %d", user.getCurrentSemester()))
-                .setFontSize(12));
+            String semesterInfo = String.format("Fachsemester %d",
+                    user.getCurrentSemester());
+            document.add(new Paragraph(semesterInfo).setFontSize(12));
 
-            document.add(new Paragraph(String.format("Regelstudienzeit %d", user.getStandardStudyDuration()))
-                .setFontSize(12));
+            String durationInfo = String.format("Regelstudienzeit %d",
+                    user.getStandardStudyDuration());
+            document.add(new Paragraph(durationInfo).setFontSize(12));
 
-            document.add(new Paragraph(String.format("Beginn des Studiums %s", user.getStudyStartSemester()))
-                .setFontSize(12));
+            String startInfo = String.format("Beginn des Studiums %s",
+                    user.getStudyStartSemester());
+            document.add(new Paragraph(startInfo).setFontSize(12));
 
-            document.add(new Paragraph(String.format("Hochschulsemester %d", user.getUniversitySemester()))
-                .setFontSize(12));
+            String universitySemesterInfo = String.format("Hochschulsemester %d",
+                    user.getUniversitySemester());
+            document.add(new Paragraph(universitySemesterInfo).setFontSize(12));
 
-            document.add(new Paragraph(String.format("davon Urlaubssemester %d", user.getLeaveOfAbsenceSemesters()))
-                .setFontSize(12));
+            String leaveInfo = String.format("davon Urlaubssemester %d",
+                    user.getLeaveOfAbsenceSemesters());
+            document.add(new Paragraph(leaveInfo).setFontSize(12));
 
             // Add some space
             document.add(new Paragraph(" "));
 
             // Footer note
-            Paragraph footer = new Paragraph("Diese Bescheinigung wurde maschinell erzeugt und ist ohne Unterschrift gueltig. " +
-                "Zusaetze und Aenderungen beduerfen der ausdruecklichen Bestaetigung.")
-                .setFontSize(10)
-                .setItalic();
+            String footerText = "Diese Bescheinigung wurde maschinell erzeugt "
+                    + "und ist ohne Unterschrift gueltig. Zusaetze und "
+                    + "Aenderungen beduerfen der ausdruecklichen Bestaetigung.";
+            Paragraph footer = new Paragraph(footerText)
+                    .setFontSize(10)
+                    .setItalic();
             document.add(footer);
 
             document.close();
@@ -131,7 +153,14 @@ public class StudienbescheinigungService {
         return outputStream.toByteArray();
     }
 
-    public void sendStudienbescheinigungByEmail(User user, byte[] pdfContent) throws MessagingException {
+    /**
+     * Sends a student certificate by email.
+     *
+     * @param user the user to send the email to
+     * @param pdfContent the PDF content to attach
+     * @throws RuntimeException if user or pdfContent is null/empty
+     */
+    public void sendStudienbescheinigungByEmail(User user, byte[] pdfContent) {
         if (user == null) {
             throw new RuntimeException("User cannot be null");
         }
@@ -144,14 +173,23 @@ public class StudienbescheinigungService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
             helper.setTo(user.getEmail());
-            helper.setSubject("Studienbescheinigung - " + user.getFirstName() + " " + user.getLastName());
-            helper.setText("Liebe/r " + user.getFirstName() + " " + user.getLastName() + ",\n\n" +
-                "anbei erhalten Sie Ihre Studienbescheinigung als PDF-Dokument.\n\n" +
-                "Mit freundlichen Grüßen\n" +
-                "Ihr Studierendensekretariat");
+
+            String subject = "Studienbescheinigung - " + user.getFirstName()
+                    + " " + user.getLastName();
+            helper.setSubject(subject);
+
+            String emailText = "Liebe/r " + user.getFirstName() + " "
+                    + user.getLastName() + ",\n\n"
+                    + "anbei erhalten Sie Ihre Studienbescheinigung als "
+                    + "PDF-Dokument.\n\n"
+                    + "Mit freundlichen Grüßen\n"
+                    + "Ihr Studierendensekretariat";
+            helper.setText(emailText);
 
             ByteArrayResource pdfResource = new ByteArrayResource(pdfContent);
-            helper.addAttachment("Studienbescheinigung_" + user.getMatriculationNumber() + ".pdf", pdfResource);
+            String attachmentName = "Studienbescheinigung_"
+                    + user.getMatriculationNumber() + ".pdf";
+            helper.addAttachment(attachmentName, pdfResource);
 
             mailSender.send(message);
         } catch (MessagingException e) {

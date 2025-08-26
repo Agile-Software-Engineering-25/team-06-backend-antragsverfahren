@@ -25,7 +25,8 @@ public class StudienbescheinigungIntegrationTest {
     @Test
     public void testSendStudienbescheinigungPdf() {
         // Test PDF generation endpoint
-        ResponseEntity<byte[]> response = documentController.sendStudienbescheinigung();
+        ResponseEntity<byte[]> response = documentController
+                .sendStudienbescheinigung();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -33,10 +34,15 @@ public class StudienbescheinigungIntegrationTest {
 
         // Verify PDF content type
         assertNotNull(response.getHeaders().getContentType());
-        assertEquals("application/pdf", response.getHeaders().getContentType().getType() + "/" + response.getHeaders().getContentType().getSubtype());
+        String expectedContentType = "application/pdf";
+        String actualContentType = response.getHeaders().getContentType()
+                .getType() + "/" + response.getHeaders().getContentType()
+                .getSubtype();
+        assertEquals(expectedContentType, actualContentType);
 
         // Verify Content-Disposition header (check if it contains the filename)
-        String contentDisposition = response.getHeaders().getFirst("Content-Disposition");
+        String contentDisposition = response.getHeaders()
+                .getFirst("Content-Disposition");
         assertNotNull(contentDisposition);
         assertTrue(contentDisposition.contains("studienbescheinigung.pdf"));
     }
@@ -59,20 +65,23 @@ public class StudienbescheinigungIntegrationTest {
         testUser.setUniversitySemester(5);
         testUser.setLeaveOfAbsenceSemesters(0);
 
-        byte[] pdfContent = studienbescheinigungService.generateStudienbescheinigungPdf(testUser);
+        byte[] pdfContent = studienbescheinigungService
+                .generateStudienbescheinigungPdf(testUser);
 
         assertNotNull(pdfContent);
         assertTrue(pdfContent.length > 0);
 
         // Check PDF header
-        String pdfHeader = new String(pdfContent, 0, Math.min(4, pdfContent.length));
+        String pdfHeader = new String(pdfContent, 0,
+                Math.min(4, pdfContent.length));
         assertEquals("%PDF", pdfHeader);
     }
 
     @Test
     public void testStudienbescheinigungEndpointReturnsValidPdf() {
         // Test that the endpoint returns a valid PDF file
-        ResponseEntity<byte[]> response = documentController.sendStudienbescheinigung();
+        ResponseEntity<byte[]> response = documentController
+                .sendStudienbescheinigung();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -80,7 +89,8 @@ public class StudienbescheinigungIntegrationTest {
 
         // Check PDF header
         byte[] pdfContent = response.getBody();
-        String pdfHeader = new String(pdfContent, 0, Math.min(4, pdfContent.length));
+        String pdfHeader = new String(pdfContent, 0,
+                Math.min(4, pdfContent.length));
         assertEquals("%PDF", pdfHeader);
     }
 }
