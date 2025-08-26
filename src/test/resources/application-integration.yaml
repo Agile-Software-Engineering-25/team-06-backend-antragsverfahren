@@ -1,0 +1,34 @@
+spring:
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:your-email@gmail.com}
+    password: ${MAIL_PASSWORD:your-app-password}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:true}
+          starttls:
+            enable: ${MAIL_SMTP_STARTTLS:true}
+          ssl:
+            trust: ${MAIL_SMTP_SSL_TRUST:smtp.gmail.com}
+
+# Alternative configurations can be set via environment variables:
+# For Gmail:
+# MAIL_HOST=smtp.gmail.com
+# MAIL_PORT=587
+# MAIL_USERNAME=your-email@gmail.com
+# MAIL_PASSWORD=your-app-password
+# MAIL_SMTP_SSL_TRUST=smtp.gmail.com
+
+# For Outlook/Hotmail:
+# MAIL_HOST=smtp-mail.outlook.com
+# MAIL_PORT=587
+# MAIL_USERNAME=your-email@outlook.com
+# MAIL_PASSWORD=your-password
+
+# For Yahoo:
+# MAIL_HOST=smtp.mail.yahoo.com
+# MAIL_PORT=587
+# MAIL_USERNAME=your-email@yahoo.com
+# MAIL_PASSWORD=your-app-password
