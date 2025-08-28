@@ -47,6 +47,11 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    // Many-to-one relationship with Semester (a student belongs to one semester)
+    @ManyToOne
+    @JoinColumn(name = "semester_id")
+    private Semester currentSemesterEntity;
+
     // Constructors
     public User() {}
 
@@ -106,4 +111,7 @@ public class User {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public Semester getCurrentSemesterEntity() { return currentSemesterEntity; }
+    public void setCurrentSemesterEntity(Semester currentSemesterEntity) { this.currentSemesterEntity = currentSemesterEntity; }
 }

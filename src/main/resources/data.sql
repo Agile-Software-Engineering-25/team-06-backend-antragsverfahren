@@ -1,3 +1,10 @@
-INSERT INTO users (first_name, last_name, date_of_birth, matriculation_number, study_program, degree, current_semester, standard_study_duration, study_start_semester, university_semester, leave_of_absence_semesters, email) VALUES
-('Jan', 'Brandenstein', '2003-12-20', 'D778', 'Informatik', 'Bachelor of Science', 4, 6, 'winter semester 2023/2024', 4, 0, 'jan.brandenstein@example.com');
+-- Insert semester data with separate INSERT statements
+INSERT INTO SEMESTERS (SEMESTER_CODE, SEMESTER_NAME, SEMESTER_START, SEMESTER_END, SEMESTER_TYPE, SEMESTER_YEAR, DEGREE)
+VALUES ('2025S', 'Summer Semester 2025', '2025-06-10', '2025-11-24', 'SUMMER', 2025, 'BACHELOR');
 
+INSERT INTO SEMESTERS (SEMESTER_CODE, SEMESTER_NAME, SEMESTER_START, SEMESTER_END, SEMESTER_TYPE, SEMESTER_YEAR, DEGREE)
+VALUES ('2025W', 'Winter Semester 2025/2026', '2025-10-01', '2026-03-31', 'WINTER', 2025, 'BACHELOR');
+
+-- Insert user data with semester reference
+INSERT INTO USERS (FIRST_NAME, LAST_NAME, DATE_OF_BIRTH, MATRICULATION_NUMBER, STUDY_PROGRAM, DEGREE, CURRENT_SEMESTER, STANDARD_STUDY_DURATION, STUDY_START_SEMESTER, UNIVERSITY_SEMESTER, LEAVE_OF_ABSENCE_SEMESTERS, EMAIL, SEMESTER_ID)
+VALUES ('Test', 'Test', '1990-01-01', '123456', 'INFORMATIK', 'BACHELOR', 1, 6, '2023-10-01', 1, 0, 'test@test.de', 1);

@@ -1,6 +1,7 @@
 package com.ase.userservice.controllers;
 
 import com.ase.userservice.entities.User;
+import com.ase.userservice.repositories.UserRepository;
 import com.ase.userservice.services.StudienbescheinigungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -9,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.Optional;
 
 @RestController
 public class DocumentController {
@@ -17,27 +18,23 @@ public class DocumentController {
     @Autowired
     private StudienbescheinigungService studienbescheinigungService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     /**
-     * Creates a test user with predefined data.
+     * Fetches the test user from the database.
+     * Uses the matriculation number from data.sql to find the user.
      *
-     * @return a test user instance
+     * @return the user from database or null if not found
      */
-    private User createTestUser() {
-        User testUser = new User();
-        testUser.setId(1L);
-        testUser.setFirstName("Max");
-        testUser.setLastName("Mustermann");
-        testUser.setDateOfBirth(LocalDate.of(1995, 5, 15));
-        testUser.setMatriculationNumber("TEST123");
-        testUser.setStudyProgram("Computer Science");
-        testUser.setDegree("Bachelor of Science");
-        testUser.setCurrentSemester(5);
-        testUser.setStandardStudyDuration(6);
-        testUser.setStudyStartSemester("Winter Semester 2022/2023");
-        testUser.setUniversitySemester(5);
-        testUser.setLeaveOfAbsenceSemesters(0);
-        testUser.setEmail("test@test.de");
-        return testUser;
+    private User getTestUserFromDatabase() {
+        // Fetch user with matriculation number "123456" from data.sql
+        Optional<User> userOptional = userRepository.findByMatriculationNumber("123456");
+
+        return userOptional.orElse(
+            // Fallback: try to get the first user if the specific one is not found
+            userRepository.findAll().stream().findFirst().orElse(null)
+        );
     }
 
     /**
@@ -47,7 +44,12 @@ public class DocumentController {
      */
     @PostMapping("/studienbescheinigung")
     public ResponseEntity<byte[]> sendStudienbescheinigung() {
-        User testUser = createTestUser();
+        User testUser = getTestUserFromDatabase();
+
+        if (testUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
 
         try {
             byte[] pdfContent = studienbescheinigungService
