@@ -26,7 +26,7 @@ public class StudienbescheinigungIntegrationTest {
     public void testSendStudienbescheinigungPdf() {
         // Test PDF generation endpoint
         ResponseEntity<byte[]> response = documentController
-                .sendStudienbescheinigung();
+                .sendStudienbescheinigung("de");
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -81,7 +81,7 @@ public class StudienbescheinigungIntegrationTest {
     public void testStudienbescheinigungEndpointReturnsValidPdf() {
         // Test that the endpoint returns a valid PDF file
         ResponseEntity<byte[]> response = documentController
-                .sendStudienbescheinigung();
+                .sendStudienbescheinigung("de");
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());

@@ -44,6 +44,20 @@ public class StudienbescheinigungService {
                 semester.getSemesterName(), startDate, endDate);
     }
 
+    private String getSemesterValidityTextEn(User user) {
+        Semester semester = user.getCurrentSemesterEntity();
+        if (semester == null) {
+            return null;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String startDate = semester.getSemesterStart().format(formatter);
+        String endDate = semester.getSemesterEnd().format(formatter);
+
+        return String.format("valid for %s (%s-%s)",
+                semester.getSemesterName(), startDate, endDate);
+    }
+
     /**
      * Generates a PDF document for a student certificate.
      *
@@ -125,6 +139,92 @@ public class StudienbescheinigungService {
             String footerText = "Diese Bescheinigung wurde maschinell erzeugt "
                     + "und ist ohne Unterschrift gueltig. Zusaetze und "
                     + "Aenderungen beduerfen der ausdruecklichen Bestaetigung.";
+            Paragraph footer = new Paragraph(footerText)
+                    .setFontSize(10)
+                    .setItalic();
+            document.add(footer);
+
+            document.close();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error generating PDF", e);
+        }
+
+        return outputStream.toByteArray();
+    }
+    public byte[] generateStudienbescheinigungPdfEn(User user) {
+        if (user == null) {
+            throw new RuntimeException("User cannot be null");
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        try {
+            PdfWriter writer = new PdfWriter(outputStream);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            // Title
+            Paragraph title = new Paragraph("Confirmation of enrollment")
+                    .setFontSize(18)
+                    .setBold()
+                    .setTextAlignment(TextAlignment.CENTER);
+            document.add(title);
+
+            // Current semester info - now from database
+            String validityText = getSemesterValidityTextEn(user);
+            if (validityText != null && !validityText.trim().isEmpty()) {
+                Paragraph semesterInfo = new Paragraph(validityText)
+                        .setFontSize(12)
+                        .setTextAlignment(TextAlignment.CENTER);
+                document.add(semesterInfo);
+            }
+
+            // Add some space
+            document.add(new Paragraph(" "));
+
+            // Student information
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            String birthDate = user.getDateOfBirth().format(formatter);
+
+            String studentInfo = String.format("%s %s, date of birth %s, "
+                    + "matriculation number %s", user.getFirstName(),
+                    user.getLastName(), birthDate, user.getMatriculationNumber());
+            document.add(new Paragraph(studentInfo).setFontSize(12));
+
+            String studyProgramInfo = String.format("study programm %s",
+                    user.getStudyProgram());
+            document.add(new Paragraph(studyProgramInfo).setFontSize(12));
+
+            String degreeInfo = String.format("final degree %s", user.getDegree());
+            document.add(new Paragraph(degreeInfo).setFontSize(12));
+
+            String semesterInfo = String.format("number of semesters in programm %d",
+                    user.getCurrentSemester());
+            document.add(new Paragraph(semesterInfo).setFontSize(12));
+
+            String durationInfo = String.format("regular study time %d",
+                    user.getStandardStudyDuration());
+            document.add(new Paragraph(durationInfo).setFontSize(12));
+
+            String startInfo = String.format("start of study %s",
+                    user.getStudyStartSemester());
+            document.add(new Paragraph(startInfo).setFontSize(12));
+
+            String universitySemesterInfo = String.format("number of university semesters %d",
+                    user.getUniversitySemester());
+            document.add(new Paragraph(universitySemesterInfo).setFontSize(12));
+
+            String leaveInfo = String.format("therof vacation semesters %d",
+                    user.getLeaveOfAbsenceSemesters());
+            document.add(new Paragraph(leaveInfo).setFontSize(12));
+
+            // Add some space
+            document.add(new Paragraph(" "));
+
+            // Footer note
+            String footerText = "Automatically generated confirmation, valid without signature. "
+                    + "Additions and changes need explicit confirmation ";
             Paragraph footer = new Paragraph(footerText)
                     .setFontSize(10)
                     .setItalic();

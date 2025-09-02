@@ -43,7 +43,8 @@ public class DocumentController {
      * @return ResponseEntity containing the PDF file
      */
     @PostMapping("/studienbescheinigung")
-    public ResponseEntity<byte[]> sendStudienbescheinigung() {
+    public ResponseEntity<byte[]> sendStudienbescheinigung(@RequestHeader(HttpHeaders.ACCEPT_LANGUAGE)String language) {
+        System.out.println(language);
         User testUser = getTestUserFromDatabase();
 
         if (testUser == null) {
@@ -52,10 +53,20 @@ public class DocumentController {
         }
 
         try {
-            byte[] pdfContent = studienbescheinigungService
-                    .generateStudienbescheinigungPdf(testUser);
-            // studienbescheinigungService
-            //         .sendStudienbescheinigungByEmail(testUser, pdfContent);
+            byte[] pdfContent;
+            if ("en-US".equals(language)){
+                pdfContent = studienbescheinigungService
+                    .generateStudienbescheinigungPdfEn(testUser);
+            }
+            else if (language.contains("de")){
+                pdfContent = studienbescheinigungService
+                        .generateStudienbescheinigungPdf(testUser);
+                // studienbescheinigungService
+                //         .sendStudienbescheinigungByEmail(testUser, pdfContent);
+            }
+            else {
+                throw new Exception();
+            }
 
             // Set headers for PDF download
             HttpHeaders headers = new HttpHeaders();
