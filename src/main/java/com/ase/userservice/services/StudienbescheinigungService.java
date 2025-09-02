@@ -1,13 +1,13 @@
 package com.ase.userservice.services;
 
 import com.ase.userservice.entities.User;
+import com.ase.userservice.entities.Semester;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
-import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -26,36 +24,24 @@ public class StudienbescheinigungService {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${semester.validity.summer:gueltig fuer Summer Semester 2025 "
-            + "(10.06.2025-24.11.2025)}")
-    private String summerSemesterValidity;
-
-    @Value("${semester.validity.winter:gueltig fuer Winter Semester 2025/2026 "
-            + "(01.10.2025-31.03.2026)}")
-    private String winterSemesterValidity;
-
     /**
-     * Determines the current semester validity text based on the current date.
+     * Generates the semester validity text from the user's current semester entity.
      *
-     * @return the validity text for the current semester
+     * @param user the user whose semester information to use
+     * @return the validity text for the semester, or null if no semester is assigned
      */
-    private String getCurrentSemesterValidityText() {
-        LocalDate now = LocalDate.now();
-
-        // Handle null values (can happen in unit tests)
-        String summer = summerSemesterValidity != null ? summerSemesterValidity
-                : "gueltig fuer Summer Semester 2025 (10.06.2025-24.11.2025)";
-        String winter = winterSemesterValidity != null ? winterSemesterValidity
-                : "gueltig fuer Winter Semester 2025/2026 (01.10.2025-31.03.2026)";
-
-        // Summer semester: April 1 - September 30
-        // Winter semester: October 1 - March 31 (next year)
-        if (now.getMonth().getValue() >= Month.APRIL.getValue()
-                && now.getMonth().getValue() <= Month.SEPTEMBER.getValue()) {
-            return summer;
-        } else {
-            return winter;
+    private String getSemesterValidityText(User user) {
+        Semester semester = user.getCurrentSemesterEntity();
+        if (semester == null) {
+            return null;
         }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String startDate = semester.getSemesterStart().format(formatter);
+        String endDate = semester.getSemesterEnd().format(formatter);
+
+        return String.format("gueltig fuer %s (%s-%s)",
+                semester.getSemesterName(), startDate, endDate);
     }
 
     /**
@@ -84,8 +70,8 @@ public class StudienbescheinigungService {
                     .setTextAlignment(TextAlignment.CENTER);
             document.add(title);
 
-            // Current semester info - now configurable with null check
-            String validityText = getCurrentSemesterValidityText();
+            // Current semester info - now from database
+            String validityText = getSemesterValidityText(user);
             if (validityText != null && !validityText.trim().isEmpty()) {
                 Paragraph semesterInfo = new Paragraph(validityText)
                         .setFontSize(12)
