@@ -1,0 +1,46 @@
+spring:
+  # Database configuration for testing
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+
+  h2:
+    console:
+      enabled: true
+
+  # Disable mail completely for testing
+  mail:
+    host: localhost
+    port: 3025
+    username: ""
+    password: ""
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+          ssl:
+            enable: false
+            trust: localhost
+
+# Logging configuration for better debugging
+logging:
+  level:
+    com.ase.userservice: DEBUG
+    org.springframework.mail: DEBUG
+
+# Semester Validity Configuration for testing
+semester:
+  validity:
+    summer: "gueltig fuer Summer Semester 2025 (10.06.2025-24.11.2025)"
+    winter: "gueltig fuer Winter Semester 2025/2026 (01.10.2025-31.03.2026)"
