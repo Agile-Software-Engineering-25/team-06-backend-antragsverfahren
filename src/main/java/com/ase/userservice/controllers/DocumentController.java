@@ -50,15 +50,15 @@ public class DocumentController {
                 pdfContent = studienbescheinigungService
                     .generateStudienbescheinigungPdfEn(testUser);
               // Send the PDF via email
-              studienbescheinigungService
-                  .sendStudienbescheinigungByEmail(testUser, pdfContent, true);
+              //studienbescheinigungService
+              //    .sendStudienbescheinigungByEmail(testUser, pdfContent, true);
             }
             else if (language.contains("de")){
                 pdfContent = studienbescheinigungService
                         .generateStudienbescheinigungPdf(testUser);
               // Send the PDF via email
-              studienbescheinigungService
-                  .sendStudienbescheinigungByEmail(testUser, pdfContent, false);
+              //studienbescheinigungService
+              //    .sendStudienbescheinigungByEmail(testUser, pdfContent, false);
             }
             else {
                 throw new Exception();
