@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import jakarta.validation.Valid;
 
 @RestController
 public class DocumentController {
@@ -89,9 +90,19 @@ public class DocumentController {
      *
      * @return ResponseEntity with hello world message
      */
+    @GetMapping("/bachelorarbeit")
+    public String showNachklausurForm(DocumentForms.NachklausurForm nachklausurForm) {
+        return "form";
+    }
+
     @PostMapping("/nachklausur")
-    public ResponseEntity<String> nachklausur() {
-        return ResponseEntity.ok("hello world");
+    public ResponseEntity<String> nachklausur(@Valid DocumentForms.NachklausurForm nachklausurForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "form";
+        }
+
+        return "redirect:/results";
     }
 
     /**
@@ -99,8 +110,19 @@ public class DocumentController {
      *
      * @return ResponseEntity with hello world message
      */
+    @GetMapping("/bachelorarbeit")
+    public String showBachelorarbeitForm(DocumentForms.BachelorarbeitForm bachelorarbeitForm) {
+        return "form";
+    }
+
+
     @PostMapping("/bachelorarbeit")
-    public ResponseEntity<String> bachelorarbeit() {
-        return ResponseEntity.ok("hello world");
+    public ResponseEntity<String> bachelorarbeit(@Valid DocumentForms.BachelorarbeitForm bachelorarbeitForm, BindingResult bindingResult) {
+        
+        if (bindingResult.hasErrors()) {
+			return "form";
+		}
+
+		return "redirect:/results";
     }
 }
