@@ -244,9 +244,10 @@ public class StudienbescheinigungService {
      *
      * @param user the user to send the email to
      * @param pdfContent the PDF content to attach
+     * @param isEnglish whether to send the email in English (true) or German (false)
      * @throws RuntimeException if user or pdfContent is null/empty
      */
-    public void sendStudienbescheinigungByEmail(User user, byte[] pdfContent) {
+    public void sendStudienbescheinigungByEmail(User user, byte[] pdfContent, boolean isEnglish) {
         if (user == null) {
             throw new RuntimeException("User cannot be null");
         }
@@ -260,21 +261,42 @@ public class StudienbescheinigungService {
 
             helper.setTo(user.getEmail());
 
-            String subject = "Studienbescheinigung - " + user.getFirstName()
-                    + " " + user.getLastName();
-            helper.setSubject(subject);
+            String subject;
+            String emailText;
+            String attachmentName;
 
-            String emailText = "Liebe/r " + user.getFirstName() + " "
-                    + user.getLastName() + ",\n\n"
-                    + "anbei erhalten Sie Ihre Studienbescheinigung als "
-                    + "PDF-Dokument.\n\n"
-                    + "Mit freundlichen Grüßen\n"
-                    + "Ihr Studierendensekretariat";
+            if (isEnglish) {
+                subject = "Certificate of Enrollment - " + user.getFirstName()
+                        + " " + user.getLastName();
+
+                emailText = "Dear " + user.getFirstName() + " "
+                        + user.getLastName() + ",\n\n"
+                        + "Attached is your student certificate as "
+                        + "a PDF document.\n\n"
+                        + "Best regards\n"
+                        + "Your Student Administration Office";
+
+                attachmentName = "Certificate_of_Enrollment_"
+                        + user.getMatriculationNumber() + ".pdf";
+            } else {
+                subject = "Studienbescheinigung - " + user.getFirstName()
+                        + " " + user.getLastName();
+
+                emailText = "Liebe/r " + user.getFirstName() + " "
+                        + user.getLastName() + ",\n\n"
+                        + "anbei erhalten Sie Ihre Studienbescheinigung als "
+                        + "PDF-Dokument.\n\n"
+                        + "Mit freundlichen Grüßen\n"
+                        + "Ihr Studierendensekretariat";
+
+                attachmentName = "Studienbescheinigung_"
+                        + user.getMatriculationNumber() + ".pdf";
+            }
+
+            helper.setSubject(subject);
             helper.setText(emailText);
 
             ByteArrayResource pdfResource = new ByteArrayResource(pdfContent);
-            String attachmentName = "Studienbescheinigung_"
-                    + user.getMatriculationNumber() + ".pdf";
             helper.addAttachment(attachmentName, pdfResource);
 
             mailSender.send(message);

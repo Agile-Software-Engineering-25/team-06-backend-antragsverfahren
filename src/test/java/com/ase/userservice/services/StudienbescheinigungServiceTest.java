@@ -80,7 +80,7 @@ class StudienbescheinigungServiceTest {
 
         // When
         assertDoesNotThrow(() -> studienbescheinigungService
-                .sendStudienbescheinigungByEmail(testUser, pdfContent));
+                .sendStudienbescheinigungByEmail(testUser, pdfContent, false));
 
         // Then
         verify(mailSender, times(1)).createMimeMessage();
@@ -95,7 +95,7 @@ class StudienbescheinigungServiceTest {
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class,
                 () -> studienbescheinigungService
-                        .sendStudienbescheinigungByEmail(null, pdfContent));
+                        .sendStudienbescheinigungByEmail(null, pdfContent, false));
 
         assertEquals("User cannot be null", exception.getMessage());
     }
@@ -105,7 +105,7 @@ class StudienbescheinigungServiceTest {
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class,
                 () -> studienbescheinigungService
-                        .sendStudienbescheinigungByEmail(testUser, null));
+                        .sendStudienbescheinigungByEmail(testUser, null, false));
 
         assertEquals("PDF content cannot be null or empty",
                 exception.getMessage());
@@ -119,7 +119,7 @@ class StudienbescheinigungServiceTest {
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class,
                 () -> studienbescheinigungService
-                        .sendStudienbescheinigungByEmail(testUser, emptyPdfContent));
+                        .sendStudienbescheinigungByEmail(testUser, emptyPdfContent, false));
 
         assertEquals("PDF content cannot be null or empty",
                 exception.getMessage());
@@ -134,8 +134,23 @@ class StudienbescheinigungServiceTest {
 
         // When & Then
         assertThrows(RuntimeException.class, () -> studienbescheinigungService
-                .sendStudienbescheinigungByEmail(testUser, pdfContent));
+                .sendStudienbescheinigungByEmail(testUser, pdfContent, false));
 
+        verify(mailSender, times(1)).createMimeMessage();
+        verify(mailSender, times(1)).send(mimeMessage);
+    }
+
+    @Test
+    void testSendStudienbescheinigungByEmail_EnglishLanguage() {
+        // Given
+        byte[] pdfContent = new byte[]{1, 2, 3, 4, 5}; // Mock PDF content
+        when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
+
+        // When
+        assertDoesNotThrow(() -> studienbescheinigungService
+                .sendStudienbescheinigungByEmail(testUser, pdfContent, true));
+
+        // Then
         verify(mailSender, times(1)).createMimeMessage();
         verify(mailSender, times(1)).send(mimeMessage);
     }
@@ -159,7 +174,7 @@ class StudienbescheinigungServiceTest {
 
         // Test email sending with generated PDF
         assertDoesNotThrow(() -> studienbescheinigungService
-                .sendStudienbescheinigungByEmail(testUser, pdfContent));
+                .sendStudienbescheinigungByEmail(testUser, pdfContent, false));
 
         verify(mailSender, times(1)).createMimeMessage();
         verify(mailSender, times(1)).send(mimeMessage);

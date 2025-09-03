@@ -1,34 +1,46 @@
 spring:
+  # Database configuration for testing
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+
+  h2:
+    console:
+      enabled: true
+
+  # Disable mail completely for testing
   mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:your-email@gmail.com}
-    password: ${MAIL_PASSWORD:your-app-password}
+    host: localhost
+    port: 3025
+    username: ""
+    password: ""
     properties:
       mail:
+        transport:
+          protocol: smtp
         smtp:
-          auth: ${MAIL_SMTP_AUTH:true}
+          auth: false
           starttls:
-            enable: ${MAIL_SMTP_STARTTLS:true}
+            enable: false
           ssl:
-            trust: ${MAIL_SMTP_SSL_TRUST:smtp.gmail.com}
+            enable: false
+            trust: localhost
 
-# Alternative configurations can be set via environment variables:
-# For Gmail:
-# MAIL_HOST=smtp.gmail.com
-# MAIL_PORT=587
-# MAIL_USERNAME=your-email@gmail.com
-# MAIL_PASSWORD=your-app-password
-# MAIL_SMTP_SSL_TRUST=smtp.gmail.com
+# Logging configuration for better debugging
+logging:
+  level:
+    com.ase.userservice: DEBUG
+    org.springframework.mail: DEBUG
 
-# For Outlook/Hotmail:
-# MAIL_HOST=smtp-mail.outlook.com
-# MAIL_PORT=587
-# MAIL_USERNAME=your-email@outlook.com
-# MAIL_PASSWORD=your-password
-
-# For Yahoo:
-# MAIL_HOST=smtp.mail.yahoo.com
-# MAIL_PORT=587
-# MAIL_USERNAME=your-email@yahoo.com
-# MAIL_PASSWORD=your-app-password
+# Semester Validity Configuration for testing
+semester:
+  validity:
+    summer: "gueltig fuer Summer Semester 2025 (10.06.2025-24.11.2025)"
+    winter: "gueltig fuer Winter Semester 2025/2026 (01.10.2025-31.03.2026)"
