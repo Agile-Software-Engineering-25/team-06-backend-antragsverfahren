@@ -105,30 +105,34 @@ public class StudienbescheinigungService {
                     user.getLastName(), birthDate, user.getMatriculationNumber());
             document.add(new Paragraph(studentInfo).setFontSize(12));
 
-            String studyProgramInfo = String.format("Studiengang %s",
+            String studyProgramInfo = String.format("Studiengang: %s",
                     user.getStudyProgram());
             document.add(new Paragraph(studyProgramInfo).setFontSize(12));
 
-            String degreeInfo = String.format("Abschluss %s", user.getDegree());
+            String degreeInfo = String.format("Abschluss: %s", user.getDegree());
             document.add(new Paragraph(degreeInfo).setFontSize(12));
 
-            String semesterInfo = String.format("Fachsemester %d",
+            String semesterInfo = String.format("Fachsemester: %d",
                     user.getCurrentSemester());
             document.add(new Paragraph(semesterInfo).setFontSize(12));
 
-            String durationInfo = String.format("Regelstudienzeit %d",
+            String durationInfo = String.format("Regelstudienzeit: %d",
                     user.getStandardStudyDuration());
             document.add(new Paragraph(durationInfo).setFontSize(12));
 
-            String startInfo = String.format("Beginn des Studiums %s",
+            String startInfo = String.format("Beginn des Studiums: %s",
                     user.getStudyStartSemester());
             document.add(new Paragraph(startInfo).setFontSize(12));
 
-            String universitySemesterInfo = String.format("Hochschulsemester %d",
+            String endInfo = String.format("Ende des Studiums: %s",
+                user.getStudyEndSemester());
+            document.add(new Paragraph(endInfo).setFontSize(12));
+
+            String universitySemesterInfo = String.format("Hochschulsemester: %d",
                     user.getUniversitySemester());
             document.add(new Paragraph(universitySemesterInfo).setFontSize(12));
 
-            String leaveInfo = String.format("davon Urlaubssemester %d",
+            String leaveInfo = String.format("Davon Urlaubssemester: %d",
                     user.getLeaveOfAbsenceSemesters());
             document.add(new Paragraph(leaveInfo).setFontSize(12));
 
@@ -192,30 +196,34 @@ public class StudienbescheinigungService {
                     user.getLastName(), birthDate, user.getMatriculationNumber());
             document.add(new Paragraph(studentInfo).setFontSize(12));
 
-            String studyProgramInfo = String.format("study programm %s",
+            String studyProgramInfo = String.format("Study programm: %s",
                     user.getStudyProgram());
             document.add(new Paragraph(studyProgramInfo).setFontSize(12));
 
-            String degreeInfo = String.format("final degree %s", user.getDegree());
+            String degreeInfo = String.format("Final degree: %s", user.getDegree());
             document.add(new Paragraph(degreeInfo).setFontSize(12));
 
-            String semesterInfo = String.format("number of semesters in programm %d",
+            String semesterInfo = String.format("Number of semesters in programm: %d",
                     user.getCurrentSemester());
             document.add(new Paragraph(semesterInfo).setFontSize(12));
 
-            String durationInfo = String.format("regular study time %d",
+            String durationInfo = String.format("Regular study time: %d",
                     user.getStandardStudyDuration());
             document.add(new Paragraph(durationInfo).setFontSize(12));
 
-            String startInfo = String.format("start of study %s",
+            String startInfo = String.format("Start of study: %s",
                     user.getStudyStartSemester());
             document.add(new Paragraph(startInfo).setFontSize(12));
 
-            String universitySemesterInfo = String.format("number of university semesters %d",
+            String endInfo = String.format("End of study: %s",
+                user.getStudyEndSemester());
+            document.add(new Paragraph(endInfo).setFontSize(12));
+
+            String universitySemesterInfo = String.format("Number of university semesters: %d",
                     user.getUniversitySemester());
             document.add(new Paragraph(universitySemesterInfo).setFontSize(12));
 
-            String leaveInfo = String.format("therof vacation semesters %d",
+            String leaveInfo = String.format("Thereof vacation semesters: %d",
                     user.getLeaveOfAbsenceSemesters());
             document.add(new Paragraph(leaveInfo).setFontSize(12));
 

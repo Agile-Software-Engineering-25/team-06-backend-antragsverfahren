@@ -23,20 +23,22 @@ public class StudienbescheinigungPdfServiceTest {
 
     @BeforeEach
     void setUp() {
-        testUser = new User();
+        testUser = new User(
+            "Jan",
+            "Brandenstein",
+            LocalDate.of(2003, 12, 20),
+            "D778",
+            "Informatik",
+            "Bachelor of Science",
+            4,
+            6,
+            "winter semester 2023/2024",
+            "summer semester 2026/2027",
+            4,
+            0,
+            "jan.brandenstein@example.com"
+        );
         testUser.setId(1L);
-        testUser.setFirstName("Jan");
-        testUser.setLastName("Brandenstein");
-        testUser.setDateOfBirth(LocalDate.of(2003, 12, 20));
-        testUser.setMatriculationNumber("D778");
-        testUser.setStudyProgram("Informatik");
-        testUser.setDegree("Bachelor of Science");
-        testUser.setCurrentSemester(4);
-        testUser.setStandardStudyDuration(6);
-        testUser.setStudyStartSemester("winter semester 2023/2024");
-        testUser.setUniversitySemester(4);
-        testUser.setLeaveOfAbsenceSemesters(0);
-        testUser.setEmail("jan.brandenstein@example.com");
     }
 
     @Test

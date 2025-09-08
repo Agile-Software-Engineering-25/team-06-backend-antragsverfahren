@@ -39,6 +39,9 @@ public class User {
     private String studyStartSemester;
 
     @Column(nullable = false)
+    private String studyEndSemester;
+
+    @Column(nullable = false)
     private Integer universitySemester;
 
     @Column(nullable = false)
@@ -57,7 +60,7 @@ public class User {
 
     public User(String firstName, String lastName, LocalDate dateOfBirth, String matriculationNumber,
                 String studyProgram, String degree, Integer currentSemester, Integer standardStudyDuration,
-                String studyStartSemester, Integer universitySemester, Integer leaveOfAbsenceSemesters, String email) {
+                String studyStartSemester, String studyEndSemester, Integer universitySemester, Integer leaveOfAbsenceSemesters, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -67,6 +70,7 @@ public class User {
         this.currentSemester = currentSemester;
         this.standardStudyDuration = standardStudyDuration;
         this.studyStartSemester = studyStartSemester;
+        this.studyEndSemester = studyEndSemester;
         this.universitySemester = universitySemester;
         this.leaveOfAbsenceSemesters = leaveOfAbsenceSemesters;
         this.email = email;
@@ -114,4 +118,7 @@ public class User {
 
     public Semester getCurrentSemesterEntity() { return currentSemesterEntity; }
     public void setCurrentSemesterEntity(Semester currentSemesterEntity) { this.currentSemesterEntity = currentSemesterEntity; }
+
+    public String getStudyEndSemester() {return studyEndSemester; }
+    public void setStudyEndSemester(String studyEndSemester) { this.studyEndSemester = studyEndSemester; }
 }

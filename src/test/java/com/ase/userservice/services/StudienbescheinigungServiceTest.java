@@ -31,20 +31,22 @@ class StudienbescheinigungServiceTest {
 
     @BeforeEach
     void setUp() {
-        testUser = new User();
+        testUser = new User(
+            "Max",
+            "Mustermann",
+            LocalDate.of(1995, 5, 15),
+            "12345678",
+            "Computer Science",
+            "Bachelor of Science",
+            5,
+            6,
+            "winter semester 2022/2023",
+            "summer semester 2025/2026",
+            5,
+            0,
+            "max.mustermann@example.com"
+        );
         testUser.setId(1L);
-        testUser.setFirstName("Max");
-        testUser.setLastName("Mustermann");
-        testUser.setDateOfBirth(LocalDate.of(1995, 5, 15));
-        testUser.setMatriculationNumber("12345678");
-        testUser.setStudyProgram("Computer Science");
-        testUser.setDegree("Bachelor of Science");
-        testUser.setCurrentSemester(5);
-        testUser.setStandardStudyDuration(6);
-        testUser.setStudyStartSemester("winter semester 2022/2023");
-        testUser.setUniversitySemester(5);
-        testUser.setLeaveOfAbsenceSemesters(0);
-        testUser.setEmail("max.mustermann@example.com");
     }
 
     @Test
