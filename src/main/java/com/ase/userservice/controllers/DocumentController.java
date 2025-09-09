@@ -1,6 +1,7 @@
 package com.ase.userservice.controllers;
 
 import com.ase.userservice.entities.User;
+import com.ase.userservice.forms.DocumentForms;
 import com.ase.userservice.repositories.UserRepository;
 import com.ase.userservice.services.StudienbescheinigungService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import org.springframework.validation.*;
 import jakarta.validation.Valid;
 
 @RestController
@@ -90,19 +93,15 @@ public class DocumentController {
      *
      * @return ResponseEntity with hello world message
      */
-    @GetMapping("/bachelorarbeit")
-    public String showNachklausurForm(DocumentForms.NachklausurForm nachklausurForm) {
-        return "form";
-    }
 
     @PostMapping("/nachklausur")
     public ResponseEntity<String> nachklausur(@Valid DocumentForms.NachklausurForm nachklausurForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "form";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors.");
         }
 
-        return "redirect:/results";
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     /**
@@ -110,19 +109,14 @@ public class DocumentController {
      *
      * @return ResponseEntity with hello world message
      */
-    @GetMapping("/bachelorarbeit")
-    public String showBachelorarbeitForm(DocumentForms.BachelorarbeitForm bachelorarbeitForm) {
-        return "form";
-    }
-
 
     @PostMapping("/bachelorarbeit")
     public ResponseEntity<String> bachelorarbeit(@Valid DocumentForms.BachelorarbeitForm bachelorarbeitForm, BindingResult bindingResult) {
-        
+
         if (bindingResult.hasErrors()) {
-			return "form";
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors.");
 		}
 
-		return "redirect:/results";
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
