@@ -52,6 +52,8 @@ public class User {
     @JoinColumn(name = "semester_id")
     private Semester currentSemesterEntity;
 
+
+
     // Constructors
     public User() {}
 
