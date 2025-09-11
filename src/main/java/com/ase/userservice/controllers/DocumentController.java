@@ -95,10 +95,11 @@ public class DocumentController {
      */
 
     @PostMapping("/nachklausur")
-    public ResponseEntity<String> nachklausur(@Valid DocumentForms.NachklausurForm nachklausurForm, BindingResult bindingResult) {
+    public ResponseEntity<String> nachklausur(@RequestBody @Valid DocumentForms.NachklausurForm nachklausurForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors.");
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors: " + bindingResult.getAllErrors());
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -111,10 +112,10 @@ public class DocumentController {
      */
 
     @PostMapping("/bachelorarbeit")
-    public ResponseEntity<String> bachelorarbeit(@Valid DocumentForms.BachelorarbeitForm bachelorarbeitForm, BindingResult bindingResult) {
+    public ResponseEntity<String> bachelorarbeit(@RequestBody @Valid DocumentForms.BachelorarbeitForm bachelorarbeitForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors.");
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors: " + bindingResult.getAllErrors());
 		}
 
         return ResponseEntity.status(HttpStatus.OK).body(null);

@@ -1,6 +1,7 @@
 package com.ase.userservice.forms;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -8,7 +9,7 @@ public class DocumentForms {
 
     public static class NachklausurForm {
 
-        @NotNull
+        @NotBlank
         @Size(min = 2, max = 30)
         private String name;
 
@@ -20,8 +21,8 @@ public class DocumentForms {
             this.name = name;
         }
 
-        @NotNull
-        @Size(min = 4, max = 4)
+        @NotBlank
+        @Size(min = 4, max = 100)
         private String matrikelnummer;
 
         public String getMatrikelnummer() {
@@ -32,7 +33,7 @@ public class DocumentForms {
             this.matrikelnummer = matrikelnummer;
         }
 
-        @NotNull
+        @NotBlank
         @Size(min = 2, max = 100)
         private String modul;
 
@@ -44,7 +45,7 @@ public class DocumentForms {
             this.modul = modul;
         }
 
-        @NotNull
+        @NotBlank
         @Size(min = 2, max = 100)
         private String prüfungstermin;
 
@@ -56,7 +57,7 @@ public class DocumentForms {
             this.prüfungstermin = prüfungstermin;
         }
 
-        
+
     }
 
     public static class BachelorarbeitForm {
