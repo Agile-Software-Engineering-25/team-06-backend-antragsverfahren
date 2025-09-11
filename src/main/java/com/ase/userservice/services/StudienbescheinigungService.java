@@ -105,30 +105,34 @@ public class StudienbescheinigungService {
                     user.getLastName(), birthDate, user.getMatriculationNumber());
             document.add(new Paragraph(studentInfo).setFontSize(12));
 
-            String studyProgramInfo = String.format("Studiengang %s",
+            String studyProgramInfo = String.format("Studiengang: %s",
                     user.getStudyProgram());
             document.add(new Paragraph(studyProgramInfo).setFontSize(12));
 
-            String degreeInfo = String.format("Abschluss %s", user.getDegree());
+            String degreeInfo = String.format("Abschluss: %s", user.getDegree());
             document.add(new Paragraph(degreeInfo).setFontSize(12));
 
-            String semesterInfo = String.format("Fachsemester %d",
+            String semesterInfo = String.format("Fachsemester: %d",
                     user.getCurrentSemester());
             document.add(new Paragraph(semesterInfo).setFontSize(12));
 
-            String durationInfo = String.format("Regelstudienzeit %d",
+            String durationInfo = String.format("Regelstudienzeit: %d",
                     user.getStandardStudyDuration());
             document.add(new Paragraph(durationInfo).setFontSize(12));
 
-            String startInfo = String.format("Beginn des Studiums %s",
+            String startInfo = String.format("Beginn des Studiums: %s",
                     user.getStudyStartSemester());
             document.add(new Paragraph(startInfo).setFontSize(12));
 
-            String universitySemesterInfo = String.format("Hochschulsemester %d",
+            String endInfo = String.format("Ende des Studiums: %s",
+                user.getStudyEndSemester());
+            document.add(new Paragraph(endInfo).setFontSize(12));
+
+            String universitySemesterInfo = String.format("Hochschulsemester: %d",
                     user.getUniversitySemester());
             document.add(new Paragraph(universitySemesterInfo).setFontSize(12));
 
-            String leaveInfo = String.format("davon Urlaubssemester %d",
+            String leaveInfo = String.format("Davon Urlaubssemester: %d",
                     user.getLeaveOfAbsenceSemesters());
             document.add(new Paragraph(leaveInfo).setFontSize(12));
 
@@ -192,30 +196,34 @@ public class StudienbescheinigungService {
                     user.getLastName(), birthDate, user.getMatriculationNumber());
             document.add(new Paragraph(studentInfo).setFontSize(12));
 
-            String studyProgramInfo = String.format("study programm %s",
+            String studyProgramInfo = String.format("Study programm: %s",
                     user.getStudyProgram());
             document.add(new Paragraph(studyProgramInfo).setFontSize(12));
 
-            String degreeInfo = String.format("final degree %s", user.getDegree());
+            String degreeInfo = String.format("Final degree: %s", user.getDegree());
             document.add(new Paragraph(degreeInfo).setFontSize(12));
 
-            String semesterInfo = String.format("number of semesters in programm %d",
+            String semesterInfo = String.format("Number of semesters in programm: %d",
                     user.getCurrentSemester());
             document.add(new Paragraph(semesterInfo).setFontSize(12));
 
-            String durationInfo = String.format("regular study time %d",
+            String durationInfo = String.format("Regular study time: %d",
                     user.getStandardStudyDuration());
             document.add(new Paragraph(durationInfo).setFontSize(12));
 
-            String startInfo = String.format("start of study %s",
+            String startInfo = String.format("Start of study: %s",
                     user.getStudyStartSemester());
             document.add(new Paragraph(startInfo).setFontSize(12));
 
-            String universitySemesterInfo = String.format("number of university semesters %d",
+            String endInfo = String.format("End of study: %s",
+                user.getStudyEndSemester());
+            document.add(new Paragraph(endInfo).setFontSize(12));
+
+            String universitySemesterInfo = String.format("Number of university semesters: %d",
                     user.getUniversitySemester());
             document.add(new Paragraph(universitySemesterInfo).setFontSize(12));
 
-            String leaveInfo = String.format("therof vacation semesters %d",
+            String leaveInfo = String.format("Thereof vacation semesters: %d",
                     user.getLeaveOfAbsenceSemesters());
             document.add(new Paragraph(leaveInfo).setFontSize(12));
 
@@ -244,9 +252,10 @@ public class StudienbescheinigungService {
      *
      * @param user the user to send the email to
      * @param pdfContent the PDF content to attach
+     * @param isEnglish whether to send the email in English (true) or German (false)
      * @throws RuntimeException if user or pdfContent is null/empty
      */
-    public void sendStudienbescheinigungByEmail(User user, byte[] pdfContent) {
+    public void sendStudienbescheinigungByEmail(User user, byte[] pdfContent, boolean isEnglish) {
         if (user == null) {
             throw new RuntimeException("User cannot be null");
         }
@@ -260,21 +269,42 @@ public class StudienbescheinigungService {
 
             helper.setTo(user.getEmail());
 
-            String subject = "Studienbescheinigung - " + user.getFirstName()
-                    + " " + user.getLastName();
-            helper.setSubject(subject);
+            String subject;
+            String emailText;
+            String attachmentName;
 
-            String emailText = "Liebe/r " + user.getFirstName() + " "
-                    + user.getLastName() + ",\n\n"
-                    + "anbei erhalten Sie Ihre Studienbescheinigung als "
-                    + "PDF-Dokument.\n\n"
-                    + "Mit freundlichen Grüßen\n"
-                    + "Ihr Studierendensekretariat";
+            if (isEnglish) {
+                subject = "Certificate of Enrollment - " + user.getFirstName()
+                        + " " + user.getLastName();
+
+                emailText = "Dear " + user.getFirstName() + " "
+                        + user.getLastName() + ",\n\n"
+                        + "Attached is your student certificate as "
+                        + "a PDF document.\n\n"
+                        + "Best regards\n"
+                        + "Your Student Administration Office";
+
+                attachmentName = "Certificate_of_Enrollment_"
+                        + user.getMatriculationNumber() + ".pdf";
+            } else {
+                subject = "Studienbescheinigung - " + user.getFirstName()
+                        + " " + user.getLastName();
+
+                emailText = "Liebe/r " + user.getFirstName() + " "
+                        + user.getLastName() + ",\n\n"
+                        + "anbei erhalten Sie Ihre Studienbescheinigung als "
+                        + "PDF-Dokument.\n\n"
+                        + "Mit freundlichen Grüßen\n"
+                        + "Ihr Studierendensekretariat";
+
+                attachmentName = "Studienbescheinigung_"
+                        + user.getMatriculationNumber() + ".pdf";
+            }
+
+            helper.setSubject(subject);
             helper.setText(emailText);
 
             ByteArrayResource pdfResource = new ByteArrayResource(pdfContent);
-            String attachmentName = "Studienbescheinigung_"
-                    + user.getMatriculationNumber() + ".pdf";
             helper.addAttachment(attachmentName, pdfResource);
 
             mailSender.send(message);

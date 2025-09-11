@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 import org.springframework.validation.*;
 import jakarta.validation.Valid;
@@ -31,14 +30,9 @@ public class DocumentController {
      *
      * @return the user from database or null if not found
      */
-    private User getTestUserFromDatabase() {
-        // Fetch user with matriculation number "123456" from data.sql
-        Optional<User> userOptional = userRepository.findByMatriculationNumber("123456");
-
-        return userOptional.orElse(
-            // Fallback: try to get the first user if the specific one is not found
-            userRepository.findAll().stream().findFirst().orElse(null)
-        );
+    private User getTestUserFromDatabase(String matriculationNumber) {
+      return userRepository.findByMatriculationNumber(matriculationNumber)
+          .orElse(null);
     }
 
     /**
@@ -48,8 +42,7 @@ public class DocumentController {
      */
     @PostMapping("/studienbescheinigung")
     public ResponseEntity<byte[]> sendStudienbescheinigung(@RequestHeader(HttpHeaders.ACCEPT_LANGUAGE)String language) {
-        System.out.println(language);
-        User testUser = getTestUserFromDatabase();
+        User testUser = getTestUserFromDatabase("123456");
 
         if (testUser == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -61,16 +54,21 @@ public class DocumentController {
             if ("en-US".equals(language)){
                 pdfContent = studienbescheinigungService
                     .generateStudienbescheinigungPdfEn(testUser);
+              // Send the PDF via email
+              //studienbescheinigungService
+              //    .sendStudienbescheinigungByEmail(testUser, pdfContent, true);
             }
             else if (language.contains("de")){
                 pdfContent = studienbescheinigungService
                         .generateStudienbescheinigungPdf(testUser);
-                // studienbescheinigungService
-                //         .sendStudienbescheinigungByEmail(testUser, pdfContent);
+              // Send the PDF via email
+              //studienbescheinigungService
+              //    .sendStudienbescheinigungByEmail(testUser, pdfContent, false);
             }
             else {
                 throw new Exception();
             }
+
 
             // Set headers for PDF download
             HttpHeaders headers = new HttpHeaders();
