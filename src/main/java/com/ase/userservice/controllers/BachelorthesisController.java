@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
-@RequestMapping("/bachelorform")
+@RequestMapping("/bachelorarbeit")
 public class BachelorthesisController {
 
   private BachelorthesisService bachelorthesisService;
@@ -24,15 +23,22 @@ public class BachelorthesisController {
     this.bachelorthesisService = bachelorthesisService;
   }
 
-  @GetMapping("/{matriculationNumber}")
-  public ResponseEntity<BachelorthesisRequest> getBachelorthesisRequestBymatriculationNumber(@PathVariable String matriculationNumber) {
-    BachelorthesisRequest bachelorthesisRequest = bachelorthesisService.getBachelorthesisRequestByMatriculationNumber(matriculationNumber);
+  @GetMapping("/{matrikelnummer}")
+  public ResponseEntity<BachelorthesisRequest> getBachelorthesisRequestByMatrikelnummer(@PathVariable String matrikelnummer) {
+    BachelorthesisRequest bachelorthesisRequest = bachelorthesisService.getBachelorthesisRequestByMatrikelnummer(matrikelnummer);
     return new ResponseEntity<>(bachelorthesisRequest, HttpStatus.OK);
   }
 
   @PostMapping()
-  public ResponseEntity<BachelorthesisRequest> createBachelorthesisRequest(@RequestBody BachelorthesisRequest bachelorthesis){
-    bachelorthesisService.createBachelorthesisRequest(bachelorthesis);
-    return new ResponseEntity<>(bachelorthesis, HttpStatus.CREATED);
+  public ResponseEntity<String> createBachelorthesisRequest(@RequestBody BachelorthesisRequest bachelorthesis){
+    BachelorthesisRequest request = new BachelorthesisRequest(
+        bachelorthesis.getMatrikelnummer(),
+        bachelorthesis.getThema(),
+        bachelorthesis.getName(),
+        bachelorthesis.getStudiengang(),
+        bachelorthesis.getExaminer(),
+        bachelorthesis.getPrüfungstermin()
+    );
+    return new ResponseEntity<>("Got Bachelorarbeit data", HttpStatus.OK);
   }
 }

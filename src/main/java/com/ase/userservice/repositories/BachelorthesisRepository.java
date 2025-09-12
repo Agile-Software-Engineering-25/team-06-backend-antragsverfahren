@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BachelorthesisRepository extends JpaRepository<BachelorthesisRequest, Long> {
 
-  BachelorthesisRequest getBachelorthesisRequestByMatriculationNumber(String matriculationNumber);
+  BachelorthesisRequest getBachelorthesisRequestByMatrikelnummer(String matrikelnummer);
 
 }

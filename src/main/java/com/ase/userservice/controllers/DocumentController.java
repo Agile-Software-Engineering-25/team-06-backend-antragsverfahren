@@ -86,17 +86,17 @@ public class DocumentController {
      *
      * @return ResponseEntity with hello world message
      */
-    @PostMapping("/nachklausur")
-    public ResponseEntity<String> nachklausur() {
-        return ResponseEntity.ok("hello world");
-    }
+//    @PostMapping("/nachklausur")
+//    public ResponseEntity<String> nachklausur() {
+//        return ResponseEntity.ok("hello world");
+//    }
 
     /**
      * Placeholder endpoint for Bachelorarbeit functionality.
      *
      * @return ResponseEntity with hello world message
      */
-    @PostMapping("/bachelorarbeit")
+//    @PostMapping("/bachelorarbeit")
     public ResponseEntity<String> bachelorarbeit() {
         return ResponseEntity.ok("hello world");
     }

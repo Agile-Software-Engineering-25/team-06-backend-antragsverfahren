@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "requests")
@@ -17,94 +16,60 @@ public class BachelorthesisRequest {
   private Long id;
 
   @Column(nullable = false, unique = true)
-  private String matriculationNumber;
+  private String matrikelnummer;
 
   @Column(nullable = false)
   private String name;
 
   @Column(nullable = false)
-  private String courseOfStudy;
+  private String studiengang;
 
   @Column(nullable = false)
-  private String topic;
+  private String thema;
 
   @Column(nullable = false)
-  private String firstExaminer;
+  private String examiner;
 
   @Column(nullable = false)
-  private String secondExaminer;
-
-  @Column(nullable = false)
-  private LocalDate examDate;
+  private String prüfungstermin;
 
   // Constructors
   public BachelorthesisRequest() {}
 
-  public BachelorthesisRequest(String matriculationNumber, String name,
-      String courseOfStudy,
-      String topic, String firstExaminer, String secondExaminer, LocalDate examDate) {
-    this.matriculationNumber = matriculationNumber;
+  public BachelorthesisRequest(String matrikelnummer, String name,
+                               String studiengang,
+                               String thema, String examiner, String prüfungstermin) {
+    this.matrikelnummer = matrikelnummer;
     this.name = name;
-    this.courseOfStudy = courseOfStudy;
-    this.topic = topic;
-    this.firstExaminer = firstExaminer;
-    this.secondExaminer = secondExaminer;
-    this.examDate = examDate;
+    this.studiengang = studiengang;
+    this.thema = thema;
+    this.examiner = examiner;
+    this.prüfungstermin = prüfungstermin;
   }
 
-  public String getMatriculationNumber() {
-    return matriculationNumber;
-  }
-
-  public void setMatriculationNumber(String matriculationNumber) {
-    this.matriculationNumber = matriculationNumber;
+  public String getMatrikelnummer() {
+    return matrikelnummer;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public String getStudiengang() {
+    return studiengang;
   }
 
-  public String getCourseOfStudy() {
-    return courseOfStudy;
+
+  public String getThema() {
+    return thema;
   }
 
-  public void setCourseOfStudy(String courseOfStudy) {
-    this.courseOfStudy = courseOfStudy;
+  public String getExaminer() {
+    return examiner;
   }
 
-  public String getTopic() {
-    return topic;
+  public String getPrüfungstermin() {
+    return prüfungstermin;
   }
 
-  public void setTopic(String topic) {
-    this.topic = topic;
-  }
-
-  public String getFirstExaminer() {
-    return firstExaminer;
-  }
-
-  public void setFirstExaminer(String firstExaminer) {
-    this.firstExaminer = firstExaminer;
-  }
-
-  public String getSecondExaminer() {
-    return secondExaminer;
-  }
-
-  public void setSecondExaminer(String secondExaminer) {
-    this.secondExaminer = secondExaminer;
-  }
-
-  public LocalDate getExamDate() {
-    return examDate;
-  }
-
-  public void setExamDate(LocalDate examDate) {
-    this.examDate = examDate;
-  }
 }
