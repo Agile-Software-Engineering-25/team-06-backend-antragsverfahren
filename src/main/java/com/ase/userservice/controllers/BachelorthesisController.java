@@ -32,12 +32,12 @@ public class BachelorthesisController {
   @PostMapping()
   public ResponseEntity<String> createBachelorthesisRequest(@RequestBody BachelorthesisRequest bachelorthesis){
     BachelorthesisRequest request = new BachelorthesisRequest(
-        bachelorthesis.getMatrikelnummer(),
-        bachelorthesis.getThema(),
-        bachelorthesis.getName(),
-        bachelorthesis.getStudiengang(),
-        bachelorthesis.getExaminer(),
-        bachelorthesis.getPrüfungstermin()
+      bachelorthesis.getMatrikelnummer(),
+      bachelorthesis.getThema(),
+      bachelorthesis.getName(),
+      bachelorthesis.getStudiengang(),
+      bachelorthesis.getExaminer(),
+      bachelorthesis.getPrüfungstermin()
     );
     return new ResponseEntity<>("Got Bachelorarbeit data", HttpStatus.OK);
   }
