@@ -39,3 +39,4 @@ build/
 
 ### Database ###
 **/mydb.mv.db
+/data/mydb.trace.db

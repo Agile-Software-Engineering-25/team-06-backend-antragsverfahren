@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class DocumentController {
+public class StudienbescheinigungController {
 
     @Autowired
     private StudienbescheinigungService studienbescheinigungService;
@@ -79,25 +79,5 @@ public class DocumentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
         }
-    }
-
-    /**
-     * Placeholder endpoint for Nachklausur functionality.
-     *
-     * @return ResponseEntity with hello world message
-     */
-    @PostMapping("/nachklausur")
-    public ResponseEntity<String> nachklausur() {
-        return ResponseEntity.ok("hello world");
-    }
-
-    /**
-     * Placeholder endpoint for Bachelorarbeit functionality.
-     *
-     * @return ResponseEntity with hello world message
-     */
-    @PostMapping("/bachelorarbeit")
-    public ResponseEntity<String> bachelorarbeit() {
-        return ResponseEntity.ok("hello world");
     }
 }

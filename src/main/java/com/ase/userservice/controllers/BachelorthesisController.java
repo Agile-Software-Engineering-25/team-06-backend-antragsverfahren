@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
-@RequestMapping("/bachelorform")
+@RequestMapping("/bachelorarbeit")
 public class BachelorthesisController {
 
   private BachelorthesisService bachelorthesisService;
