@@ -1,6 +1,7 @@
 package com.ase.userservice.controllers;
 
 import com.ase.userservice.entities.User;
+import com.ase.userservice.forms.DocumentForms;
 import com.ase.userservice.repositories.UserRepository;
 import com.ase.userservice.services.StudienbescheinigungService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
+import org.springframework.validation.*;
+import jakarta.validation.Valid;
 
 @RestController
 public class DocumentController {
@@ -86,9 +91,16 @@ public class DocumentController {
      *
      * @return ResponseEntity with hello world message
      */
+
     @PostMapping("/nachklausur")
-    public ResponseEntity<String> nachklausur() {
-        return ResponseEntity.ok("hello world");
+    public ResponseEntity<String> nachklausur(@RequestBody @Valid DocumentForms.NachklausurForm nachklausurForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors: " + bindingResult.getAllErrors());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     /**
@@ -96,8 +108,14 @@ public class DocumentController {
      *
      * @return ResponseEntity with hello world message
      */
+
     @PostMapping("/bachelorarbeit")
-    public ResponseEntity<String> bachelorarbeit() {
-        return ResponseEntity.ok("hello world");
+    public ResponseEntity<String> bachelorarbeit(@RequestBody @Valid DocumentForms.BachelorarbeitForm bachelorarbeitForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors: " + bindingResult.getAllErrors());
+		}
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
