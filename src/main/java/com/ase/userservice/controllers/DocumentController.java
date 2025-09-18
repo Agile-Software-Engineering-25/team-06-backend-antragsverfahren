@@ -52,18 +52,14 @@ public class DocumentController {
         try {
             byte[] pdfContent;
             if ("en-US".equals(language)){
-                pdfContent = studienbescheinigungService
-                    .generateStudienbescheinigungPdfEn(testUser);
-              // Send the PDF via email
-              //studienbescheinigungService
-              //    .sendStudienbescheinigungByEmail(testUser, pdfContent, true);
+                pdfContent = studienbescheinigungService.generateStudienbescheinigungPdfEn(testUser);
+                // Send the PDF via email
+                studienbescheinigungService.sendStudienbescheinigungByEmail(testUser, pdfContent, true);
             }
             else if (language.contains("de")){
-                pdfContent = studienbescheinigungService
-                        .generateStudienbescheinigungPdf(testUser);
-              // Send the PDF via email
-              //studienbescheinigungService
-              //    .sendStudienbescheinigungByEmail(testUser, pdfContent, false);
+                pdfContent = studienbescheinigungService.generateStudienbescheinigungPdf(testUser);
+                // Send the PDF via email
+                studienbescheinigungService.sendStudienbescheinigungByEmail(testUser, pdfContent, false);
             }
             else {
                 throw new Exception();

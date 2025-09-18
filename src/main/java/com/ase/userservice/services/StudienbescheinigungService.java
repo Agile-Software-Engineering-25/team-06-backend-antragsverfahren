@@ -7,23 +7,27 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
+import jakarta.mail.internet.InternetAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 @Service
 public class StudienbescheinigungService {
 
-    @Autowired
-    private JavaMailSender mailSender;
 
+
+    private String mailboxName = "test-send";
     /**
      * Generates the semester validity text from the user's current semester entity.
      *
@@ -256,60 +260,6 @@ public class StudienbescheinigungService {
      * @throws RuntimeException if user or pdfContent is null/empty
      */
     public void sendStudienbescheinigungByEmail(User user, byte[] pdfContent, boolean isEnglish) {
-        if (user == null) {
-            throw new RuntimeException("User cannot be null");
-        }
-        if (pdfContent == null || pdfContent.length == 0) {
-            throw new RuntimeException("PDF content cannot be null or empty");
-        }
-
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-            helper.setTo(user.getEmail());
-
-            String subject;
-            String emailText;
-            String attachmentName;
-
-            if (isEnglish) {
-                subject = "Certificate of Enrollment - " + user.getFirstName()
-                        + " " + user.getLastName();
-
-                emailText = "Dear " + user.getFirstName() + " "
-                        + user.getLastName() + ",\n\n"
-                        + "Attached is your student certificate as "
-                        + "a PDF document.\n\n"
-                        + "Best regards\n"
-                        + "Your Student Administration Office";
-
-                attachmentName = "Certificate_of_Enrollment_"
-                        + user.getMatriculationNumber() + ".pdf";
-            } else {
-                subject = "Studienbescheinigung - " + user.getFirstName()
-                        + " " + user.getLastName();
-
-                emailText = "Liebe/r " + user.getFirstName() + " "
-                        + user.getLastName() + ",\n\n"
-                        + "anbei erhalten Sie Ihre Studienbescheinigung als "
-                        + "PDF-Dokument.\n\n"
-                        + "Mit freundlichen Grüßen\n"
-                        + "Ihr Studierendensekretariat";
-
-                attachmentName = "Studienbescheinigung_"
-                        + user.getMatriculationNumber() + ".pdf";
-            }
-
-            helper.setSubject(subject);
-            helper.setText(emailText);
-
-            ByteArrayResource pdfResource = new ByteArrayResource(pdfContent);
-            helper.addAttachment(attachmentName, pdfResource);
-
-            mailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send email", e);
-        }
+        EmailService.sendCertificateOfEnrollmentByMail(user, pdfContent, isEnglish);
     }
 }

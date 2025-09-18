@@ -1,6 +1,7 @@
 package com.ase.userservice.services;
 
 import com.ase.userservice.entities.BachelorthesisRequest;
+import com.ase.userservice.entities.User;
 import com.ase.userservice.repositories.BachelorthesisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,7 @@ public class BachelorthesisService {
     return bachelorthesisRepository.getBachelorthesisRequestByMatriculationNumber(studentNumber);
   }
 
-
+  public void sendBachelorthesisApplicationByEmail(User user, byte[] pdfContent, boolean isEnglish) {
+    EmailService.sendBachelorthesisApplicationByMail(user, pdfContent, isEnglish);
+  }
 }
