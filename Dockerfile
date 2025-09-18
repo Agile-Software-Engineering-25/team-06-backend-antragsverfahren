@@ -10,7 +10,7 @@ RUN mvn clean package -DskipTests
 
 
 # openjdk image with jdk version <24 come with ssh vulnerability.
-FROM openjdk:21-jdk
+FROM openjdk:24-jdk-slim
 
 COPY --from=build /app/target/userservice-*.jar app.jar
 
