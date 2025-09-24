@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 @RestController()
 @RequestMapping("/bachelorarbeit")
@@ -30,15 +35,33 @@ public class BachelorthesisController {
   }
 
   @PostMapping()
-  public ResponseEntity<String> createBachelorthesisRequest(@RequestBody BachelorthesisRequest bachelorthesis){
-    BachelorthesisRequest request = new BachelorthesisRequest(
-      bachelorthesis.getMatrikelnummer(),
-      bachelorthesis.getThema(),
-      bachelorthesis.getName(),
-      bachelorthesis.getStudiengang(),
-      bachelorthesis.getExaminer(),
-      bachelorthesis.getPrüfungstermin()
-    );
-    return new ResponseEntity<>("Got Bachelorarbeit data", HttpStatus.OK);
+  public ResponseEntity<String> createBachelorthesisRequest(
+      @RequestParam("name") String name,
+      @RequestParam("matrikelnummer") String matrikelnummer,
+      @RequestParam("studiengang") String studiengang,
+      @RequestParam("prüfungstermin") String prüfungstermin,
+      @RequestParam("thema") String thema,
+      @RequestParam("prüfer") String prüfer,
+      @RequestParam("expose") MultipartFile exposeFile) {
+    // Save the expose file to disk
+    try {
+      byte[] exposeBytes = exposeFile.getBytes();
+      // Create the request object with exposeDocument
+      BachelorthesisRequest request = new BachelorthesisRequest(
+        matrikelnummer,
+        name,
+        studiengang,
+        thema,
+        prüfer,
+        prüfungstermin,
+        exposeBytes
+      );
+      // Save to DB
+      bachelorthesisService.createBachelorthesisRequest(request);
+    } catch (IOException e) {
+      return new ResponseEntity<>("Failed to save expose file", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    return new ResponseEntity<>("Bachelorarbeit data and expose file received", HttpStatus.OK);
   }
 }

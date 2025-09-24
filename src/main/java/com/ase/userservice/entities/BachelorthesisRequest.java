@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "requests")
+@Table(name = "bachelorthesisrequests")
 public class BachelorthesisRequest {
 
   @Id
@@ -33,18 +33,22 @@ public class BachelorthesisRequest {
   @Column(nullable = false)
   private String prüfungstermin;
 
+  @Column(nullable = false, length = 10485760) // 10MB max size, adjust as needed
+  private byte[] exposeDocument;
+
   // Constructors
   public BachelorthesisRequest() {}
 
   public BachelorthesisRequest(String matrikelnummer, String name,
                                String studiengang,
-                               String thema, String examiner, String prüfungstermin) {
+                               String thema, String examiner, String prüfungstermin, byte[] exposeDocument) {
     this.matrikelnummer = matrikelnummer;
     this.name = name;
     this.studiengang = studiengang;
     this.thema = thema;
     this.examiner = examiner;
     this.prüfungstermin = prüfungstermin;
+    this.exposeDocument = exposeDocument;
   }
 
   public String getMatrikelnummer() {
@@ -70,6 +74,14 @@ public class BachelorthesisRequest {
 
   public String getPrüfungstermin() {
     return prüfungstermin;
+  }
+
+  public byte[] getExposeDocument() {
+    return exposeDocument;
+  }
+
+  public void setExposeDocument(byte[] exposeDocument) {
+    this.exposeDocument = exposeDocument;
   }
 
 }
