@@ -1,6 +1,7 @@
 package com.ase.userservice.controllers;
 
 import com.ase.userservice.entities.User;
+import com.ase.userservice.forms.DocumentForms;
 import com.ase.userservice.repositories.UserRepository;
 import com.ase.userservice.services.StudienbescheinigungService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
+import org.springframework.validation.*;
+import jakarta.validation.Valid;
 
 @RestController
 public class StudienbescheinigungController {
@@ -79,5 +84,25 @@ public class StudienbescheinigungController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
         }
+    }
+
+    /**
+     * Placeholder endpoint for Nachklausur functionality.
+     *
+     * @return ResponseEntity with hello world message
+     */
+    @PostMapping("/nachklausur")
+    public ResponseEntity<String> nachklausur() {
+        return ResponseEntity.ok("hello world");
+    }
+
+    /**
+     * Placeholder endpoint for Bachelorarbeit functionality.
+     *
+     * @return ResponseEntity with hello world message
+     */
+    @PostMapping("/bachelorarbeit")
+    public ResponseEntity<String> bachelorarbeit() {
+        return ResponseEntity.ok("hello world");
     }
 }
