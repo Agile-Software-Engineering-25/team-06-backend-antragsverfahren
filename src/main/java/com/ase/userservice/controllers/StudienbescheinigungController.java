@@ -85,24 +85,4 @@ public class StudienbescheinigungController {
                     .body(null);
         }
     }
-
-    /**
-     * Placeholder endpoint for Nachklausur functionality.
-     *
-     * @return ResponseEntity with hello world message
-     */
-    @PostMapping("/nachklausur")
-    public ResponseEntity<String> nachklausur() {
-        return ResponseEntity.ok("hello world");
-    }
-
-    /**
-     * Placeholder endpoint for Bachelorarbeit functionality.
-     *
-     * @return ResponseEntity with hello world message
-     */
-    @PostMapping("/bachelorarbeit")
-    public ResponseEntity<String> bachelorarbeit() {
-        return ResponseEntity.ok("hello world");
-    }
 }
