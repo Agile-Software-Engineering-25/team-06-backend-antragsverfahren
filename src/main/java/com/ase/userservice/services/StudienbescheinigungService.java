@@ -2,9 +2,12 @@ package com.ase.userservice.services;
 
 import com.ase.userservice.entities.User;
 import com.ase.userservice.entities.Semester;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
 import jakarta.mail.internet.InternetAddress;
@@ -80,6 +83,15 @@ public class StudienbescheinigungService {
             PdfWriter writer = new PdfWriter(outputStream);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
+
+            // Logo
+            String logoPath = "src/main/resources/provadis_logo.jpeg";
+            ImageData imageData = ImageDataFactory.create(logoPath);
+            Image logo = new Image(imageData)
+                .scaleToFit(100, 100)
+                .setFixedPosition(pdf.getDefaultPageSize().getWidth() - 120,
+                    pdf.getDefaultPageSize().getHeight() - 50);
+            document.add(logo);
 
             // Title
             Paragraph title = new Paragraph("Studienbescheinigung")
