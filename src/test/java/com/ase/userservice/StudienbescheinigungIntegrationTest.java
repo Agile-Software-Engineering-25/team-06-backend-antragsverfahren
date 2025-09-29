@@ -1,6 +1,6 @@
 package com.ase.userservice;
 
-import com.ase.userservice.controllers.DocumentController;
+import com.ase.userservice.controllers.StudienbescheinigungController;
 import com.ase.userservice.entities.User;
 import com.ase.userservice.repositories.UserRepository;
 import com.ase.userservice.services.StudienbescheinigungService;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StudienbescheinigungIntegrationTest {
 
   @Autowired
-  private DocumentController documentController;
+  private StudienbescheinigungController studienbescheinigungController;
 
   @Autowired
   private StudienbescheinigungService studienbescheinigungService;
@@ -32,7 +32,7 @@ public class StudienbescheinigungIntegrationTest {
 
   @Test
   public void testSendStudienbescheinigungPdfGerman() {
-    ResponseEntity<byte[]> response = documentController
+    ResponseEntity<byte[]> response = studienbescheinigungController
         .sendStudienbescheinigung("de");
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -59,7 +59,7 @@ public class StudienbescheinigungIntegrationTest {
 
   @Test
   public void testSendStudienbescheinigungPdfEnglish() {
-    ResponseEntity<byte[]> response = documentController
+    ResponseEntity<byte[]> response = studienbescheinigungController
         .sendStudienbescheinigung("en-US");
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -124,7 +124,7 @@ public class StudienbescheinigungIntegrationTest {
 
   @Test
   public void testStudienbescheinigungEndpointWithInvalidLanguage() {
-    ResponseEntity<byte[]> response = documentController
+    ResponseEntity<byte[]> response = studienbescheinigungController
         .sendStudienbescheinigung("fr-FR");
 
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -133,9 +133,9 @@ public class StudienbescheinigungIntegrationTest {
   @Test
   public void testStudienbescheinigungEndpointWithValidLanguages() {
     // Test that the endpoint returns OK for both supported languages
-    ResponseEntity<byte[]> germanResponse = documentController
+    ResponseEntity<byte[]> germanResponse = studienbescheinigungController
         .sendStudienbescheinigung("de");
-    ResponseEntity<byte[]> englishResponse = documentController
+    ResponseEntity<byte[]> englishResponse = studienbescheinigungController
         .sendStudienbescheinigung("en-US");
 
     // Both should succeed

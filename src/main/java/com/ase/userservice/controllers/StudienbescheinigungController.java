@@ -16,7 +16,7 @@ import org.springframework.validation.*;
 import jakarta.validation.Valid;
 
 @RestController
-public class DocumentController {
+public class StudienbescheinigungController {
 
     @Autowired
     private StudienbescheinigungService studienbescheinigungService;
@@ -80,38 +80,5 @@ public class DocumentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
         }
-    }
-
-    /**
-     * Placeholder endpoint for Nachklausur functionality.
-     *
-     * @return ResponseEntity with hello world message
-     */
-
-    @PostMapping("/nachklausur")
-    public ResponseEntity<String> nachklausur(@RequestBody @Valid DocumentForms.NachklausurForm nachklausurForm, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors: " + bindingResult.getAllErrors());
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(null);
-    }
-
-    /**
-     * Placeholder endpoint for Bachelorarbeit functionality.
-     *
-     * @return ResponseEntity with hello world message
-     */
-
-    @PostMapping("/bachelorarbeit")
-    public ResponseEntity<String> bachelorarbeit(@RequestBody @Valid DocumentForms.BachelorarbeitForm bachelorarbeitForm, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Form has errors: " + bindingResult.getAllErrors());
-		}
-
-        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
