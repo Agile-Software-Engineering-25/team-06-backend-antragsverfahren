@@ -36,7 +36,7 @@ public class StudienbescheinigungPdfServiceTest {
             "summer semester 2026/2027",
             4,
             0,
-            "jan.brandenstein@example.com"
+            "test-receive@arnold-of.de"
         );
         testUser.setId(1L);
     }
