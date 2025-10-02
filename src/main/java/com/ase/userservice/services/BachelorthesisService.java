@@ -21,8 +21,8 @@ public class BachelorthesisService {
     bachelorthesisRepository.saveAndFlush(bachelorthesisRequest);
   }
 
-  public BachelorthesisRequest getBachelorthesisRequestByMatriculationNumber(String studentNumber) {
-    return bachelorthesisRepository.getBachelorthesisRequestByMatriculationNumber(studentNumber);
+  public BachelorthesisRequest getBachelorthesisRequestByMatrikelnummer(String matrikelnummer) {
+    return bachelorthesisRepository.getBachelorthesisRequestByMatrikelnummer(matrikelnummer);
   }
 
   public void sendBachelorthesisApplicationByEmail(User user, byte[] pdfContent, boolean isEnglish) {
