@@ -28,27 +28,27 @@ public class BachelorthesisRequest {
   private String thema;
 
   @Column(nullable = false)
-  private String examiner;
+  private String prüfer;
 
   @Column(nullable = false)
   private String prüfungstermin;
 
   @Column(nullable = false, length = 10485760) // 10MB max size, adjust as needed
-  private byte[] exposeDocument;
+  private byte[] expose;
 
   // Constructors
   public BachelorthesisRequest() {}
 
   public BachelorthesisRequest(String matrikelnummer, String name,
                                String studiengang,
-                               String thema, String examiner, String prüfungstermin, byte[] exposeDocument) {
+                               String thema, String prüfer, String prüfungstermin, byte[] expose) {
     this.matrikelnummer = matrikelnummer;
     this.name = name;
     this.studiengang = studiengang;
     this.thema = thema;
-    this.examiner = examiner;
+    this.prüfer = prüfer;
     this.prüfungstermin = prüfungstermin;
-    this.exposeDocument = exposeDocument;
+    this.expose = expose;
   }
 
   public String getMatrikelnummer() {
@@ -68,20 +68,20 @@ public class BachelorthesisRequest {
     return thema;
   }
 
-  public String getExaminer() {
-    return examiner;
+  public String getPrüfer() {
+    return prüfer;
   }
 
   public String getPrüfungstermin() {
     return prüfungstermin;
   }
 
-  public byte[] getExposeDocument() {
-    return exposeDocument;
+  public byte[] getExpose() {
+    return expose;
   }
 
-  public void setExposeDocument(byte[] exposeDocument) {
-    this.exposeDocument = exposeDocument;
+  public void setExpose(byte[] exposeDocument) {
+    this.expose = exposeDocument;
   }
 
 }
