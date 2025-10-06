@@ -1,88 +1,134 @@
 package com.ase.userservice.entities;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "semesters")
 public class Semester {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String semesterCode; // e.g., "2025S", "2025W"
+  @Column(nullable = false, unique = true)
+  private String semesterCode; // e.g., "2025S", "2025W"
 
-    @Column(nullable = false)
-    private String semesterName; // e.g., "Summer Semester 2025", "Winter Semester 2025/2026"
+  @Column(nullable = false)
+  private String semesterName;
 
-    @Column(nullable = false)
-    private LocalDate semesterStart;
+  @Column(nullable = false)
+  private LocalDate semesterStart;
 
-    @Column(nullable = false)
-    private LocalDate semesterEnd;
+  @Column(nullable = false)
+  private LocalDate semesterEnd;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "VARCHAR(255)")
-    private SemesterType semesterType;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, columnDefinition = "VARCHAR(255)")
+  private SemesterType semesterType;
 
-    @Column(nullable = false, name = "semester_year")
-    private Integer year;
+  @Column(nullable = false, name = "semester_year")
+  private Integer year;
 
-    @Column(nullable = false)
-    private String degree; // Degree column
+  @Column(nullable = false)
+  private String degree; // Degree column
 
-    // One-to-many relationship with User (one semester can have many students)
-    @OneToMany(mappedBy = "currentSemesterEntity")
-    private Set<User> students = new HashSet<>();
+  // One-to-many relationship with User (one semester can have many students)
+  @OneToMany(mappedBy = "currentSemesterEntity")
+  private Set<User> students = new HashSet<>();
 
-    // Constructors
-    public Semester() {}
+  // Constructors
+  public Semester() {}
 
-    public Semester(String semesterCode, String semesterName, LocalDate semesterStart,
-                   LocalDate semesterEnd, SemesterType semesterType, Integer year, String degree) {
-        this.semesterCode = semesterCode;
-        this.semesterName = semesterName;
-        this.semesterStart = semesterStart;
-        this.semesterEnd = semesterEnd;
-        this.semesterType = semesterType;
-        this.year = year;
-        this.degree = degree;
-    }
+  public Semester(String semesterCode,
+      String semesterName, LocalDate semesterStart, LocalDate semesterEnd,
+      SemesterType semesterType, Integer year, String degree) {
+    this.semesterCode = semesterCode;
+    this.semesterName = semesterName;
+    this.semesterStart = semesterStart;
+    this.semesterEnd = semesterEnd;
+    this.semesterType = semesterType;
+    this.year = year;
+    this.degree = degree;
+  }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+  // Getters and Setters
+  public Long getId() {
+    return id;
+  }
 
-    public String getSemesterCode() { return semesterCode; }
-    public void setSemesterCode(String semesterCode) { this.semesterCode = semesterCode; }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getSemesterName() { return semesterName; }
-    public void setSemesterName(String semesterName) { this.semesterName = semesterName; }
+  public String getSemesterCode() {
+    return semesterCode;
+  }
 
-    public LocalDate getSemesterStart() { return semesterStart; }
-    public void setSemesterStart(LocalDate semesterStart) { this.semesterStart = semesterStart; }
+  public void setSemesterCode(String semesterCode) {
+    this.semesterCode = semesterCode;
+  }
 
-    public LocalDate getSemesterEnd() { return semesterEnd; }
-    public void setSemesterEnd(LocalDate semesterEnd) { this.semesterEnd = semesterEnd; }
+  public String getSemesterName() {
+    return semesterName;
+  }
 
-    public SemesterType getSemesterType() { return semesterType; }
-    public void setSemesterType(SemesterType semesterType) { this.semesterType = semesterType; }
+  public void setSemesterName(String semesterName) {
+    this.semesterName = semesterName;
+  }
 
-    public Integer getYear() { return year; }
-    public void setYear(Integer year) { this.year = year; }
+  public LocalDate getSemesterStart() {
+    return semesterStart;
+  }
 
-    public String getDegree() { return degree; }
-    public void setDegree(String degree) { this.degree = degree; }
+  public void setSemesterStart(LocalDate semesterStart) {
+    this.semesterStart = semesterStart;
+  }
 
-    public Set<User> getStudents() { return students; }
-    public void setStudents(Set<User> students) { this.students = students; }
+  public LocalDate getSemesterEnd() {
+    return semesterEnd;
+  }
 
-    // Enum for semester types
-    public enum SemesterType {
-        SUMMER, WINTER
-    }
+  public void setSemesterEnd(LocalDate semesterEnd) {
+    this.semesterEnd = semesterEnd;
+  }
+
+  public SemesterType getSemesterType() {
+    return semesterType;
+  }
+
+  public void setSemesterType(SemesterType semesterType) {
+    this.semesterType = semesterType;
+  }
+
+  public Integer getYear() {
+    return year;
+  }
+
+  public void setYear(Integer year) {
+    this.year = year;
+  }
+
+  public String getDegree() {
+    return degree;
+  }
+
+  public void setDegree(String degree) {
+    this.degree = degree;
+  }
+
+  public Set<User> getStudents() {
+    return students;
+  }
+
+  public void setStudents(Set<User> students) {
+    this.students = students;
+  }
+
+  // Enum for semester types
+  public enum SemesterType {
+    SUMMER, WINTER
+  }
 }

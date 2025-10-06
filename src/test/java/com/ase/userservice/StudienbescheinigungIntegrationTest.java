@@ -5,6 +5,7 @@ import com.ase.userservice.entities.User;
 import com.ase.userservice.repositories.UserRepository;
 import com.ase.userservice.services.StudienbescheinigungService;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -13,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("integration")
@@ -53,7 +53,8 @@ public class StudienbescheinigungIntegrationTest {
 
     // Verify PDF content
     byte[] pdfContent = response.getBody();
-    String pdfHeader = new String(pdfContent, 0, Math.min(4, pdfContent.length));
+    String pdfHeader = new String(
+        pdfContent, 0, Math.min(4, pdfContent.length));
     assertEquals("%PDF", pdfHeader, "Should be valid PDF format");
   }
 
@@ -80,7 +81,8 @@ public class StudienbescheinigungIntegrationTest {
 
     // Verify PDF content
     byte[] pdfContent = response.getBody();
-    String pdfHeader = new String(pdfContent, 0, Math.min(4, pdfContent.length));
+    String pdfHeader = new String(
+        pdfContent, 0, Math.min(4, pdfContent.length));
     assertEquals("%PDF", pdfHeader, "Should be valid PDF format");
   }
 
@@ -97,7 +99,8 @@ public class StudienbescheinigungIntegrationTest {
     assertNotNull(pdfContent, "PDF content should not be null");
     assertTrue(pdfContent.length > 0, "PDF should have content");
 
-    String pdfHeader = new String(pdfContent, 0, Math.min(4, pdfContent.length));
+    String pdfHeader = new String(
+        pdfContent, 0, Math.min(4, pdfContent.length));
     assertEquals("%PDF", pdfHeader, "Should be valid PDF format");
 
     // Test English PDF generation
@@ -107,7 +110,8 @@ public class StudienbescheinigungIntegrationTest {
     assertNotNull(pdfContentEn, "English PDF content should not be null");
     assertTrue(pdfContentEn.length > 0, "English PDF should have content");
 
-    String pdfHeaderEn = new String(pdfContentEn, 0, Math.min(4, pdfContentEn.length));
+    String pdfHeaderEn = new String(
+        pdfContentEn, 0, Math.min(4, pdfContentEn.length));
     assertEquals("%PDF", pdfHeaderEn, "English PDF should be valid PDF format");
   }
 

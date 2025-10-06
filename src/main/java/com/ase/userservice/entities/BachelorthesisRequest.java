@@ -28,26 +28,27 @@ public class BachelorthesisRequest {
   private String thema;
 
   @Column(nullable = false)
-  private String prüfer;
+  private String pruefer;
 
   @Column(nullable = false)
-  private String prüfungstermin;
+  private String pruefungstermin;
 
-  @Column(nullable = false, length = 10485760) // 10MB max size, adjust as needed
+  @Column(nullable = false, length = 10485760)
   private byte[] expose;
 
   // Constructors
   public BachelorthesisRequest() {}
 
   public BachelorthesisRequest(String matrikelnummer, String name,
-                               String studiengang,
-                               String thema, String prüfer, String prüfungstermin, byte[] expose) {
+      String studiengang,
+      String thema, String pruefer,
+      String pruefungstermin, byte[] expose) {
     this.matrikelnummer = matrikelnummer;
     this.name = name;
     this.studiengang = studiengang;
     this.thema = thema;
-    this.prüfer = prüfer;
-    this.prüfungstermin = prüfungstermin;
+    this.pruefer = pruefer;
+    this.pruefungstermin = pruefungstermin;
     this.expose = expose;
   }
 
@@ -68,12 +69,12 @@ public class BachelorthesisRequest {
     return thema;
   }
 
-  public String getPrüfer() {
-    return prüfer;
+  public String getPruefer() {
+    return pruefer;
   }
 
-  public String getPrüfungstermin() {
-    return prüfungstermin;
+  public String getPruefungstermin() {
+    return pruefungstermin;
   }
 
   public byte[] getExpose() {
