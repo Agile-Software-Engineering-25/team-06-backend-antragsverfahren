@@ -1,10 +1,10 @@
 package com.ase.userservice.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.ase.userservice.entities.BachelorthesisRequest;
 import com.ase.userservice.entities.User;
 import com.ase.userservice.repositories.BachelorthesisRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class BachelorthesisService {

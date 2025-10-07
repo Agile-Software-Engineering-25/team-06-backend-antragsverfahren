@@ -1,13 +1,12 @@
 package com.ase.userservice.services;
 
-import com.ase.userservice.entities.Semester;
-import com.ase.userservice.repositories.SemesterRepository;
-import com.ase.userservice.repositories.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.ase.userservice.entities.Semester;
+import com.ase.userservice.repositories.SemesterRepository;
+import com.ase.userservice.repositories.UserRepository;
 
 @Service
 public class SemesterService {

@@ -1,16 +1,16 @@
 package com.ase.userservice.controllers;
 
-import com.ase.userservice.entities.User;
-import com.ase.userservice.repositories.UserRepository;
-import com.ase.userservice.services.StudienbescheinigungService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import com.ase.userservice.entities.User;
+import com.ase.userservice.repositories.UserRepository;
+import com.ase.userservice.services.StudienbescheinigungService;
 
 @RestController
 public class StudienbescheinigungController {

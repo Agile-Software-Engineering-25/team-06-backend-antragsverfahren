@@ -1,5 +1,8 @@
 package com.ase.userservice.services;
 
+import java.io.ByteArrayOutputStream;
+import java.time.format.DateTimeFormatter;
+import org.springframework.stereotype.Service;
 import com.ase.userservice.entities.Semester;
 import com.ase.userservice.entities.User;
 import com.itextpdf.io.image.ImageData;
@@ -10,9 +13,6 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
-import java.io.ByteArrayOutputStream;
-import java.time.format.DateTimeFormatter;
-import org.springframework.stereotype.Service;
 
 
 @Service

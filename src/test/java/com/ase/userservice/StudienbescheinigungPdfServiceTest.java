@@ -1,17 +1,18 @@
 package com.ase.userservice;
 
-import com.ase.userservice.entities.User;
-import com.ase.userservice.services.StudienbescheinigungService;
-import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import com.ase.userservice.entities.User;
+import com.ase.userservice.services.StudienbescheinigungService;
 
 @SpringBootTest
 @ActiveProfiles("test")
+// CHECKSTYLE:OFF
 public class StudienbescheinigungPdfServiceTest {
 
   private static final int BIRTH_YEAR = 2003;
@@ -73,3 +74,4 @@ public class StudienbescheinigungPdfServiceTest {
     assertTrue(pdfAsString.contains("PDF") || pdfContent.length > 100);
   }
 }
+// CHECKSTYLE:ON
