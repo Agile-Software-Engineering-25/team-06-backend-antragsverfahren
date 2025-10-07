@@ -1,19 +1,21 @@
 package com.ase.userservice.services;
 
-import com.ase.userservice.entities.User;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import java.io.UnsupportedEncodingException;
-import java.util.Properties;
+import com.ase.userservice.entities.User;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
 public class EmailService {
 
-  private static final String mailboxAddress = "test-send@arnold-of.de";
+  private static final String MAILBOX_ADDRESS = "test-send@arnold-of.de";
+  private static final int SMTP_PORT = 587;
   /**
    * Definition of the mail server used for sending emails.
    *
@@ -23,7 +25,7 @@ public class EmailService {
   public static JavaMailSender getJavaMailSender(String mailboxAddress ) {
     JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
     mailSender.setHost("mail.your-server.de");
-    mailSender.setPort(587);
+    mailSender.setPort(SMTP_PORT);
 
     mailSender.setUsername(mailboxAddress);
     mailSender.setPassword("Team-06-Backend-Antragsverfahren");
@@ -37,14 +39,15 @@ public class EmailService {
     return mailSender;
   }
 
-  public static void sendBachelorthesisApplicationByMail(User user, byte[] pdfContent, boolean isEnglish) {
+  public static void sendBachelorthesisApplicationByMail(
+      User user, byte[] pdfContent, boolean isEnglish) {
     if (user == null) {
       throw new RuntimeException("User cannot be null");
     }
     if (pdfContent == null || pdfContent.length == 0) {
       throw new RuntimeException("PDF content cannot be null or empty");
     }
-    String mailboxAddress = EmailService.mailboxAddress;
+    String mailboxAddress = EmailService.MAILBOX_ADDRESS;
     JavaMailSender mailSender = EmailService.getJavaMailSender(mailboxAddress);
 
     try {
@@ -52,7 +55,8 @@ public class EmailService {
       MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
 
-      InternetAddress fromAddress = new InternetAddress(mailboxAddress, "Hochschulverwaltungssystem");
+      InternetAddress fromAddress = new InternetAddress(
+          mailboxAddress, "Hochschulverwaltungssystem");
       helper.setFrom(fromAddress);
       helper.setTo(user.getEmail());
 
@@ -73,7 +77,8 @@ public class EmailService {
 
         attachmentName = "Certificate_of_Enrollment_"
             + user.getMatriculationNumber() + ".pdf";
-      } else {
+      }
+      else {
         subject = "Bachelorarbeitsantrag - " + user.getFirstName()
             + " " + user.getLastName();
 
@@ -94,29 +99,35 @@ public class EmailService {
       ByteArrayResource pdfResource = new ByteArrayResource(pdfContent);
       helper.addAttachment(attachmentName, pdfResource);
       mailSender.send(message);
-    } catch (MessagingException e) {
+    }
+    catch (MessagingException e) {
       throw new RuntimeException("Failed to send email", e);
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Failed to set email sender name", e);
+    }
+    catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(
+          "Failed to set email sender name", e);
     }
   }
 
-  public static void sendCertificateOfEnrollmentByMail(User user, byte[] pdfContent, boolean isEnglish) {
+  public static void sendCertificateOfEnrollmentByMail(
+      User user, byte[] pdfContent, boolean isEnglish) {
     if (user == null) {
       throw new RuntimeException("User cannot be null");
     }
     if (pdfContent == null || pdfContent.length == 0) {
       throw new RuntimeException("PDF content cannot be null or empty");
     }
-    String mailboxAddress = EmailService.mailboxAddress;
+    String mailboxAddress = EmailService.MAILBOX_ADDRESS;
     JavaMailSender mailSender = EmailService.getJavaMailSender(mailboxAddress);
 
     try {
       MimeMessage message = mailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(message, true);
+      MimeMessageHelper helper = new MimeMessageHelper(
+          message, true);
 
 
-      InternetAddress fromAddress = new InternetAddress(mailboxAddress, "Hochschulverwaltungssystem");
+      InternetAddress fromAddress = new InternetAddress(
+          mailboxAddress, "Hochschulverwaltungssystem");
       helper.setFrom(fromAddress);
       helper.setTo(user.getEmail());
 
@@ -137,7 +148,8 @@ public class EmailService {
 
         attachmentName = "Certificate_of_Enrollment_"
             + user.getMatriculationNumber() + ".pdf";
-      } else {
+      }
+      else {
         subject = "Studienbescheinigung - " + user.getFirstName()
             + " " + user.getLastName();
 
@@ -158,9 +170,11 @@ public class EmailService {
       ByteArrayResource pdfResource = new ByteArrayResource(pdfContent);
       helper.addAttachment(attachmentName, pdfResource);
       mailSender.send(message);
-    } catch (MessagingException e) {
+    }
+    catch (MessagingException e) {
       throw new RuntimeException("Failed to send email", e);
-    } catch (UnsupportedEncodingException e) {
+    }
+    catch (UnsupportedEncodingException e) {
       throw new RuntimeException("Failed to set email sender name", e);
     }
   }
