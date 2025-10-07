@@ -12,7 +12,6 @@ import com.ase.userservice.services.StudienbescheinigungService;
 
 @SpringBootTest
 @ActiveProfiles("test")
-// CHECKSTYLE:OFF
 public class StudienbescheinigungPdfServiceTest {
 
   private static final int BIRTH_YEAR = 2003;
@@ -74,4 +73,3 @@ public class StudienbescheinigungPdfServiceTest {
     assertTrue(pdfAsString.contains("PDF") || pdfContent.length > 100);
   }
 }
-// CHECKSTYLE:ON
