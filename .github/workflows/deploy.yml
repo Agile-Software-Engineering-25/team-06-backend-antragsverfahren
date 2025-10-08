@@ -22,6 +22,10 @@ jobs:
           image_name: "team-6-backend-antrag-service"
           push: true
 
+      - name: Delete existing Deployment
+        run: |
+          kubectl delete deployment ase-antrag-service --ignore-not-found=true -n ase-6
+
       - name: Deploy to k8s
         uses: Agile-Software-Engineering-25/deploy-to-k8s@v1
         with:
