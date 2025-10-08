@@ -9,10 +9,11 @@ resources:
   - service.yaml
   - ingress.yaml
 
-commonLabels:
-  environment: ase-6
-  managed-by: kustomize
-  app: antrag-service
+labels:
+  - pairs:
+      environment: ase-6
+      managed-by: kustomize
+      app: antrag-service
 
 namePrefix: "ase-"
 
