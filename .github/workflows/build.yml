@@ -19,6 +19,6 @@ jobs:
       - name: Build and push image
         uses: Agile-Software-Engineering-25/build-and-publish-image@v1
         with:
-          image_name: "team-6-backend-antrag-service"
+          image_name: "team-06-backend-antrag-service"
           push: false
 
