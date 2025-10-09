@@ -18,5 +18,8 @@ jobs:
           git config --local user.name "GitHub Action"
           git tag -a "${{ inputs.tag_version }}" -m "Release ${{ inputs.tag_version }}"
           [[ ${{ inputs.tag_version }} =~ ^v[0-9]+.[0-9]+.[0-9]+$ ]] || exit 1
-          git push origin "${{ inputs.tag_version }}"
+          git push --tags
+          gh workflow run deploy.yml --ref ${{ inputs.tag_version }}
+
+
 
