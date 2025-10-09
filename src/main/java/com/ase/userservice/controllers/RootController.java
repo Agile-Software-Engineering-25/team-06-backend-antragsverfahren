@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RootController {
 
-	@GetMapping("/antrag")
+	@GetMapping("/")
 	public ResponseEntity<String> root() {
 		return ResponseEntity.ok("API Root: /api/v1/");
 	}

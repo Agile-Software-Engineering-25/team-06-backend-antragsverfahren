@@ -18,6 +18,9 @@ spring:
   sql:
     init:
       mode: always
+  mvc:
+    servlet:
+      path: /antrag
 
   h2:
     console:
