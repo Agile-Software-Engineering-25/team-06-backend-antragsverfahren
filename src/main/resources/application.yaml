@@ -19,6 +19,7 @@ spring:
     init:
       mode: always
 
+
   h2:
     console:
       enabled: true
@@ -41,3 +42,5 @@ server:
   port: 8080
   error:
     include-message: always
+  servlet:
+    context-path: /antrag
