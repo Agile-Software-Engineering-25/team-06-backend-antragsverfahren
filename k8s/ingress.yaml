@@ -4,8 +4,6 @@ metadata:
   name: antrag-service
   labels:
     app: antrag-service
-  annotations:
-    traefik.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: traefik
   rules:
