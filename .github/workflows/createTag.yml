@@ -1,0 +1,22 @@
+name: Automated Tagging
+on:
+  workflow_dispatch:
+    inputs:
+      tag_version:
+        type: string
+        description: 'Tag version'
+        required: true
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create Tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "${{ inputs.tag_version }}" -m "Release ${{ inputs.tag_version }}"
+          [[ ${{ inputs.tag_version }} =~ ^v[0-9]+.[0-9]+.[0-9]+$ ]] || exit 1
+          git push origin "${{ inputs.tag_version }}"
+
