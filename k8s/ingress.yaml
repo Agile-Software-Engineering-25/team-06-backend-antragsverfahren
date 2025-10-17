@@ -10,7 +10,7 @@ spec:
     - host: sau-portal.de
       http:
         paths:
-          - path: /antrag # specify under which path your service should be reachable
+          - path: /api/antrag # specify under which path your service should be reachable
             pathType: Prefix
             backend:
               service:

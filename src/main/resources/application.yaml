@@ -49,4 +49,4 @@ server:
   error:
     include-message: always
   servlet:
-    context-path: /antrag
+    context-path: /api/antrag
