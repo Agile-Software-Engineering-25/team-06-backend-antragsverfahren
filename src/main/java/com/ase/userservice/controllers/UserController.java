@@ -10,7 +10,7 @@ import com.ase.userservice.entities.User;
 import com.ase.userservice.repositories.UserRepository;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
   @Autowired
