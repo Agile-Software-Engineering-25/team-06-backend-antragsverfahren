@@ -1,9 +1,10 @@
 package com.ase.userservice.authentication;
 
+import java.util.Map;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
-import java.util.Map;
+
 
 public class CurrentAuthContext {
 
@@ -16,5 +17,4 @@ public class CurrentAuthContext {
   public static String getUserEmail() {
     return (String) extractClaim().get("email");
   }
-
 }
