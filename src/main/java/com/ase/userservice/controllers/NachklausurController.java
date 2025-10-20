@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 
 
 @RestController
-public class NachklausurController {
+public class  NachklausurController {
 
   private final NachklausurService nachklausurService;
 

@@ -2,15 +2,17 @@ package com.ase.userservice.controllers;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.ase.userservice.authentication.CurrentAuthContext;
 import com.ase.userservice.entities.User;
 import com.ase.userservice.repositories.UserRepository;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
   @Autowired
@@ -28,6 +30,11 @@ public class UserController {
         matriculationNumber);
     return user.map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
+  }
+
+  @GetMapping("/claims")
+  public ResponseEntity<Map<String, Object>> getUserClaims() {
+    return ResponseEntity.ok(CurrentAuthContext.extractClaim());
   }
 
   @PostMapping
