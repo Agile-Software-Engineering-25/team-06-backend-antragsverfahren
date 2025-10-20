@@ -1,8 +1,8 @@
 spring:
   application:
     name: ASE-UserService
-
+    
 server:
   port: 8080
   servlet:
-    context-path: /antrag
+    context-path: /api/antrag
