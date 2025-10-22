@@ -2,6 +2,7 @@
 package com.ase.userservice.forms;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +38,23 @@ public class DocumentForms {
     @JsonFormat(pattern = "dd-MM-yyyy")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate pruefungstermin;
+
+
+
+    @AssertTrue(message = "Nutzer (Name + Matrikelnummer) konnte nicht verifiziert werden")
+    public boolean isUserValidForDb() {
+      return Validator.isUserValid(name, matrikelnummer);
+    }
+
+    @AssertTrue(message = "Modul ungültig")
+    public boolean isModulValidForDb() {
+      return Validator.isModulValid(modul);
+    }
+
+    @AssertTrue(message = "Prüfungstermin nicht erlaubt")
+    public boolean isPruefungsterminAllowedForDb() {
+      return Validator.isPruefungsterminAllowed(pruefungstermin);
+    }
   }
 
   @Getter
@@ -71,5 +89,27 @@ public class DocumentForms {
     @NotBlank
     @Size(min = 2, max = 100)
     private String examiner;
+
+
+
+    @AssertTrue(message = "Nutzer (Name + Matrikelnummer) konnte nicht verifiziert werden")
+    public boolean isUserValidForDb() {
+      return Validator.isUserValid(name, matrikelnummer);
+    }
+
+    @AssertTrue(message = "Modul ungültig")
+    public boolean isModulValidForDb() {
+      return Validator.isModulValid(modul);
+    }
+
+    @AssertTrue(message = "Prüfer ungültig")
+    public boolean isExaminerValidForDb() {
+      return Validator.isExaminerValid(examiner);
+    }
+
+    @AssertTrue(message = "Prüfungstermin nicht erlaubt")
+    public boolean isPruefungsterminAllowedForDb() {
+      return Validator.isPruefungsterminAllowed(pruefungstermin);
+    }
   }
 }
