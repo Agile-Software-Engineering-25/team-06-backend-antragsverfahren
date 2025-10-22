@@ -1,146 +1,115 @@
+// java
 package com.ase.userservice.forms;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 
 public class DocumentForms {
 
+  @Getter
+  @Setter
   public static class NachklausurForm {
 
     @NotBlank
     @Size(min = 2, max = 30)
     private String name;
 
-    public String getName() {
-      return name;
-    }
-
-    public void setName(String name) {
-      this.name = name;
-    }
-
     @NotBlank
-    @Size(min = 4, max = 100)
+    @jakarta.validation.constraints.Pattern(
+        regexp = "^[A-Z]\\d{3}$",
+        message = "Matrikelnummer muss ein Großbuchstabe gefolgt von drei Ziffern sein"
+    )
     private String matrikelnummer;
-
-    public String getMatrikelnummer() {
-      return matrikelnummer;
-    }
-
-    public void setMatrikelnummer(String matrikelnummer) {
-      this.matrikelnummer = matrikelnummer;
-    }
 
     @NotBlank
     @Size(min = 2, max = 100)
     private String modul;
 
-    public String getModul() {
-      return modul;
+    @NotNull(message = "Prüfungstermin darf nicht leer sein")
+    @Future(message = "Prüfungstermin muss in der Zukunft liegen")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate pruefungstermin;
+
+
+
+    @AssertTrue(message = "Nutzer (Name + Matrikelnummer) konnte nicht verifiziert werden")
+    public boolean isUserValidForDb() {
+      return Validator.isUserValid(name, matrikelnummer);
     }
 
-    public void setModul(String modul) {
-      this.modul = modul;
+    @AssertTrue(message = "Modul ungültig")
+    public boolean isModulValidForDb() {
+      return Validator.isModulValid(modul);
     }
 
-    @NotBlank
-    @Size(min = 2, max = 100)
-    private String pruefungstermin;
-
-    public String getPruefungstermin() {
-      return pruefungstermin;
-    }
-
-    public void setPruefungstermin(String pruefungstermin) {
-      this.pruefungstermin = pruefungstermin;
+    @AssertTrue(message = "Prüfungstermin nicht erlaubt")
+    public boolean isPruefungsterminAllowedForDb() {
+      return Validator.isPruefungsterminAllowed(pruefungstermin);
     }
   }
 
+  @Getter
+  @Setter
   public static class BachelorarbeitForm {
 
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 30)
     private String name;
 
-    public String getName() {
-      return name;
-    }
-
-    public void setName(String name) {
-      this.name = name;
-    }
-
-    @NotNull
-    @Size(min = 4, max = 4)
+    @NotBlank
+    @jakarta.validation.constraints.Pattern(
+        regexp = "^[A-Z]\\d{3}$",
+        message = "Matrikelnummer muss ein Großbuchstabe gefolgt von drei Ziffern sein"
+    )
     private String matrikelnummer;
 
-    public String getMatrikelnummer() {
-      return matrikelnummer;
-    }
-
-    public void setMatrikelnummer(String matrikelnummer) {
-      this.matrikelnummer = matrikelnummer;
-    }
-
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 100)
     private String modul;
 
-    public String getModul() {
-      return modul;
-    }
+    @NotNull(message = "Prüfungstermin darf nicht leer sein")
+    @Future(message = "Prüfungstermin muss in der Zukunft liegen")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate pruefungstermin;
 
-    public void setModul(String modul) {
-      this.modul = modul;
-    }
-
-    @NotNull
-    @Size(min = 2, max = 100)
-    private String pruefungstermin;
-
-    public String getPruefungstermin() {
-      return pruefungstermin;
-    }
-
-    public void setPruefungstermin(String pruefungstermin) {
-      this.pruefungstermin = pruefungstermin;
-    }
-
+    @NotBlank
+    @Size(min = 5, max = 200)
     private String thema;
 
-    @NotNull
-    @Size(min = 5, max = 200)
-    public String getThema() {
-      return thema;
-    }
-
-    public void setThema(String thema) {
-      this.thema = thema;
-    }
-
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 100)
-    private String firstExaminer;
+    private String examiner;
 
-    public String getFirstExaminer() {
-      return firstExaminer;
+
+
+    @AssertTrue(message = "Nutzer (Name + Matrikelnummer) konnte nicht verifiziert werden")
+    public boolean isUserValidForDb() {
+      return Validator.isUserValid(name, matrikelnummer);
     }
 
-    public void setFirstExaminer(String firstExaminer) {
-      this.firstExaminer = firstExaminer;
+    @AssertTrue(message = "Modul ungültig")
+    public boolean isModulValidForDb() {
+      return Validator.isModulValid(modul);
     }
 
-    @NotNull
-    @Size(min = 2, max = 100)
-    private String secondExaminer;
-
-    public String getSecondExaminer() {
-      return secondExaminer;
+    @AssertTrue(message = "Prüfer ungültig")
+    public boolean isExaminerValidForDb() {
+      return Validator.isExaminerValid(examiner);
     }
 
-    public void setSecondExaminer(String secondExaminer) {
-      this.secondExaminer = secondExaminer;
+    @AssertTrue(message = "Prüfungstermin nicht erlaubt")
+    public boolean isPruefungsterminAllowedForDb() {
+      return Validator.isPruefungsterminAllowed(pruefungstermin);
     }
   }
 }

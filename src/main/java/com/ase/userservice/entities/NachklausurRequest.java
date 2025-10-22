@@ -1,18 +1,19 @@
 package com.ase.userservice.entities;
 
 import lombok.Data;
+import java.time.LocalDate;
 
 @Data
 public class NachklausurRequest {
   private String name;
   private String matrikelnummer;
   private String modul;
-  private String pruefungstermin;
+  private LocalDate pruefungstermin;
 
   public NachklausurRequest(String name,
       String matriculationNumber,
       String modul,
-      String pruefungstermin) {
+      LocalDate pruefungstermin) {
     this.name = name;
     this.matrikelnummer = matriculationNumber;
     this.modul = modul;
@@ -31,7 +32,7 @@ public class NachklausurRequest {
     return modul;
   }
 
-  public String getPruefungstermin() {
+  public LocalDate getPruefungstermin() {
     return pruefungstermin;
   }
 }

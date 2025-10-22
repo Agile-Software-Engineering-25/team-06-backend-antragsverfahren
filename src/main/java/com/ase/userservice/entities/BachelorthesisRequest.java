@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "bachelorthesisrequests")
@@ -31,7 +32,7 @@ public class BachelorthesisRequest {
   private String pruefer;
 
   @Column(nullable = false)
-  private String pruefungstermin;
+  private LocalDate pruefungstermin;
 
   @Column(nullable = false, length = 10485760)
   private byte[] expose;
@@ -42,7 +43,7 @@ public class BachelorthesisRequest {
   public BachelorthesisRequest(String matrikelnummer, String name,
       String studiengang,
       String thema, String pruefer,
-      String pruefungstermin, byte[] expose) {
+      LocalDate pruefungstermin, byte[] expose) {
     this.matrikelnummer = matrikelnummer;
     this.name = name;
     this.studiengang = studiengang;
@@ -73,7 +74,7 @@ public class BachelorthesisRequest {
     return pruefer;
   }
 
-  public String getPruefungstermin() {
+  public LocalDate getPruefungstermin() {
     return pruefungstermin;
   }
 
