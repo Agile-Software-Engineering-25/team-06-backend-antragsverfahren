@@ -1,7 +1,14 @@
 spring:
   application:
     name: ASE-UserService
-    
+  profiles:
+    active: dev
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://keycloak.sau-portal.de/realms/sau
+
 server:
   port: 8080
   servlet:
