@@ -7,16 +7,16 @@ public class NachklausurRequest {
   private String name;
   private String matrikelnummer;
   private String modul;
-  private String pruefungstermin;
+  private String prüfungstermin;
 
   public NachklausurRequest(String name,
       String matriculationNumber,
       String modul,
-      String pruefungstermin) {
+      String prüfungstermin) {
     this.name = name;
     this.matrikelnummer = matriculationNumber;
     this.modul = modul;
-    this.pruefungstermin = pruefungstermin;
+    this.prüfungstermin = prüfungstermin;
   }
 
   public String getName() {
@@ -32,6 +32,6 @@ public class NachklausurRequest {
   }
 
   public String getPruefungstermin() {
-    return pruefungstermin;
+    return prüfungstermin;
   }
 }

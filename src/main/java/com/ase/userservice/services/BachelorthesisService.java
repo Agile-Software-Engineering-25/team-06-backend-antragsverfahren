@@ -1,10 +1,19 @@
 package com.ase.userservice.services;
 
+import java.io.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ase.userservice.entities.BachelorthesisRequest;
 import com.ase.userservice.entities.User;
 import com.ase.userservice.repositories.BachelorthesisRepository;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.properties.TextAlignment;
 
 @Service
 public class BachelorthesisService {
@@ -32,5 +41,103 @@ public class BachelorthesisService {
       User user, byte[] pdfContent, boolean isEnglish) {
     EmailService.sendBachelorthesisApplicationByMail(
         user, pdfContent, isEnglish);
+  }
+
+  /**
+   * Generates a PDF document for a bachelor thesis application using parameters.
+   *
+   * @param name the student's name
+   * @param matrikelnummer the student's matriculation number
+   * @param studiengang the study program
+   * @param thema the thesis topic
+   * @param pruefer the examiner/supervisor
+   * @param pruefungstermin the exam date
+   * @return the PDF content as byte array
+   * @throws RuntimeException if any parameter is null or PDF generation fails
+   */
+  public byte[] generateBachelorthesisPdf(
+      String name,
+      String matrikelnummer,
+      String studiengang,
+      String thema,
+      String pruefer,
+      String pruefungstermin) {
+
+    if (name == null || matrikelnummer == null || studiengang == null
+        || thema == null || pruefer == null || pruefungstermin == null) {
+      throw new RuntimeException("All parameters must be non-null");
+    }
+
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    try {
+      PdfWriter writer = new PdfWriter(outputStream);
+      PdfDocument pdf = new PdfDocument(writer);
+      Document document = new Document(pdf);
+
+      // Logo
+      String logoPath = "src/main/resources/provadis_logo.jpeg";
+      ImageData imageData = ImageDataFactory.create(logoPath);
+      Image logo = new Image(imageData)
+          .scaleToFit(100, 100)
+          .setFixedPosition(pdf.getDefaultPageSize().getWidth() - 120,
+              pdf.getDefaultPageSize().getHeight() - 50);
+      document.add(logo);
+
+      // Title
+      Paragraph title = new Paragraph("Antrag auf Zulassung zur Bachelorarbeit")
+          .setFontSize(18)
+          .setBold()
+          .setTextAlignment(TextAlignment.CENTER);
+      document.add(title);
+
+      // Add some space
+      document.add(new Paragraph(" "));
+
+      // Student information
+      String studentInfo = String.format("Name: %s", name);
+      document.add(new Paragraph(studentInfo).setFontSize(12));
+
+      String matriculationInfo = String.format("Matrikelnummer: %s", matrikelnummer);
+      document.add(new Paragraph(matriculationInfo).setFontSize(12));
+
+      String studyProgramInfo = String.format("Studiengang: %s", studiengang);
+      document.add(new Paragraph(studyProgramInfo).setFontSize(12));
+
+      // Add some space
+      document.add(new Paragraph(" "));
+
+      // Thesis information
+      Paragraph thesisHeader = new Paragraph("Angaben zur Bachelorarbeit")
+          .setFontSize(14)
+          .setBold();
+      document.add(thesisHeader);
+
+      String themaInfo = String.format("Thema: %s", thema);
+      document.add(new Paragraph(themaInfo).setFontSize(12));
+
+      String prueferInfo = String.format("Pruefer/Betreuer: %s", pruefer);
+      document.add(new Paragraph(prueferInfo).setFontSize(12));
+
+      String terminInfo = String.format("Pruefungstermin: %s", pruefungstermin);
+      document.add(new Paragraph(terminInfo).setFontSize(12));
+
+      // Add some space
+      document.add(new Paragraph(" "));
+
+      // Footer note
+      String footerText = "Dieser Antrag wurde maschinell erzeugt. "
+          + "Bitte ausdrucken, unterschreiben und zusammen mit dem Expose "
+          + "beim Pruefungsamt einreichen.";
+      Paragraph footer = new Paragraph(footerText)
+          .setFontSize(10)
+          .setItalic();
+      document.add(footer);
+
+      document.close();
+
+      return outputStream.toByteArray();
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to generate Bachelorthesis PDF", e);
+    }
   }
 }

@@ -5,6 +5,5 @@ import org.springframework.stereotype.Repository;
 import com.ase.userservice.entities.Dozent;
 
 @Repository
-public interface DozentenRepository extends JpaRepository<Dozent, Long> {
+public interface DozentenRepository extends JpaRepository<Dozent, String> {
 }
-

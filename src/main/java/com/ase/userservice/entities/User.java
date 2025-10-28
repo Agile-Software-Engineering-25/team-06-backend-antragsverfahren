@@ -11,44 +11,44 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = false, unique = true)
+  private String username;
+
   @Column(nullable = false)
   private String firstName;
 
   @Column(nullable = false)
   private String lastName;
 
+  @Column(nullable = false, unique = true)
+  private String email;
+
   @Column(nullable = false)
   private LocalDate dateOfBirth;
+
+  @Column
+  private String address;
+
+  @Column
+  private String phoneNumber;
+
+  @Column
+  private String photoUrl;
 
   @Column(nullable = false, unique = true)
   private String matriculationNumber;
 
   @Column(nullable = false)
-  private String studyProgram;
+  private String degreeProgram;
 
   @Column(nullable = false)
-  private String degree;
+  private Integer semester;
 
   @Column(nullable = false)
-  private Integer currentSemester;
+  private String studyStatus;
 
-  @Column(nullable = false)
-  private Integer standardStudyDuration;
-
-  @Column(nullable = false)
-  private String studyStartSemester;
-
-  @Column(nullable = false)
-  private String studyEndSemester;
-
-  @Column(nullable = false)
-  private Integer universitySemester;
-
-  @Column(nullable = false)
-  private Integer leaveOfAbsenceSemesters;
-
-  @Column(nullable = false)
-  private String email;
+  @Column
+  private String cohort;
 
   // Many-to-one relationship with Semester (a student belongs to one semester)
   @ManyToOne
@@ -58,25 +58,23 @@ public class User {
   // Constructors
   public User() {}
 
-  public User(String firstName, String lastName, LocalDate dateOfBirth,
-      String matriculationNumber, String studyProgram, String degree,
-      Integer currentSemester, Integer standardStudyDuration,
-      String studyStartSemester, String studyEndSemester,
-      Integer universitySemester, Integer leaveOfAbsenceSemesters,
-      String email) {
+  public User(String username, String firstName, String lastName, String email,
+      LocalDate dateOfBirth, String address, String phoneNumber, String photoUrl,
+      String matriculationNumber, String degreeProgram, Integer semester,
+      String studyStatus, String cohort) {
+    this.username = username;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.dateOfBirth = dateOfBirth;
-    this.matriculationNumber = matriculationNumber;
-    this.studyProgram = studyProgram;
-    this.degree = degree;
-    this.currentSemester = currentSemester;
-    this.standardStudyDuration = standardStudyDuration;
-    this.studyStartSemester = studyStartSemester;
-    this.studyEndSemester = studyEndSemester;
-    this.universitySemester = universitySemester;
-    this.leaveOfAbsenceSemesters = leaveOfAbsenceSemesters;
     this.email = email;
+    this.dateOfBirth = dateOfBirth;
+    this.address = address;
+    this.phoneNumber = phoneNumber;
+    this.photoUrl = photoUrl;
+    this.matriculationNumber = matriculationNumber;
+    this.degreeProgram = degreeProgram;
+    this.semester = semester;
+    this.studyStatus = studyStatus;
+    this.cohort = cohort;
   }
 
   // Getters and Setters
@@ -86,6 +84,14 @@ public class User {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public String getFirstName() {
@@ -104,12 +110,44 @@ public class User {
     this.lastName = lastName;
   }
 
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }
 
   public void setDateOfBirth(LocalDate dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public String getPhotoUrl() {
+    return photoUrl;
+  }
+
+  public void setPhotoUrl(String photoUrl) {
+    this.photoUrl = photoUrl;
   }
 
   public String getMatriculationNumber() {
@@ -120,76 +158,36 @@ public class User {
     this.matriculationNumber = matriculationNumber;
   }
 
-  public String getStudyProgram() {
-    return studyProgram;
+  public String getDegreeProgram() {
+    return degreeProgram;
   }
 
-  public void setStudyProgram(String studyProgram) {
-    this.studyProgram = studyProgram;
+  public void setDegreeProgram(String degreeProgram) {
+    this.degreeProgram = degreeProgram;
   }
 
-  public String getDegree() {
-    return degree;
+  public Integer getSemester() {
+    return semester;
   }
 
-  public void setDegree(String degree) {
-    this.degree = degree;
+  public void setSemester(Integer semester) {
+    this.semester = semester;
   }
 
-  public Integer getCurrentSemester() {
-    return currentSemester;
+  public String getStudyStatus() {
+    return studyStatus;
   }
 
-  public void setCurrentSemester(Integer currentSemester) {
-    this.currentSemester = currentSemester;
+  public void setStudyStatus(String studyStatus) {
+    this.studyStatus = studyStatus;
   }
 
-  public Integer getStandardStudyDuration() {
-    return standardStudyDuration;
+  public String getCohort() {
+    return cohort;
   }
 
-  public void setStandardStudyDuration(Integer standardStudyDuration) {
-    this.standardStudyDuration = standardStudyDuration;
-  }
-
-  public String getStudyStartSemester() {
-    return studyStartSemester;
-  }
-
-  public void setStudyStartSemester(String studyStartSemester) {
-    this.studyStartSemester = studyStartSemester;
-  }
-
-  public String getStudyEndSemester() {
-    return studyEndSemester;
-  }
-
-  public void setStudyEndSemester(String studyEndSemester) {
-    this.studyEndSemester = studyEndSemester;
-  }
-
-  public Integer getUniversitySemester() {
-    return universitySemester;
-  }
-
-  public void setUniversitySemester(Integer universitySemester) {
-    this.universitySemester = universitySemester;
-  }
-
-  public Integer getLeaveOfAbsenceSemesters() {
-    return leaveOfAbsenceSemesters;
-  }
-
-  public void setLeaveOfAbsenceSemesters(Integer leaveOfAbsenceSemesters) {
-    this.leaveOfAbsenceSemesters = leaveOfAbsenceSemesters;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
+  public void setCohort(String cohort) {
+    this.cohort = cohort;
   }
 
   public Semester getCurrentSemesterEntity() {

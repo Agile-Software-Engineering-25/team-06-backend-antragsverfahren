@@ -33,9 +33,9 @@ public class UserController {
   }
 
   @GetMapping("/claims")
-  public ResponseEntity<Map<String, Object>> getUserClaims() {
-    return ResponseEntity.ok(CurrentAuthContext.extractClaim());
-  }
+//  public ResponseEntity<Map<String, Object>> getUserClaims() {
+//    return ResponseEntity.ok(CurrentAuthContext.extractClaim());
+//  }
 
   @PostMapping
   public User createUser(@RequestBody User user) {

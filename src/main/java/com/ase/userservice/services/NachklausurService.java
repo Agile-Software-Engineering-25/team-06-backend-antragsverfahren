@@ -2,7 +2,6 @@ package com.ase.userservice.services;
 
 import java.io.ByteArrayOutputStream;
 import org.springframework.stereotype.Service;
-import com.ase.userservice.entities.NachklausurRequest;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -15,15 +14,17 @@ public class NachklausurService {
   /**
    * Generates a PDF document for a Nachklausur request.
    *
-   * @param nachklausurRequest the
-   * Nachklausur request for which to generate the PDF
+   * @param modul the module name from frontend
+   * @param pruefungstermin the exam date from frontend
+   * @param firstName the student's first name from API
+   * @param lastName the student's last name from API
    * @return the PDF content as byte array
-   * @throws RuntimeException if request is null or PDF generation fails
+   * @throws RuntimeException if PDF generation fails
    */
   public byte[] generateNachklausurPdf(
-      NachklausurRequest nachklausurRequest) {
-    if (nachklausurRequest == null) {
-      throw new RuntimeException("NachklausurRequest cannot be null");
+      String modul, String pruefungstermin, String firstName, String lastName) {
+    if (modul == null || pruefungstermin == null || firstName == null || lastName == null) {
+      throw new RuntimeException("All parameters are required");
     }
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     try {
@@ -43,20 +44,16 @@ public class NachklausurService {
 
       // Student information
       String studentInfo = String.format(
-          "Name: %s", nachklausurRequest.getName());
+          "Name: %s %s", firstName, lastName);
       document.add(new Paragraph(studentInfo).setFontSize(12));
-
-      String matriculationInfo = String.format("Matrikelnummer: %s",
-          nachklausurRequest.getMatrikelnummer());
-      document.add(new Paragraph(matriculationInfo).setFontSize(12));
 
       // Exam information
       String modulInfo = String.format(
-          "Modul: %s", nachklausurRequest.getModul());
+          "Modul: %s", modul);
       document.add(new Paragraph(modulInfo).setFontSize(12));
 
       String examDateInfo = String.format("Pruefungstermin: %s",
-          nachklausurRequest.getPruefungstermin());
+          pruefungstermin);
       document.add(new Paragraph(examDateInfo).setFontSize(12));
 
       // Add some space

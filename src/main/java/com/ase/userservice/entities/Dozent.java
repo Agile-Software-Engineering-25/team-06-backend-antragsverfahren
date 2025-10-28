@@ -7,58 +7,141 @@ import jakarta.persistence.*;
 public class Dozent {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
-  @Column(nullable = false)
-  private String nachname;
+  private String dateOfBirth;
+  private String address;
+  private String phoneNumber;
+  private String username;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String employeeNumber;
+  private String department;
+  private String officeNumber;
+  private String workingTimeModel;
+  private String fieldChair;
+  private String title;
+  private String employmentStatus;
 
-  @Column(nullable = false)
-  private String vorname;
-
-  @Column
-  private String titel;
-
-  // Constructors
-  public Dozent() {}
-
-  public Dozent(String nachname, String vorname, String titel) {
-    this.nachname = nachname;
-    this.vorname = vorname;
-    this.titel = titel;
-  }
-
-  // Getters and Setters
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public String getNachname() {
-    return nachname;
+  public String getDateOfBirth() {
+    return dateOfBirth;
   }
 
-  public void setNachname(String nachname) {
-    this.nachname = nachname;
+  public void setDateOfBirth(String dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
   }
 
-  public String getVorname() {
-    return vorname;
+  public String getAddress() {
+    return address;
   }
 
-  public void setVorname(String vorname) {
-    this.vorname = vorname;
+  public void setAddress(String address) {
+    this.address = address;
   }
 
-  public String getTitel() {
-    return titel;
+  public String getPhoneNumber() {
+    return phoneNumber;
   }
 
-  public void setTitel(String titel) {
-    this.titel = titel;
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
   }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getEmployeeNumber() {
+    return employeeNumber;
+  }
+
+  public void setEmployeeNumber(String employeeNumber) {
+    this.employeeNumber = employeeNumber;
+  }
+
+  public String getDepartment() {
+    return department;
+  }
+
+  public void setDepartment(String department) {
+    this.department = department;
+  }
+
+  public String getOfficeNumber() {
+    return officeNumber;
+  }
+
+  public void setOfficeNumber(String officeNumber) {
+    this.officeNumber = officeNumber;
+  }
+
+  public String getWorkingTimeModel() {
+    return workingTimeModel;
+  }
+
+  public void setWorkingTimeModel(String workingTimeModel) {
+    this.workingTimeModel = workingTimeModel;
+  }
+
+  public String getFieldChair() {
+    return fieldChair;
+  }
+
+  public void setFieldChair(String fieldChair) {
+    this.fieldChair = fieldChair;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getEmploymentStatus() {
+    return employmentStatus;
+  }
+
+  public void setEmploymentStatus(String employmentStatus) {
+    this.employmentStatus = employmentStatus;
+  }
+
 }
-
