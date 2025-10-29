@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import com.ase.userservice.database.entities.NachklausurRequest;
@@ -36,13 +37,8 @@ public class  NachklausurController {
    */
   @PostMapping("/nachklausur")
   public ResponseEntity<String> nachklausur(
-      @RequestBody @Valid NachklausurRequest nachklausurRequest,
-      BindingResult bindingResult) {
-
-    if (bindingResult.hasErrors()) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body("Form has errors: " + bindingResult.getAllErrors());
-    }
+      @RequestParam("modul") String modul,
+      @RequestParam("prüfungstermin") String pruefungstermin) {
 
     StudentDTO student = stammdatenService.fetchUserInfo();
 
@@ -53,13 +49,15 @@ public class  NachklausurController {
 
     // Generate PDF with data from frontend and API
     byte[] pdfBytes = nachklausurService.generateNachklausurPdf(
-        nachklausurRequest.getModul(),
-        nachklausurRequest.getPruefungstermin(),
+        modul,
+        pruefungstermin,
         student.getFirstName(),
-        student.getLastName()
+        student.getLastName(),
+        student.getMatriculationNumber(),
+        student.getCohort()
     );
 
-
+    nachklausurService.sendEmail(student, pdfBytes, false);
     return ResponseEntity.ok(
         "Nachklausur application processed and PDF sent to Prüfungsamt.");
   }

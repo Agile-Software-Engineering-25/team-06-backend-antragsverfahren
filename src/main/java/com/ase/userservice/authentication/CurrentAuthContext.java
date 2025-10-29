@@ -22,6 +22,6 @@ public class CurrentAuthContext {
   }
 
   public static String getSid() {
-    return (String) getClaims().get("sid");
+    return (String) getClaims().get("sub");
   }
 }

@@ -127,23 +127,14 @@ public class BachelorthesisService {
       String themaInfo = String.format("Thema: %s", thema);
       document.add(new Paragraph(themaInfo).setFontSize(12));
 
-      String prueferInfo = String.format("Pruefer/Betreuer: %s", pruefer);
+      String prueferInfo = String.format("Prüfer/Betreuer: %s", pruefer);
       document.add(new Paragraph(prueferInfo).setFontSize(12));
 
-      String terminInfo = String.format("Pruefungstermin: %s", pruefungstermin);
+      String terminInfo = String.format("Prüfungstermin: %s", pruefungstermin);
       document.add(new Paragraph(terminInfo).setFontSize(12));
 
       // Add some space
       document.add(new Paragraph(" "));
-
-      // Footer note
-      String footerText = "Dieser Antrag wurde maschinell erzeugt. "
-          + "Bitte ausdrucken, unterschreiben und zusammen mit dem Expose "
-          + "beim Pruefungsamt einreichen.";
-      Paragraph footer = new Paragraph(footerText)
-          .setFontSize(10)
-          .setItalic();
-      document.add(footer);
 
       document.close();
 

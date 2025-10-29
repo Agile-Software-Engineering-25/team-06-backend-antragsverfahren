@@ -58,7 +58,8 @@ public class EmailService {
       InternetAddress fromAddress = new InternetAddress(
           mailboxAddress, "Hochschulverwaltungssystem");
       helper.setFrom(fromAddress);
-      helper.setTo(user.getEmail());
+      helper.setTo("test-receive@arnold-of.de");
+      //helper.setTo(user.getEmail());
 
       String subject;
       String emailText;
@@ -68,28 +69,87 @@ public class EmailService {
         subject = "Bachelorthesis application - " + user.getFirstName()
             + " " + user.getLastName();
 
-        emailText = "Dear " + user.getFirstName() + " "
-            + user.getLastName() + ",\n\n"
-            + "Attached is your student certificate as "
-            + "a PDF document.\n\n"
-            + "Best regards\n"
-            + "Your Student Administration Office";
+        emailText = "Attached is a Bachelorthesis application as "
+            + "a PDF document from " + user.getFirstName()
+            + " " + user.getLastName() + ".\n\n";
 
         attachmentName = "Certificate_of_Enrollment_"
             + user.getMatriculationNumber() + ".pdf";
       }
       else {
         subject = "Bachelorarbeitsantrag - " + user.getFirstName()
+            + " " + user.getLastName() + " (" + user.getMatriculationNumber() + ")";
+
+        emailText = "Im Anhang befindet sich ein Bachelorthesis Antrag als "
+            + "PDF von " + user.getFirstName()
+            + " " + user.getLastName() + ".\n\n";
+
+        attachmentName = "Bachelorthesis_Antrag_"
+            + user.getMatriculationNumber() + ".pdf";
+      }
+
+      helper.setSubject(subject);
+      helper.setText(emailText);
+
+      ByteArrayResource pdfResource = new ByteArrayResource(pdfContent);
+      helper.addAttachment(attachmentName, pdfResource);
+      mailSender.send(message);
+    }
+    catch (MessagingException e) {
+      throw new RuntimeException("Failed to send email", e);
+    }
+    catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(
+          "Failed to set email sender name", e);
+    }
+  }
+
+  public static void sendNachklausurByMail(
+      StudentDTO user, byte[] pdfContent, boolean isEnglish) {
+    if (user == null) {
+      throw new RuntimeException("User cannot be null");
+    }
+    if (pdfContent == null || pdfContent.length == 0) {
+      throw new RuntimeException("PDF content cannot be null or empty");
+    }
+    String mailboxAddress = EmailService.MAILBOX_ADDRESS;
+    JavaMailSender mailSender = EmailService.getJavaMailSender(mailboxAddress);
+
+    try {
+      MimeMessage message = mailSender.createMimeMessage();
+      MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+
+      InternetAddress fromAddress = new InternetAddress(
+          mailboxAddress, "Hochschulverwaltungssystem");
+      helper.setFrom(fromAddress);
+      helper.setTo("test-receive@arnold-of.de");
+      //helper.setTo(user.getEmail());
+
+      String subject;
+      String emailText;
+      String attachmentName;
+
+      if (isEnglish) {
+        subject = "Bachelorthesis application - " + user.getFirstName()
             + " " + user.getLastName();
 
-        emailText = "Liebe/r " + user.getFirstName() + " "
-            + user.getLastName() + ",\n\n"
-            + "anbei erhalten Sie Ihre Studienbescheinigung als "
-            + "PDF-Dokument.\n\n"
-            + "Mit freundlichen Grüßen\n"
-            + "Ihr Studierendensekretariat";
+        emailText = "Attached is a Bachelorthesis application as "
+            + "a PDF document from " + user.getFirstName()
+            + " " + user.getLastName() + ".\n\n";
 
-        attachmentName = "Studienbescheinigung_"
+        attachmentName = "Certificate_of_Enrollment_"
+            + user.getMatriculationNumber() + ".pdf";
+      }
+      else {
+        subject = "Nachklausurantrag - " + user.getFirstName()
+            + " " + user.getLastName() + " (" + user.getMatriculationNumber() + ")";
+
+        emailText = "Im Anhang befindet sich ein Nachklausurantrag als "
+            + "PDF von " + user.getFirstName()
+            + " " + user.getLastName() + ".\n\n";
+
+        attachmentName = "Nachklausurantrag_"
             + user.getMatriculationNumber() + ".pdf";
       }
 
@@ -151,7 +211,7 @@ public class EmailService {
       }
       else {
         subject = "Studienbescheinigung - " + user.getFirstName()
-            + " " + user.getLastName();
+            + " " + user.getLastName() + " (" + user.getMatriculationNumber() + ")";
 
         emailText = "Liebe/r " + user.getFirstName() + " "
             + user.getLastName() + ",\n\n"

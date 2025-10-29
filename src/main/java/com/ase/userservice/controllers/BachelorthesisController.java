@@ -82,7 +82,7 @@ public class BachelorthesisController {
     byte[] generatedPdf = bachelorthesisService.generateBachelorthesisPdf(
         user.getFirstName() + " " + user.getLastName(),
         user.getMatriculationNumber(),
-        studiengang,
+        user.getDegreeProgram(),
         thema,
         pruefer,
         pruefungstermin
