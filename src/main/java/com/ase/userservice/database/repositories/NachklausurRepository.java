@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface NachklausurRepository extends
     JpaRepository<NachklausurRequest, Long> {
 
-  NachklausurRequest getNachklausurRequestsByMatrikelnummer(
+  NachklausurRequest getRequestByMatrikelnummer(
       String matrikelnummer);
 
 }

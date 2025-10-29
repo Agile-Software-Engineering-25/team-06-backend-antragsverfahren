@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ase.userservice.database.entities.BachelorthesisRequest;
 import com.ase.userservice.services.BachelorthesisService;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -42,7 +43,7 @@ public class BachelorthesisController {
       getBachelorthesisRequestByMatrikelnummer(
       @PathVariable String matrikelnummer) throws JsonProcessingException {
     BachelorthesisRequest bachelorthesisRequest = bachelorthesisService.
-        getBachelorthesisRequestByMatrikelnummer(matrikelnummer);
+        getRequestByMatrikelnummer(matrikelnummer);
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(bachelorthesisRequest);
     return new ResponseEntity<>(json, HttpStatus.OK);
@@ -52,7 +53,7 @@ public class BachelorthesisController {
   public ResponseEntity<String>
   deleteBachelorthesisRequestById(
       @PathVariable Long id) throws JsonProcessingException {
-    bachelorthesisService.deleteBachelorthesisRequest(id);
+    bachelorthesisService.deleteRequest(id);
     return new ResponseEntity<>("BachelorthesisRequest deleted.", HttpStatus.OK);
   }
 
@@ -64,14 +65,25 @@ public class BachelorthesisController {
       @RequestParam("prüfer") String pruefer,
       @RequestParam("expose") MultipartFile exposeFile) throws IOException, ExecutionException, InterruptedException {
 
-    StudentDTO user = stammdatenService.fetchUserInfo();
+    StudentDTO student;
+    try {
+      student = stammdatenService.fetchUserInfo();
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY)
+        .body("API failed to return student information!\n" + e.getMessage());
+    }
 
-    CompletableFuture<Void> createRequest = bachelorthesisService.createBachelorthesisRequest(
+    if (Objects.equals(student, new StudentDTO())) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body("Failed to retrieve user data from API");
+    }
+
+    CompletableFuture<Void> createRequest = bachelorthesisService.createRequest(
         new BachelorthesisRequest(
-            user.getMatriculationNumber(),
-            user.getLastName(),
-            user.getFirstName(),
-            user.getDegreeProgram(),
+            student.getMatriculationNumber(),
+            student.getLastName(),
+            student.getFirstName(),
+            student.getDegreeProgram(),
             thema,
             pruefer,
             pruefungstermin,
@@ -79,16 +91,16 @@ public class BachelorthesisController {
         )
     );
 
-    byte[] generatedPdf = bachelorthesisService.generateBachelorthesisPdf(
-        user.getFirstName() + " " + user.getLastName(),
-        user.getMatriculationNumber(),
-        user.getDegreeProgram(),
+    byte[] generatedPdf = bachelorthesisService.generatePdf(
+        student.getFirstName() + " " + student.getLastName(),
+        student.getMatriculationNumber(),
+        student.getDegreeProgram(),
         thema,
         pruefer,
         pruefungstermin
     );
 
-    bachelorthesisService.sendBachelorthesisApplicationByEmail(user, generatedPdf, false);
+    bachelorthesisService.sendEmail(student, generatedPdf, false);
 
     createRequest.get();
     return new ResponseEntity<>(

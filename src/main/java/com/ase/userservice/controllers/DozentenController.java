@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ase.userservice.forms.LecturerDTO;
+import com.ase.userservice.forms.StudentDTO;
 import com.ase.userservice.services.StammdatenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,15 +25,27 @@ public class DozentenController {
 
 
   @GetMapping
-  public List<LecturerDTO> getAllDozenten() {
-    return stammdatenService.fetchAllDozenten();
+  public ResponseEntity<?> getAllDozenten() {
+    try {
+      return ResponseEntity.ok(stammdatenService.fetchAllDozenten());
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY)
+          .body("API failed to return lecturer information!\n" + e.getMessage());
+    }
   }
 
   @GetMapping("/names")
-  public List<String> getDozentenNames() {
-    return stammdatenService.fetchAllDozenten().stream()
-        .map(d -> d.getFirstName() + " " + d.getLastName())
-        .collect(Collectors.toList());
+  public ResponseEntity<?> getDozentenNames() {
+    try {
+      List<String> lecturerNames = stammdatenService.fetchAllDozenten()
+          .stream()
+          .map(d -> d.getFirstName() + " " + d.getLastName())
+          .toList();
+      return ResponseEntity.ok(lecturerNames);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY)
+          .body("API failed to return lecturer information!\n" + e.getMessage());
+    }
   }
 
 }

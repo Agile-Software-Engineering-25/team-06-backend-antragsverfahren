@@ -49,7 +49,6 @@ public class BachelorthesisRequest {
 
   // No-args constructor for JPA
   public BachelorthesisRequest() {
-    this.id = null;
     this.matrikelnummer = null;
     this.lastName = null;
     this.firstName = null;

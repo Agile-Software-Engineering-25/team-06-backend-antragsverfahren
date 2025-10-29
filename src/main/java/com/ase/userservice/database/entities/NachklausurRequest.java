@@ -21,7 +21,10 @@ public class NachklausurRequest {
   private Long id;
 
   @Column(nullable = false)
-  private final String name;
+  private final String lastName;
+
+  @Column(nullable = false)
+  private final String firstName;
 
   @Column(nullable = false)
   private final String matrikelnummer;
@@ -33,10 +36,25 @@ public class NachklausurRequest {
   private final String pruefungstermin;
 
   protected NachklausurRequest() {
-    this.id = null;
-    this.name = null;
+    this.lastName = null;
+    this.firstName = null;
     this.matrikelnummer = null;
     this.modul = null;
     this.pruefungstermin = null;
   }
+
+  public NachklausurRequest(
+      String lastName,
+      String firstName,
+      String matrikelnummer,
+      String modul,
+      String pruefungstermin
+  ) {
+    this.lastName = lastName;
+    this.firstName = firstName;
+    this.matrikelnummer = matrikelnummer;
+    this.modul = modul;
+    this.pruefungstermin = pruefungstermin;
+  }
+
 }

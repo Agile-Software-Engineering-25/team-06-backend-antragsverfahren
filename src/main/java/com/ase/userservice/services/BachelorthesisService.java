@@ -3,7 +3,6 @@ package com.ase.userservice.services;
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.CompletableFuture;
 import com.ase.userservice.forms.StudentDTO;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -30,26 +29,25 @@ public class BachelorthesisService {
   }
 
   @Async
-  @Transactional
-  public CompletableFuture<Void> createBachelorthesisRequest(
+  public CompletableFuture<Void> createRequest(
       BachelorthesisRequest bachelorthesisRequest) {
     bachelorthesisRepository.saveAndFlush(bachelorthesisRequest);
     return CompletableFuture.completedFuture(null);
   }
 
-  public BachelorthesisRequest getBachelorthesisRequestByMatrikelnummer(
+  public BachelorthesisRequest getRequestByMatrikelnummer(
       String matrikelnummer) {
     return bachelorthesisRepository.
-      getBachelorthesisRequestByMatrikelnummer(matrikelnummer);
+        getRequestByMatrikelnummer(matrikelnummer);
   }
 
-  public void deleteBachelorthesisRequest(
+  public void deleteRequest(
       Long id) {
     bachelorthesisRepository.deleteById(id);
   }
 
 
-  public void sendBachelorthesisApplicationByEmail(
+  public void sendEmail(
       StudentDTO user, byte[] pdfContent, boolean isEnglish) {
     EmailService.sendBachelorthesisApplicationByMail(
         user, pdfContent, isEnglish);
@@ -67,7 +65,7 @@ public class BachelorthesisService {
    * @return the PDF content as byte array
    * @throws RuntimeException if any parameter is null or PDF generation fails
    */
-  public byte[] generateBachelorthesisPdf(
+  public byte[] generatePdf(
       String name,
       String matrikelnummer,
       String studiengang,

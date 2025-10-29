@@ -3,10 +3,17 @@ package com.ase.userservice.services;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.CompletableFuture;
+import com.ase.userservice.database.entities.BachelorthesisRequest;
+import com.ase.userservice.database.entities.NachklausurRequest;
+import com.ase.userservice.database.repositories.BachelorthesisRepository;
+import com.ase.userservice.database.repositories.NachklausurRepository;
 import com.ase.userservice.forms.StudentDTO;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.layout.element.Image;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -16,6 +23,33 @@ import com.itextpdf.layout.properties.TextAlignment;
 
 @Service
 public class NachklausurService {
+
+  private final NachklausurRepository nachklausurRepository;
+
+  @Autowired
+  public NachklausurService(
+      NachklausurRepository nachklausurRepository) {
+    this.nachklausurRepository = nachklausurRepository;
+  }
+
+  @Async
+  public CompletableFuture<Void> createRequest(
+      NachklausurRequest nachklausurRequest) {
+    nachklausurRepository.saveAndFlush(nachklausurRequest);
+    return CompletableFuture.completedFuture(null);
+  }
+
+  public NachklausurRequest getRequestByMatrikelnummer(
+      String matrikelnummer) {
+    return nachklausurRepository.
+        getRequestByMatrikelnummer(matrikelnummer);
+  }
+
+  public void deleteRequest(
+      Long id) {
+    nachklausurRepository.deleteById(id);
+  }
+
 
 
   public void sendEmail(
@@ -33,7 +67,7 @@ public class NachklausurService {
    * @return the PDF content as byte array
    * @throws RuntimeException if PDF generation fails
    */
-  public byte[] generateNachklausurPdf(
+  public byte[] generatePdf(
       String modul, String pruefungstermin, String firstName, String lastName, String matriculationNumber, String group) {
     if (modul == null || pruefungstermin == null || firstName == null || lastName == null) {
       throw new RuntimeException("All parameters are required");
