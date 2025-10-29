@@ -1,17 +1,14 @@
 package com.ase.userservice.controllers;
 
 
-import java.io.IOException;
-import com.ase.userservice.authentication.CurrentAuthContext;
-import com.ase.userservice.entities.Dozent;
-import com.ase.userservice.entities.User;
+import com.ase.userservice.forms.StudentDTO;
+import com.ase.userservice.services.StammdatenService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,62 +17,84 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import com.ase.userservice.authentication.CurrentAuthContext;
-import com.ase.userservice.entities.BachelorthesisRequest;
+import com.ase.userservice.database.entities.BachelorthesisRequest;
 import com.ase.userservice.services.BachelorthesisService;
+import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController()
 @RequestMapping("/bachelorarbeit")
 public class BachelorthesisController {
 
+  @Autowired
   private BachelorthesisService bachelorthesisService;
 
   @Autowired
-  public BachelorthesisController(BachelorthesisService bachelorthesisService) {
-    this.bachelorthesisService = bachelorthesisService;
-  }
+  private StammdatenService stammdatenService;
 
   @Autowired
   private RestTemplate restTemplate;
 
 
   @GetMapping("/{matrikelnummer}")
-  public ResponseEntity<BachelorthesisRequest>
+  public ResponseEntity<String>
       getBachelorthesisRequestByMatrikelnummer(
-      @PathVariable String matrikelnummer) {
+      @PathVariable String matrikelnummer) throws JsonProcessingException {
     BachelorthesisRequest bachelorthesisRequest = bachelorthesisService.
         getBachelorthesisRequestByMatrikelnummer(matrikelnummer);
-    return new ResponseEntity<>(bachelorthesisRequest, HttpStatus.OK);
+    ObjectMapper mapper = new ObjectMapper();
+    String json = mapper.writeValueAsString(bachelorthesisRequest);
+    return new ResponseEntity<>(json, HttpStatus.OK);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<String>
+  deleteBachelorthesisRequestById(
+      @PathVariable Long id) throws JsonProcessingException {
+    bachelorthesisService.deleteBachelorthesisRequest(id);
+    return new ResponseEntity<>("BachelorthesisRequest deleted.", HttpStatus.OK);
   }
 
   @PostMapping()
   public ResponseEntity<String> createBachelorthesisRequest(
       @RequestParam("studiengang") String studiengang,
-      @RequestParam("prüfungstermin") String prüfungstermin,
+      @RequestParam("prüfungstermin") String pruefungstermin,
       @RequestParam("thema") String thema,
-      @RequestParam("prüfer") String prüfer,
-      @RequestParam("expose") MultipartFile exposeFile) {
+      @RequestParam("prüfer") String pruefer,
+      @RequestParam("expose") MultipartFile exposeFile) throws IOException, ExecutionException, InterruptedException {
 
-    String url = "https://sau-portal.de/team-11-api/api/v1/users/" + CurrentAuthContext.getSid();
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Authorization", "Bearer " + CurrentAuthContext.extractToken());
+    StudentDTO user = stammdatenService.fetchUserInfo();
 
+    CompletableFuture<Void> createRequest = bachelorthesisService.createBachelorthesisRequest(
+        new BachelorthesisRequest(
+            user.getMatriculationNumber(),
+            user.getLastName(),
+            user.getFirstName(),
+            user.getDegreeProgram(),
+            thema,
+            pruefer,
+            pruefungstermin,
+            exposeFile.getBytes()
+        )
+    );
 
-    HttpEntity<Void> entity = new HttpEntity<>(headers);
-    ResponseEntity<User> response = restTemplate.exchange(url, HttpMethod.GET, entity, User.class);
-    User user = response.getBody();
-
-    bachelorthesisService.generateBachelorthesisPdf(
+    byte[] generatedPdf = bachelorthesisService.generateBachelorthesisPdf(
         user.getFirstName() + " " + user.getLastName(),
         user.getMatriculationNumber(),
         studiengang,
         thema,
-        prüfer,
-        prüfungstermin
+        pruefer,
+        pruefungstermin
     );
 
+    bachelorthesisService.sendBachelorthesisApplicationByEmail(user, generatedPdf, false);
+
+    createRequest.get();
     return new ResponseEntity<>(
         "Bachelorarbeit data and expose file received", HttpStatus.OK
     );
   }
+
+
 }

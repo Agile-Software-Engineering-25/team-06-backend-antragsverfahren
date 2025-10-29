@@ -3,11 +3,11 @@ package com.ase.userservice.services;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+import com.ase.userservice.forms.StudentDTO;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import com.ase.userservice.entities.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -40,7 +40,7 @@ public class EmailService {
   }
 
   public static void sendBachelorthesisApplicationByMail(
-      User user, byte[] pdfContent, boolean isEnglish) {
+      StudentDTO user, byte[] pdfContent, boolean isEnglish) {
     if (user == null) {
       throw new RuntimeException("User cannot be null");
     }
@@ -110,7 +110,7 @@ public class EmailService {
   }
 
   public static void sendCertificateOfEnrollmentByMail(
-      User user, byte[] pdfContent, boolean isEnglish) {
+      StudentDTO user, byte[] pdfContent, boolean isEnglish) {
     if (user == null) {
       throw new RuntimeException("User cannot be null");
     }

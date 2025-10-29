@@ -1,11 +1,8 @@
 package com.ase.userservice.controllers;
 
-import com.ase.userservice.authentication.CurrentAuthContext;
-import com.ase.userservice.entities.User;
+import com.ase.userservice.forms.StudentDTO;
+import com.ase.userservice.services.StammdatenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,16 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import com.ase.userservice.entities.NachklausurRequest;
+import com.ase.userservice.database.entities.NachklausurRequest;
 import com.ase.userservice.services.NachklausurService;
 import jakarta.validation.Valid;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 
 @RestController
@@ -31,11 +22,11 @@ public class  NachklausurController {
   @Autowired
   private RestTemplate restTemplate;
 
-  private final NachklausurService nachklausurService;
+  @Autowired
+  private NachklausurService nachklausurService;
 
-  public NachklausurController(NachklausurService nachklausurService) {
-    this.nachklausurService = nachklausurService;
-  }
+  @Autowired
+  private StammdatenService stammdatenService;
 
   /**
    * Processes a Nachklausur application and generates PDF (stored server-side).
@@ -52,15 +43,10 @@ public class  NachklausurController {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body("Form has errors: " + bindingResult.getAllErrors());
     }
-    String url = "https://sau-portal.de/team-11-api/api/v1/users/" + CurrentAuthContext.getSid();
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Authorization", "Bearer " + CurrentAuthContext.extractToken());
 
-    HttpEntity<Void> entity = new HttpEntity<>(headers);
-    ResponseEntity<User> response = restTemplate.exchange(url, HttpMethod.GET, entity, User.class);
-    User user = response.getBody();
+    StudentDTO student = stammdatenService.fetchUserInfo();
 
-    if (user == null) {
+    if (Objects.equals(student, new StudentDTO())) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body("Failed to retrieve user data from API");
     }
@@ -68,9 +54,9 @@ public class  NachklausurController {
     // Generate PDF with data from frontend and API
     byte[] pdfBytes = nachklausurService.generateNachklausurPdf(
         nachklausurRequest.getModul(),
-        nachklausurRequest.getPrüfungstermin(),
-        user.getFirstName(),
-        user.getLastName()
+        nachklausurRequest.getPruefungstermin(),
+        student.getFirstName(),
+        student.getLastName()
     );
 
 

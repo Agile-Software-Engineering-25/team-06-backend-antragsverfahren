@@ -1,11 +1,14 @@
 package com.ase.userservice.services;
 
 import java.io.ByteArrayOutputStream;
+import java.util.concurrent.CompletableFuture;
+import com.ase.userservice.forms.StudentDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import com.ase.userservice.entities.BachelorthesisRequest;
-import com.ase.userservice.entities.User;
-import com.ase.userservice.repositories.BachelorthesisRepository;
+import com.ase.userservice.database.entities.BachelorthesisRequest;
+import com.ase.userservice.database.repositories.BachelorthesisRepository;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -26,9 +29,12 @@ public class BachelorthesisService {
     this.bachelorthesisRepository = bachelorthesisRepository;
   }
 
-  public void createBachelorthesisRequest(
+  @Async
+  @Transactional
+  public CompletableFuture<Void> createBachelorthesisRequest(
       BachelorthesisRequest bachelorthesisRequest) {
     bachelorthesisRepository.saveAndFlush(bachelorthesisRequest);
+    return CompletableFuture.completedFuture(null);
   }
 
   public BachelorthesisRequest getBachelorthesisRequestByMatrikelnummer(
@@ -37,8 +43,14 @@ public class BachelorthesisService {
       getBachelorthesisRequestByMatrikelnummer(matrikelnummer);
   }
 
+  public void deleteBachelorthesisRequest(
+      Long id) {
+    bachelorthesisRepository.deleteById(id);
+  }
+
+
   public void sendBachelorthesisApplicationByEmail(
-      User user, byte[] pdfContent, boolean isEnglish) {
+      StudentDTO user, byte[] pdfContent, boolean isEnglish) {
     EmailService.sendBachelorthesisApplicationByMail(
         user, pdfContent, isEnglish);
   }
