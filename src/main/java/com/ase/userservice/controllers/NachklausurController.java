@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import com.ase.userservice.services.NachklausurService;
 import java.util.Objects;
@@ -44,13 +45,12 @@ public class  NachklausurController {
     StudentDTO student;
     try {
       student = stammdatenService.fetchUserInfo();
-    } catch (Exception e) {
+      if (student.getId() == null) {
+        throw new RestClientException("API call returned no data!");
+      }
+    } catch (RestClientException e) {
       return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY)
-          .body("API failed to return student information!\n" + e.getMessage());
-    }
-    if (Objects.equals(student, new StudentDTO())) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body("Failed to retrieve user data from API");
+          .body("API failed to return student information!");
     }
 
     CompletableFuture<Void> createRequest = nachklausurService.createRequest(

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import com.ase.userservice.database.entities.BachelorthesisRequest;
@@ -59,7 +60,6 @@ public class BachelorthesisController {
 
   @PostMapping()
   public ResponseEntity<String> createBachelorthesisRequest(
-      @RequestParam("studiengang") String studiengang,
       @RequestParam("prüfungstermin") String pruefungstermin,
       @RequestParam("thema") String thema,
       @RequestParam("prüfer") String pruefer,
@@ -68,14 +68,17 @@ public class BachelorthesisController {
     StudentDTO student;
     try {
       student = stammdatenService.fetchUserInfo();
-    } catch (Exception e) {
+      if (student.getId() == null) {
+        throw new RestClientException("API call returned no data!");
+      }
+    } catch (RestClientException e) {
       return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY)
-        .body("API failed to return student information!\n" + e.getMessage());
+        .body("API failed to return student information!");
     }
 
     if (Objects.equals(student, new StudentDTO())) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body("Failed to retrieve user data from API");
+          .body("Failed to retrieve user data from API!");
     }
 
     CompletableFuture<Void> createRequest = bachelorthesisService.createRequest(

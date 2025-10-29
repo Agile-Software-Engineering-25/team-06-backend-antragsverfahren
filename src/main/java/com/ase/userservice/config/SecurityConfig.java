@@ -7,6 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -30,7 +31,7 @@ public class SecurityConfig {
   private String issuerUri;
 
   @Bean
-  @Profile("dev")
+  @Profile("!dev")
   protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .oauth2ResourceServer(oauth2 ->
@@ -48,12 +49,22 @@ public class SecurityConfig {
   }
 
   @Bean
-  @Profile("!dev")
-  protected SecurityFilterChain devFilterChain(HttpSecurity http) throws Exception {
+  @Profile("dev")
+  protected SecurityFilterChain filterChainDev(HttpSecurity http) throws Exception {
     http
+        .oauth2ResourceServer(oauth2 ->
+            oauth2.jwt(jwt ->
+                jwt.jwtAuthenticationConverter(
+                    jwtAuthenticationConverter()
+                )
+            )
+        )
+        .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+        .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
         .authorizeHttpRequests(authorize -> authorize
-        .anyRequest().permitAll())
-        .csrf(csrf -> csrf.disable());
+            .requestMatchers("/", "/h2-console/**").permitAll()
+            .anyRequest().hasRole("Area-2.Team-6.Read.antrag-read")
+        );
     return http.build();
   }
 

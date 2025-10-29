@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -28,9 +29,9 @@ public class DozentenController {
   public ResponseEntity<?> getAllDozenten() {
     try {
       return ResponseEntity.ok(stammdatenService.fetchAllDozenten());
-    } catch (Exception e) {
+    } catch (RestClientException e) {
       return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY)
-          .body("API failed to return lecturer information!\n" + e.getMessage());
+          .body("API failed to return lecturer information!");
     }
   }
 
@@ -42,9 +43,9 @@ public class DozentenController {
           .map(d -> d.getFirstName() + " " + d.getLastName())
           .toList();
       return ResponseEntity.ok(lecturerNames);
-    } catch (Exception e) {
+    } catch (RestClientException e) {
       return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY)
-          .body("API failed to return lecturer information!\n" + e.getMessage());
+          .body("API failed to return lecturer information!");
     }
   }
 
