@@ -11,6 +11,7 @@ import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.layout.element.Image;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -26,6 +27,9 @@ public class NachklausurService {
   private final NachklausurRepository nachklausurRepository;
   private final EmailService emailService;
 
+  @Value("${spring.app.logoPath:}")
+  private final String logoPath;
+
   @Async
   public CompletableFuture<Void> createRequest(
       NachklausurRequest nachklausurRequest) {
@@ -33,7 +37,7 @@ public class NachklausurService {
     return CompletableFuture.completedFuture(null);
   }
 
-  public NachklausurRequest getRequestByMatrikelnummer(
+  public NachklausurRequest[] getRequestByMatrikelnummer(
       String matrikelnummer) {
     return nachklausurRepository.
         getRequestByMatrikelnummer(matrikelnummer);
@@ -73,7 +77,6 @@ public class NachklausurService {
       Document document = new Document(pdf);
 
       //Logo
-      String logoPath = "src/main/resources/provadis_logo.jpeg";
       ImageData imageData = ImageDataFactory.create(logoPath);
       Image logo = new Image(imageData)
           .scaleToFit(100, 100)

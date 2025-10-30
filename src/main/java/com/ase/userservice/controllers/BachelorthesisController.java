@@ -43,7 +43,7 @@ public class BachelorthesisController {
   public ResponseEntity<String>
       getBachelorthesisRequestByMatrikelnummer(
       @PathVariable String matrikelnummer) throws JsonProcessingException {
-    BachelorthesisRequest bachelorthesisRequest = bachelorthesisService.
+    BachelorthesisRequest[] bachelorthesisRequest = bachelorthesisService.
         getRequestByMatrikelnummer(matrikelnummer);
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(bachelorthesisRequest);
@@ -53,7 +53,7 @@ public class BachelorthesisController {
   @DeleteMapping("/{id}")
   public ResponseEntity<String>
   deleteBachelorthesisRequestById(
-      @PathVariable Long id) throws JsonProcessingException {
+      @PathVariable Long id) {
     bachelorthesisService.deleteRequest(id);
     return new ResponseEntity<>("BachelorthesisRequest deleted.", HttpStatus.OK);
   }

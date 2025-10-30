@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.concurrent.CompletableFuture;
 import com.ase.userservice.forms.StudentDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.ase.userservice.database.entities.BachelorthesisRequest;
@@ -24,11 +25,8 @@ public class BachelorthesisService {
   private final BachelorthesisRepository bachelorthesisRepository;
   private final EmailService emailService;
 
-//  @Autowired
-//  public BachelorthesisService(
-//      BachelorthesisRepository bachelorthesisRepository) {
-//    this.bachelorthesisRepository = bachelorthesisRepository;
-//  }
+  @Value("${spring.app.logoPath:}")
+  private final String logoPath;
 
   @Async
   public CompletableFuture<Void> createRequest(
@@ -37,7 +35,7 @@ public class BachelorthesisService {
     return CompletableFuture.completedFuture(null);
   }
 
-  public BachelorthesisRequest getRequestByMatrikelnummer(
+  public BachelorthesisRequest[] getRequestByMatrikelnummer(
       String matrikelnummer) {
     return bachelorthesisRepository.
         getRequestByMatrikelnummer(matrikelnummer);
@@ -87,7 +85,6 @@ public class BachelorthesisService {
       Document document = new Document(pdf);
 
       // Logo
-      String logoPath = "src/main/resources/provadis_logo.jpeg";
       ImageData imageData = ImageDataFactory.create(logoPath);
       Image logo = new Image(imageData)
           .scaleToFit(100, 100)

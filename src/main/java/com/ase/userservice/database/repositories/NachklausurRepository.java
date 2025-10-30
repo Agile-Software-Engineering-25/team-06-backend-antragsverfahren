@@ -1,6 +1,5 @@
 package com.ase.userservice.database.repositories;
 
-import com.ase.userservice.database.entities.BachelorthesisRequest;
 import com.ase.userservice.database.entities.NachklausurRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface NachklausurRepository extends
     JpaRepository<NachklausurRequest, Long> {
 
-  NachklausurRequest getRequestByMatrikelnummer(
+  NachklausurRequest[] getRequestByMatrikelnummer(
       String matrikelnummer);
 
 }

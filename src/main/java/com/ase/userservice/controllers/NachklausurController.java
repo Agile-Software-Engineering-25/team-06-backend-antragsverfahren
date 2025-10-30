@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
@@ -25,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 
 
 @RestController
+@RequestMapping("/nachklausur")
 public class  NachklausurController {
 
   @Autowired
@@ -43,7 +45,7 @@ public class  NachklausurController {
   @GetMapping("/{matrikelnummer}")
   public ResponseEntity<String> getNachklausurRequestByMatrikelnummer(
       @PathVariable String matrikelnummer) throws JsonProcessingException {
-    NachklausurRequest nachklausurRequest = nachklausurService.
+    NachklausurRequest[] nachklausurRequest = nachklausurService.
         getRequestByMatrikelnummer(matrikelnummer);
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(nachklausurRequest);
@@ -58,7 +60,7 @@ public class  NachklausurController {
   }
 
 
-  @PostMapping("/nachklausur")
+  @PostMapping()
   public ResponseEntity<String> nachklausur(
       @RequestParam("modul") String modul,
       @RequestParam("prüfungstermin") String pruefungstermin) throws ExecutionException, InterruptedException {

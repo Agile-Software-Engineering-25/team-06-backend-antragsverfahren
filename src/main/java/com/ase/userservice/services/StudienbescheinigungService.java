@@ -13,6 +13,8 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.UnitValue;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -25,7 +27,12 @@ import com.itextpdf.layout.properties.TextAlignment;
 
 
 @Service
+@RequiredArgsConstructor
 public class StudienbescheinigungService {
+
+  @Value("${spring.app.logoPath:}")
+  private final String logoPath;
+
 
   public byte[] generatePdf(
       String semesterName,
@@ -67,7 +74,6 @@ public class StudienbescheinigungService {
       document.setMargins(72,72,72,72);
 
       // Logo
-      String logoPath = "src/main/resources/provadis_logo.jpeg";
       ImageData imageData = ImageDataFactory.create(logoPath);
       Image logo = new Image(imageData)
           .scaleToFit(100, 100)

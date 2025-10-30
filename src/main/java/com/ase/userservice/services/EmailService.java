@@ -20,10 +20,10 @@ public class EmailService {
   private final JavaMailSender mailSender;
 
   @Value("${spring.mail.fromAddress:}")
-  private String fromAddress;
+  private final String fromAddress;
 
   @Value("${spring.mail.fromName:}")
-  private String fromName;
+  private final String fromName;
 
 
 

@@ -21,7 +21,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
-
+  app:
+    logoPath: src/main/resources/provadis_logo.jpeg
   mail:
     host: mail.your-server.de
     port: 587

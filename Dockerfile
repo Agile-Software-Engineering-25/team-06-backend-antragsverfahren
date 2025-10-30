@@ -13,6 +13,7 @@ RUN mvn clean package -DskipTests
 FROM openjdk:24-jdk-slim
 
 COPY --from=build /app/target/userservice-*.jar app.jar
+Copy --from=build /app/src/main/resources/provadis_logo.jpeg resources/provadis_logo.jpeg
 
 EXPOSE 8080
 

@@ -8,7 +8,7 @@ import com.ase.userservice.database.entities.BachelorthesisRequest;
 public interface BachelorthesisRepository extends
     JpaRepository<BachelorthesisRequest, Long> {
 
-  BachelorthesisRequest getRequestByMatrikelnummer(
+  BachelorthesisRequest[] getRequestByMatrikelnummer(
       String matrikelnummer);
 
 }
