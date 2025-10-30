@@ -4,15 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CompletableFuture;
-import com.ase.userservice.database.entities.BachelorthesisRequest;
 import com.ase.userservice.database.entities.NachklausurRequest;
-import com.ase.userservice.database.repositories.BachelorthesisRepository;
 import com.ase.userservice.database.repositories.NachklausurRepository;
 import com.ase.userservice.forms.StudentDTO;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.layout.element.Image;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -22,15 +20,11 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
 
 @Service
+@RequiredArgsConstructor
 public class NachklausurService {
 
   private final NachklausurRepository nachklausurRepository;
-
-  @Autowired
-  public NachklausurService(
-      NachklausurRepository nachklausurRepository) {
-    this.nachklausurRepository = nachklausurRepository;
-  }
+  private final EmailService emailService;
 
   @Async
   public CompletableFuture<Void> createRequest(
@@ -54,7 +48,7 @@ public class NachklausurService {
 
   public void sendEmail(
       StudentDTO user, byte[] pdfContent, boolean isEnglish) {
-    EmailService.sendNachklausurByMail(
+    emailService.sendNachklausurByMail(
         user, pdfContent, isEnglish);
   }
   /**

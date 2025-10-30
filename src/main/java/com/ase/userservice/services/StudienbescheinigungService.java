@@ -27,14 +27,6 @@ import com.itextpdf.layout.properties.TextAlignment;
 @Service
 public class StudienbescheinigungService {
 
-
-  public void sendEmail(
-      StudentDTO student, byte[] pdfContent, boolean isEnglish) {
-    EmailService.sendCertificateOfEnrollmentByMail(
-        student, pdfContent, isEnglish);
-  }
-
-
   public byte[] generatePdf(
       String semesterName,
       LocalDate semesterStart,
@@ -150,7 +142,7 @@ public class StudienbescheinigungService {
       addRow(table, startInfo, enrollmentStart.format(formatter));
 
       // Enrollment end info
-      String endInfo = String.format(isEnglish ? "Start of enrollment: " : "Beginn des Studiums: ");
+      String endInfo = String.format(isEnglish ? "Projected end of enrollment: " : "Voraussichtliches Ende des Studiums: ");
       addRow(table, endInfo, enrollmentEnd.format(formatter));
 
       // University semester info

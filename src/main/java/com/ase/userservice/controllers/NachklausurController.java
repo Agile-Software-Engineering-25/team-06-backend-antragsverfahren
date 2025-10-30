@@ -1,20 +1,25 @@
 package com.ase.userservice.controllers;
 
-import com.ase.userservice.database.entities.BachelorthesisRequest;
+
 import com.ase.userservice.database.entities.NachklausurRequest;
 import com.ase.userservice.forms.StudentDTO;
 import com.ase.userservice.services.StammdatenService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import com.ase.userservice.services.NachklausurService;
-import java.util.Objects;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -31,12 +36,28 @@ public class  NachklausurController {
   @Autowired
   private StammdatenService stammdatenService;
 
-  /**
-   * Processes a Nachklausur application and generates PDF (stored server-side).
-   *
-   * @requestbody NachklausurRequest containing application details
-   * @return ResponseEntity with success message
-   */
+
+
+
+
+  @GetMapping("/{matrikelnummer}")
+  public ResponseEntity<String> getNachklausurRequestByMatrikelnummer(
+      @PathVariable String matrikelnummer) throws JsonProcessingException {
+    NachklausurRequest nachklausurRequest = nachklausurService.
+        getRequestByMatrikelnummer(matrikelnummer);
+    ObjectMapper mapper = new ObjectMapper();
+    String json = mapper.writeValueAsString(nachklausurRequest);
+    return new ResponseEntity<>(json, HttpStatus.OK);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<String> deleteNachklausurRequestById(
+      @PathVariable Long id) {
+    nachklausurService.deleteRequest(id);
+    return new ResponseEntity<>("NachklausurRequest deleted.", HttpStatus.OK);
+  }
+
+
   @PostMapping("/nachklausur")
   public ResponseEntity<String> nachklausur(
       @RequestParam("modul") String modul,

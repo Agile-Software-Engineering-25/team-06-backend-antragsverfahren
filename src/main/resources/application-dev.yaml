@@ -23,14 +23,15 @@ spring:
       path: /h2-console
 
   mail:
-    host: smtp.gmail.com
+    host: mail.your-server.de
     port: 587
-    username: ${MAIL_USERNAME:your-email@gmail.com}
-    password: ${MAIL_PASSWORD:your-app-password}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    fromAddress: ${MAIL_USERNAME}
+    fromName: "Hochschulverwaltungssystem"
     properties:
       mail:
         smtp:
-          trust: smtp.gmail.com
           auth: true
           starttls:
             enable: true

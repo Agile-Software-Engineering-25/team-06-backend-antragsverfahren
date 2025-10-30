@@ -47,15 +47,14 @@ public class StudienbescheinigungController {
           .body("API failed to return student information!");
     }
 
-    //TODO: REPLACE MISSING DATA
-    String semesterName = isEnglish ? "MISSING_DATA" : "FEHLENDE_DATEN";
-    LocalDate semesterStart = LocalDate.of(1970, 1, 1);
-    LocalDate semesterEnd = LocalDate.of(1970, 1, 1);
+    String semesterName = isEnglish ? "SuSe 2025" : "SoSe 2025";
+    LocalDate semesterStart = LocalDate.of(2025, 6, 10);
+    LocalDate semesterEnd = LocalDate.of(2025, 11, 24);
     String degree = "Bachelor of Science";
-    Integer regularEnrollmentDuration = 0;
-    LocalDate enrollmentStart = LocalDate.of(1970, 1, 1);
-    LocalDate enrollmentEnd = LocalDate.of(1970, 1, 1);
-    Integer universitySemester = 0;
+    Integer regularEnrollmentDuration = 6;
+    LocalDate enrollmentStart = LocalDate.of(2023, 10, 1);
+    LocalDate enrollmentEnd = LocalDate.of(2026, 9, 30);
+    Integer universitySemester = student.getSemester();
     Integer vacationSemester = 0;
 
     try {
@@ -85,7 +84,6 @@ public class StudienbescheinigungController {
           .body(generatedPdf);
     }
     catch (Exception e) {
-      e.printStackTrace();
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(e.getMessage());
     }

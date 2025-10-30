@@ -3,7 +3,7 @@ package com.ase.userservice.services;
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.CompletableFuture;
 import com.ase.userservice.forms.StudentDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.ase.userservice.database.entities.BachelorthesisRequest;
@@ -18,15 +18,17 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
 
 @Service
+@RequiredArgsConstructor
 public class BachelorthesisService {
 
   private final BachelorthesisRepository bachelorthesisRepository;
+  private final EmailService emailService;
 
-  @Autowired
-  public BachelorthesisService(
-      BachelorthesisRepository bachelorthesisRepository) {
-    this.bachelorthesisRepository = bachelorthesisRepository;
-  }
+//  @Autowired
+//  public BachelorthesisService(
+//      BachelorthesisRepository bachelorthesisRepository) {
+//    this.bachelorthesisRepository = bachelorthesisRepository;
+//  }
 
   @Async
   public CompletableFuture<Void> createRequest(
@@ -49,7 +51,7 @@ public class BachelorthesisService {
 
   public void sendEmail(
       StudentDTO user, byte[] pdfContent, boolean isEnglish) {
-    EmailService.sendBachelorthesisApplicationByMail(
+    emailService.sendBachelorthesisApplicationByMail(
         user, pdfContent, isEnglish);
   }
 
