@@ -15,7 +15,7 @@ spec:
         app: antrag-service
     spec:
       containers:
-        - name: antrag-service
+        - name: app
           image: ghcr.io/agile-software-engineering-25/team-06-backend-antrag-service:latest
           ports:
             - containerPort: 8080
