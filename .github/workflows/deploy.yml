@@ -36,5 +36,6 @@ jobs:
         with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           namespace: ${{ vars.K8S_NAMESPACE }}
+          image: "ghcr.io/agile-software-engineering-25/team-06-backend-antrag-service"
           tag: ${{ steps.vars.outputs.tag }}
           deployment: "ase-antrag-service"
