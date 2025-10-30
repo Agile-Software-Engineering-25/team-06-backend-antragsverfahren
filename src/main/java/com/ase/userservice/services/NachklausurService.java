@@ -28,7 +28,7 @@ public class NachklausurService {
   private final EmailService emailService;
 
   @Value("${spring.app.logoPath:}")
-  private final String logoPath;
+  private String logoPath;
 
   @Async
   public CompletableFuture<Void> createRequest(

@@ -31,7 +31,7 @@ import com.itextpdf.layout.properties.TextAlignment;
 public class StudienbescheinigungService {
 
   @Value("${spring.app.logoPath:}")
-  private final String logoPath;
+  private String logoPath;
 
 
   public byte[] generatePdf(
