@@ -9,8 +9,8 @@ spring:
         format_sql: true
   datasource:
     url: jdbc:postgresql://postgres.db:5432/appdb
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   mail:
