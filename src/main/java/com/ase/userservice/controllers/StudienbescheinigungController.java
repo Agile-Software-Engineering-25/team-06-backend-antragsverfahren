@@ -51,6 +51,7 @@ public class StudienbescheinigungController {
     String semesterName = isEnglish ? "MISSING_DATA" : "FEHLENDE_DATEN";
     LocalDate semesterStart = LocalDate.of(1970, 1, 1);
     LocalDate semesterEnd = LocalDate.of(1970, 1, 1);
+    String degree = "Bachelor of Science";
     Integer regularEnrollmentDuration = 0;
     LocalDate enrollmentStart = LocalDate.of(1970, 1, 1);
     LocalDate enrollmentEnd = LocalDate.of(1970, 1, 1);
@@ -63,6 +64,7 @@ public class StudienbescheinigungController {
           semesterStart,
           semesterEnd,
           student,
+          degree,
           regularEnrollmentDuration,
           enrollmentStart,
           enrollmentEnd,
@@ -83,8 +85,9 @@ public class StudienbescheinigungController {
           .body(generatedPdf);
     }
     catch (Exception e) {
+      e.printStackTrace();
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(null);
+          .body(e.getMessage());
     }
   }
 
