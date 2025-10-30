@@ -140,6 +140,7 @@ public class BachelorthesisService {
 
       return outputStream.toByteArray();
     } catch (Exception e) {
+      e.printStackTrace();
       throw new RuntimeException("Failed to generate Bachelorthesis PDF", e);
     }
   }

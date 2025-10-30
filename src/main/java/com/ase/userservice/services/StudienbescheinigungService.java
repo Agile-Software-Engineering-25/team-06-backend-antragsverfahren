@@ -198,6 +198,7 @@ public class StudienbescheinigungService {
       document.close();
     }
     catch (Exception e) {
+      e.printStackTrace();
       throw new RuntimeException("Error generating PDF", e);
     }
     return outputStream.toByteArray();
