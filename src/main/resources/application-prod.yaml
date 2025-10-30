@@ -3,7 +3,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -14,21 +14,16 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${MAIL_USERNAME:your-email@gmail.com}
-    password: ${MAIL_PASSWORD:your-app-password}
+    host: ${SMTP_SERVER_HOSTNAME}
+    port: ${SMTP_SERVER_PORT}
+    fromAddress: ${SMTP_SENDER_ADDRESS}
+    fromName: ${SMTP_SENDER_NAME}
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
     properties:
       mail:
         smtp:
-          trust: smtp.gmail.com
           auth: true
           starttls:
             enable: true
 
-server:
-  port: 8080
-  error:
-    include-message: always
-  servlet:
-    context-path: /antrag

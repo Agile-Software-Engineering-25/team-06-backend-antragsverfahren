@@ -2,63 +2,47 @@ package com.ase.userservice.services;
 
 
 import java.io.UnsupportedEncodingException;
-import java.util.Properties;
+import com.ase.userservice.forms.StudentDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import com.ase.userservice.entities.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.stereotype.Service;
 
+@Service
+@RequiredArgsConstructor
 public class EmailService {
 
-  private static final String MAILBOX_ADDRESS = "test-send@arnold-of.de";
-  private static final int SMTP_PORT = 587;
-  /**
-   * Definition of the mail server used for sending emails.
-   *
-   * @param mailboxAddress the local part of the email address (before the @).
-   * @return the object defining the mail sender.
-   */
-  public static JavaMailSender getJavaMailSender(String mailboxAddress ) {
-    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-    mailSender.setHost("mail.your-server.de");
-    mailSender.setPort(SMTP_PORT);
+  private final JavaMailSender mailSender;
 
-    mailSender.setUsername(mailboxAddress);
-    mailSender.setPassword("Team-06-Backend-Antragsverfahren");
+  @Value("${spring.mail.fromAddress:}")
+  private String fromAddress;
 
-    Properties props = mailSender.getJavaMailProperties();
-    props.put("mail.transport.protocol", "smtp");
-    props.put("mail.smtp.auth", "true");
-    props.put("mail.smtp.starttls.enable", "true");
-    props.put("mail.debug", "true");
+  @Value("${spring.mail.fromName:}")
+  private String fromName;
 
-    return mailSender;
-  }
 
-  public static void sendBachelorthesisApplicationByMail(
-      User user, byte[] pdfContent, boolean isEnglish) {
+
+  public void sendBachelorthesisApplicationByMail(
+      StudentDTO user, byte[] pdfContent, boolean isEnglish) {
     if (user == null) {
       throw new RuntimeException("User cannot be null");
     }
     if (pdfContent == null || pdfContent.length == 0) {
       throw new RuntimeException("PDF content cannot be null or empty");
     }
-    String mailboxAddress = EmailService.MAILBOX_ADDRESS;
-    JavaMailSender mailSender = EmailService.getJavaMailSender(mailboxAddress);
 
     try {
       MimeMessage message = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-
       InternetAddress fromAddress = new InternetAddress(
-          mailboxAddress, "Hochschulverwaltungssystem");
+          this.fromAddress, fromName);
       helper.setFrom(fromAddress);
-      helper.setTo(user.getEmail());
+      helper.setTo("test-receive@arnold-of.de");
 
       String subject;
       String emailText;
@@ -68,28 +52,22 @@ public class EmailService {
         subject = "Bachelorthesis application - " + user.getFirstName()
             + " " + user.getLastName();
 
-        emailText = "Dear " + user.getFirstName() + " "
-            + user.getLastName() + ",\n\n"
-            + "Attached is your student certificate as "
-            + "a PDF document.\n\n"
-            + "Best regards\n"
-            + "Your Student Administration Office";
+        emailText = "Attached is a Bachelorthesis application as "
+            + "a PDF document from " + user.getFirstName()
+            + " " + user.getLastName() + ".\n\n";
 
         attachmentName = "Certificate_of_Enrollment_"
             + user.getMatriculationNumber() + ".pdf";
       }
       else {
         subject = "Bachelorarbeitsantrag - " + user.getFirstName()
-            + " " + user.getLastName();
+            + " " + user.getLastName() + " (" + user.getMatriculationNumber() + ")";
 
-        emailText = "Liebe/r " + user.getFirstName() + " "
-            + user.getLastName() + ",\n\n"
-            + "anbei erhalten Sie Ihre Studienbescheinigung als "
-            + "PDF-Dokument.\n\n"
-            + "Mit freundlichen Grüßen\n"
-            + "Ihr Studierendensekretariat";
+        emailText = "Im Anhang befindet sich ein Bachelorthesis Antrag als "
+            + "PDF von " + user.getFirstName()
+            + " " + user.getLastName() + ".\n\n";
 
-        attachmentName = "Studienbescheinigung_"
+        attachmentName = "Bachelorthesis_Antrag_"
             + user.getMatriculationNumber() + ".pdf";
       }
 
@@ -109,58 +87,47 @@ public class EmailService {
     }
   }
 
-  public static void sendCertificateOfEnrollmentByMail(
-      User user, byte[] pdfContent, boolean isEnglish) {
+  public void sendNachklausurByMail(
+      StudentDTO user, byte[] pdfContent, boolean isEnglish) {
     if (user == null) {
       throw new RuntimeException("User cannot be null");
     }
     if (pdfContent == null || pdfContent.length == 0) {
       throw new RuntimeException("PDF content cannot be null or empty");
     }
-    String mailboxAddress = EmailService.MAILBOX_ADDRESS;
-    JavaMailSender mailSender = EmailService.getJavaMailSender(mailboxAddress);
 
     try {
       MimeMessage message = mailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(
-          message, true);
-
-
+      MimeMessageHelper helper = new MimeMessageHelper(message, true);
       InternetAddress fromAddress = new InternetAddress(
-          mailboxAddress, "Hochschulverwaltungssystem");
+          this.fromAddress, fromName);
       helper.setFrom(fromAddress);
-      helper.setTo(user.getEmail());
+      helper.setTo("test-receive@arnold-of.de");
 
       String subject;
       String emailText;
       String attachmentName;
 
       if (isEnglish) {
-        subject = "Certificate of Enrollment - " + user.getFirstName()
+        subject = "Bachelorthesis application - " + user.getFirstName()
             + " " + user.getLastName();
 
-        emailText = "Dear " + user.getFirstName() + " "
-            + user.getLastName() + ",\n\n"
-            + "Attached is your student certificate as "
-            + "a PDF document.\n\n"
-            + "Best regards\n"
-            + "Your Student Administration Office";
+        emailText = "Attached is a Bachelorthesis application as "
+            + "a PDF document from " + user.getFirstName()
+            + " " + user.getLastName() + ".\n\n";
 
         attachmentName = "Certificate_of_Enrollment_"
             + user.getMatriculationNumber() + ".pdf";
       }
       else {
-        subject = "Studienbescheinigung - " + user.getFirstName()
-            + " " + user.getLastName();
+        subject = "Nachklausurantrag - " + user.getFirstName()
+            + " " + user.getLastName() + " (" + user.getMatriculationNumber() + ")";
 
-        emailText = "Liebe/r " + user.getFirstName() + " "
-            + user.getLastName() + ",\n\n"
-            + "anbei erhalten Sie Ihre Studienbescheinigung als "
-            + "PDF-Dokument.\n\n"
-            + "Mit freundlichen Grüßen\n"
-            + "Ihr Studierendensekretariat";
+        emailText = "Im Anhang befindet sich ein Nachklausurantrag als "
+            + "PDF von " + user.getFirstName()
+            + " " + user.getLastName() + ".\n\n";
 
-        attachmentName = "Studienbescheinigung_"
+        attachmentName = "Nachklausurantrag_"
             + user.getMatriculationNumber() + ".pdf";
       }
 
@@ -175,7 +142,8 @@ public class EmailService {
       throw new RuntimeException("Failed to send email", e);
     }
     catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Failed to set email sender name", e);
+      throw new RuntimeException(
+          "Failed to set email sender name", e);
     }
   }
 }
