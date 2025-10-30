@@ -16,7 +16,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
+      - name: Set output
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
       - name: Build and push image
         uses: Agile-Software-Engineering-25/build-and-publish-image@v1
         with:
@@ -28,3 +36,5 @@ jobs:
         with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           namespace: ${{ vars.K8S_NAMESPACE }}
+          tag: ${{ steps.vars.outputs.tag }}
+          deployment: "ase-antrag-service"
