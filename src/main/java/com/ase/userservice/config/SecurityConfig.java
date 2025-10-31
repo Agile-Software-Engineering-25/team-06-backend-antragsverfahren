@@ -33,13 +33,13 @@ public class SecurityConfig {
           )
         )
         .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers(HttpMethod.GET,"/api/antrag", "/api/antrag/").permitAll()
-            .requestMatchers(HttpMethod.GET,"/api/antrag/**").hasRole("Area-2.Team-6.Read.antrag-read")
-            .requestMatchers(HttpMethod.HEAD,"/api/antrag/**").hasRole("Area-2.Team-6.Read.antrag-read")
-            .requestMatchers(HttpMethod.POST,"/api/antrag/**").hasRole("Area-2.Team-6.Update.antrag-update")
-            .requestMatchers(HttpMethod.PUT,"/api/antrag/**").hasRole("Area-2.Team-6.Update.antrag-update")
-            .requestMatchers(HttpMethod.PATCH,"/api/antrag/**").hasRole("Area-2.Team-6.Update.antrag-update")
-            .requestMatchers(HttpMethod.DELETE,"/api/antrag/**").hasRole("Area-2.Team-6.Delete.antrag-delete")
+            .requestMatchers(HttpMethod.GET,"/", "/api/antrag/").permitAll()
+            .requestMatchers(HttpMethod.GET,"/**").hasRole("Area-2.Team-6.Read.antrag-read")
+            .requestMatchers(HttpMethod.HEAD,"/**").hasRole("Area-2.Team-6.Read.antrag-read")
+            .requestMatchers(HttpMethod.POST,"/**").hasRole("Area-2.Team-6.Update.antrag-update")
+            .requestMatchers(HttpMethod.PUT,"/**").hasRole("Area-2.Team-6.Update.antrag-update")
+            .requestMatchers(HttpMethod.PATCH,"/**").hasRole("Area-2.Team-6.Update.antrag-update")
+            .requestMatchers(HttpMethod.DELETE,"/**").hasRole("Area-2.Team-6.Delete.antrag-delete")
             .anyRequest().authenticated()
         );
     return http.build();
