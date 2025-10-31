@@ -34,7 +34,7 @@ public class StudienbescheinigungController {
   public ResponseEntity<?> getStudienbescheinigung(
       @RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) String language) {
 
-    Boolean isEnglish = language.equals("en-US");
+    Boolean isEnglish = language.equals("en");
     StudentDTO student;
 
     try {
