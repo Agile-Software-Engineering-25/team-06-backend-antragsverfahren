@@ -1,0 +1,1021 @@
+{
+  "name": "test",
+  "version": "1",
+  "items": [
+    {
+      "type": "folder",
+      "name": "dev",
+      "filename": "dev",
+      "seq": 3,
+      "root": {
+        "request": {
+          "auth": {
+            "mode": "inherit"
+          }
+        },
+        "meta": {
+          "name": "dev",
+          "seq": 3
+        }
+      },
+      "items": [
+        {
+          "type": "folder",
+          "name": "BachelorthesisController",
+          "filename": "BachelorthesisController",
+          "seq": 1,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "BachelorthesisController",
+              "seq": 1
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Delete Bachelorarbeit",
+              "filename": "Delete Bachelorarbeit.bru",
+              "seq": 1,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/bachelorarbeit/1",
+                "method": "DELETE",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Get Bachelorarbeit",
+              "filename": "Get Bachelorarbeit.bru",
+              "seq": 2,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/bachelorarbeit/123456",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Post Bachelorarbeit",
+              "filename": "Post Bachelorarbeit.bru",
+              "seq": 3,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/bachelorarbeit",
+                "method": "POST",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [
+                    {
+                      "type": "text",
+                      "name": "thema",
+                      "value": "Das PÖSE Internet",
+                      "enabled": true
+                    },
+                    {
+                      "type": "text",
+                      "name": "prüfer",
+                      "value": "Plebus Maximus",
+                      "enabled": true
+                    },
+                    {
+                      "type": "text",
+                      "name": "prüfungstermin",
+                      "value": "01.04.2026",
+                      "enabled": true
+                    },
+                    {
+                      "type": "file",
+                      "name": "expose",
+                      "value": [
+                        "/home/skyllar/Downloads/Testdaten Golfrunden.pdf"
+                      ],
+                      "enabled": true
+                    }
+                  ],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "folder",
+          "name": "DozentenController",
+          "filename": "DozentenController",
+          "seq": 2,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "DozentenController",
+              "seq": 2
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Get Dozenten",
+              "filename": "Get Dozenten.bru",
+              "seq": 1,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/dozenten",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "none",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Get Dozentennamen",
+              "filename": "Get Dozentennamen.bru",
+              "seq": 2,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/dozenten/names",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "none",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "folder",
+          "name": "NachklausurController",
+          "filename": "NachklausurController",
+          "seq": 3,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "NachklausurController",
+              "seq": 3
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Delete Nachklausur",
+              "filename": "Delete Nachklausur.bru",
+              "seq": 4,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/nachklausur/1",
+                "method": "DELETE",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Get Nachklausur",
+              "filename": "Get Nachklausur.bru",
+              "seq": 4,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/nachklausur/123456",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Post Nachklausur",
+              "filename": "Post Nachklausur.bru",
+              "seq": 4,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/nachklausur",
+                "method": "POST",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "json",
+                  "json": "{\"studiengang\":\"Biotechnologie B.Sc.\",\"prüfungstermin\":\"26-10-2025\",\"thema\":\"test\",\"prüfer\":\"Prof. Fabian Volk\"}\n\n",
+                  "formUrlEncoded": [],
+                  "multipartForm": [
+                    {
+                      "type": "text",
+                      "name": "modul",
+                      "value": "Sex Ed",
+                      "enabled": true
+                    },
+                    {
+                      "type": "text",
+                      "name": "prüfungstermin",
+                      "value": "01.04.2026",
+                      "enabled": true
+                    }
+                  ],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "folder",
+          "name": "RootController",
+          "filename": "RootController",
+          "seq": 4,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "RootController",
+              "seq": 4
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Get Root",
+              "filename": "Get Root.bru",
+              "seq": 3,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "none"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "folder",
+          "name": "StudienbescheinigungController",
+          "filename": "StudienbescheinigungController",
+          "seq": 5,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "StudienbescheinigungController",
+              "seq": 5
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Get Studienbescheinigung Deutsch",
+              "filename": "Get Studienbescheinigung Deutsch.bru",
+              "seq": 1,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/studienbescheinigung",
+                "method": "GET",
+                "headers": [
+                  {
+                    "name": "Accept-Language",
+                    "value": "de",
+                    "enabled": true
+                  }
+                ],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Get Studienbescheinigung Englisch",
+              "filename": "Get Studienbescheinigung Englisch.bru",
+              "seq": 2,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "http://localhost:8080/api/antrag/studienbescheinigung",
+                "method": "GET",
+                "headers": [
+                  {
+                    "name": "Accept-Language",
+                    "value": "en-US",
+                    "enabled": true
+                  }
+                ],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "production",
+      "filename": "production",
+      "seq": 2,
+      "root": {
+        "request": {
+          "auth": {
+            "mode": "inherit"
+          }
+        },
+        "meta": {
+          "name": "production",
+          "seq": 2
+        }
+      },
+      "items": [
+        {
+          "type": "folder",
+          "name": "BachelorthesisController",
+          "filename": "BachelorthesisController",
+          "seq": 1,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "BachelorthesisController",
+              "seq": 1
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Delete Bachelorarbeit",
+              "filename": "Delete Bachelorarbeit.bru",
+              "seq": 1,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/bachelorarbeit/1",
+                "method": "DELETE",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Get Bachelorarbeit",
+              "filename": "Get Bachelorarbeit.bru",
+              "seq": 2,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/bachelorarbeit/123456",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Post Bachelorarbeit",
+              "filename": "Post Bachelorarbeit.bru",
+              "seq": 3,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/bachelorarbeit",
+                "method": "POST",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [
+                    {
+                      "type": "text",
+                      "name": "thema",
+                      "value": "Das PÖSE Internet",
+                      "enabled": true
+                    },
+                    {
+                      "type": "text",
+                      "name": "prüfer",
+                      "value": "Plebus Maximus",
+                      "enabled": true
+                    },
+                    {
+                      "type": "text",
+                      "name": "prüfungstermin",
+                      "value": "01.04.2026",
+                      "enabled": true
+                    },
+                    {
+                      "type": "file",
+                      "name": "expose",
+                      "value": [
+                        "/home/skyllar/Downloads/Testdaten Golfrunden.pdf"
+                      ],
+                      "enabled": true
+                    }
+                  ],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "folder",
+          "name": "DozentenController",
+          "filename": "DozentenController",
+          "seq": 2,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "DozentenController",
+              "seq": 2
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Get Dozenten",
+              "filename": "Get Dozenten.bru",
+              "seq": 1,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/dozenten",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "none",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Get Dozentennamen",
+              "filename": "Get Dozentennamen.bru",
+              "seq": 2,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/dozenten/names",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "none",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "folder",
+          "name": "NachklausurController",
+          "filename": "NachklausurController",
+          "seq": 3,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "NachklausurController",
+              "seq": 3
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Delete Nachklausur",
+              "filename": "Delete Nachklausur.bru",
+              "seq": 4,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/nachklausur/1",
+                "method": "DELETE",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Get Nachklausur",
+              "filename": "Get Nachklausur.bru",
+              "seq": 4,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/nachklausur/123456",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Post Nachklausur",
+              "filename": "Post Nachklausur.bru",
+              "seq": 4,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/nachklausur",
+                "method": "POST",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [
+                    {
+                      "type": "text",
+                      "name": "modul",
+                      "value": "Sex Ed",
+                      "enabled": true
+                    },
+                    {
+                      "type": "text",
+                      "name": "prüfungstermin",
+                      "value": "01.04.2026",
+                      "enabled": true
+                    }
+                  ],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "folder",
+          "name": "RootController",
+          "filename": "RootController",
+          "seq": 4,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "RootController",
+              "seq": 4
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Get Root",
+              "filename": "Get Root.bru",
+              "seq": 3,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/",
+                "method": "GET",
+                "headers": [],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "none"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "folder",
+          "name": "StudienbescheinigungController",
+          "filename": "StudienbescheinigungController",
+          "seq": 5,
+          "root": {
+            "request": {
+              "auth": {
+                "mode": "inherit"
+              }
+            },
+            "meta": {
+              "name": "StudienbescheinigungController",
+              "seq": 5
+            }
+          },
+          "items": [
+            {
+              "type": "http",
+              "name": "Get Studienbescheinigung Deutsch",
+              "filename": "Get Studienbescheinigung Deutsch.bru",
+              "seq": 1,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/studienbescheinigung",
+                "method": "GET",
+                "headers": [
+                  {
+                    "name": "Accept-Language",
+                    "value": "de",
+                    "enabled": true
+                  }
+                ],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            },
+            {
+              "type": "http",
+              "name": "Get Studienbescheinigung Englisch",
+              "filename": "Get Studienbescheinigung Englisch.bru",
+              "seq": 2,
+              "settings": {
+                "encodeUrl": true
+              },
+              "tags": [],
+              "request": {
+                "url": "https://sau-portal.de/api/antrag/studienbescheinigung",
+                "method": "GET",
+                "headers": [
+                  {
+                    "name": "Accept-Language",
+                    "value": "en-US",
+                    "enabled": true
+                  }
+                ],
+                "params": [],
+                "body": {
+                  "mode": "multipartForm",
+                  "formUrlEncoded": [],
+                  "multipartForm": [],
+                  "file": []
+                },
+                "script": {},
+                "vars": {},
+                "assertions": [],
+                "tests": "",
+                "docs": "",
+                "auth": {
+                  "mode": "inherit"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "environments": [],
+  "root": {
+    "request": {
+      "auth": {
+        "mode": "bearer",
+        "bearer": {
+          "token": ""
+        }
+      }
+    }
+  },
+  "brunoConfig": {
+    "version": "1",
+    "name": "test",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "size": 0.008020401000976562,
+    "filesCount": 35
+  }
+}
