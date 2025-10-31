@@ -12,9 +12,11 @@ public class CorsConfig implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-        .allowedOriginPatterns("*")
-        .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE",
-            "OPTIONS", "REQUEST")
+        .allowedOriginPatterns(
+            "https://sau-portal.de",
+            "http://localhost:*",
+            "http://127.0.0.1:*")
+        .allowedMethods("GET", "POST", "DELETE", "OPTIONS")
         .allowedHeaders("*")
         .allowCredentials(true)
         .maxAge(MAX_AGE_SECS);
