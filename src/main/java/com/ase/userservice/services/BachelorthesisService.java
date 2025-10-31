@@ -1,8 +1,10 @@
 package com.ase.userservice.services;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import com.ase.userservice.forms.StudentDTO;
+import com.itextpdf.kernel.pdf.PdfReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
@@ -17,6 +19,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -48,9 +51,9 @@ public class BachelorthesisService {
 
 
   public void sendEmail(
-      StudentDTO user, byte[] pdfContent, boolean isEnglish) {
+      StudentDTO user, byte[][] pdfContents, boolean isEnglish) {
     emailService.sendBachelorthesisApplicationByMail(
-        user, pdfContent, isEnglish);
+        user, pdfContents, isEnglish);
   }
 
   /**
@@ -137,8 +140,34 @@ public class BachelorthesisService {
 
       return outputStream.toByteArray();
     } catch (Exception e) {
-      e.printStackTrace();
       throw new RuntimeException("Failed to generate Bachelorthesis PDF", e);
+    }
+  }
+
+  public boolean isValidPdf(MultipartFile file) {
+    // 1️⃣ Quick sanity check: MIME type
+    if (!"application/pdf".equalsIgnoreCase(file.getContentType())) {
+      return false;
+    }
+
+    // 2️⃣ Magic bytes check
+    try (var is = file.getInputStream()) {
+      byte[] header = new byte[5];
+      if (is.read(header) != 5 || !new String(header).startsWith("%PDF-")) {
+        return false;
+      }
+    } catch (IOException e) {
+      return false;
+    }
+
+    // 3️⃣ Deep validation with iText
+    try (var is = file.getInputStream();
+         var pdfDoc = new PdfDocument(new PdfReader(is))) {
+      // If we get here without exception, it's a valid readable PDF
+      return pdfDoc.getNumberOfPages() > 0;
+    } catch (Exception e) {
+      // iText throws IOException or PdfException for invalid/corrupted PDFs
+      return false;
     }
   }
 }

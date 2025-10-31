@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,6 +67,13 @@ public class BachelorthesisController {
       @RequestParam("expose") MultipartFile exposeFile) throws IOException, ExecutionException, InterruptedException {
 
     StudentDTO student;
+
+    if(!bachelorthesisService.isValidPdf(exposeFile)) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send file is not a valid pdf!");
+    }
+
+    byte[] expose = exposeFile.getBytes();
+
     try {
       student = stammdatenService.fetchUserInfo();
       if (student.getId() == null) {
@@ -90,7 +98,7 @@ public class BachelorthesisController {
             thema,
             pruefer,
             pruefungstermin,
-            exposeFile.getBytes()
+            expose
         )
     );
 
@@ -103,13 +111,17 @@ public class BachelorthesisController {
         pruefungstermin
     );
 
-    bachelorthesisService.sendEmail(student, generatedPdf, false);
-
+    try {
+      bachelorthesisService.sendEmail(student, new byte[][]{generatedPdf, expose}, false);
+    } catch (RuntimeException e) {
+      if (e.getMessage().equals("Expose missing!")) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Expose was send by the request!");
+      }
+      throw new RuntimeException(e);
+    }
     createRequest.get();
     return new ResponseEntity<>(
         "Bachelorarbeit data and expose file received", HttpStatus.OK
     );
   }
-
-
 }
