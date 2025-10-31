@@ -1,6 +1,8 @@
 package com.ase.userservice.controllers;
 
 
+
+import com.ase.userservice.forms.ProgramDTO;
 import com.ase.userservice.forms.StudentDTO;
 import com.ase.userservice.services.StammdatenService;
 import com.ase.userservice.services.StudienbescheinigungService;
@@ -34,6 +36,11 @@ public class StudienbescheinigungController {
   public ResponseEntity<?> getStudienbescheinigung(
       @RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) String language) {
 
+    if(!language.equals("en") && !language.equals("de")) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body("Accept-Language Header only allows ´\"en\" and \"de\"!");
+    }
+
     Boolean isEnglish = language.equals("en");
     StudentDTO student;
 
@@ -47,13 +54,26 @@ public class StudienbescheinigungController {
           .body("API failed to return student information!");
     }
 
+    ProgramDTO program;
+
+    try {
+      program = stammdatenService.fetchProgramInfo(student);
+      if (program.getId() == null) {
+        throw new RestClientException("API call returned no data!");
+      }
+    } catch (RestClientException e) {
+      return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY)
+          .body("API failed to return course information!");
+    }
+
+
     String semesterName = isEnglish ? "SuSe 2025" : "SoSe 2025";
     LocalDate semesterStart = LocalDate.of(2025, 6, 10);
     LocalDate semesterEnd = LocalDate.of(2025, 11, 24);
-    String degree = "Bachelor of Science";
-    Integer regularEnrollmentDuration = 6;
-    LocalDate enrollmentStart = LocalDate.of(2023, 10, 1);
-    LocalDate enrollmentEnd = LocalDate.of(2026, 9, 30);
+    String degree = program.getTemplate().getDegree_type();
+    Integer regularEnrollmentDuration = program.getTemplate().getPlanned_semesters();
+    LocalDate enrollmentStart = program.getStartDate().toLocalDate();
+    LocalDate enrollmentEnd = program.getEndDate().toLocalDate();
     Integer universitySemester = student.getSemester();
     Integer vacationSemester = 0;
 
