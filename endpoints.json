@@ -129,7 +129,7 @@
                     {
                       "type": "text",
                       "name": "prüfungstermin",
-                      "value": "01.04.2026",
+                      "value": "01-04-2026",
                       "enabled": true
                     },
                     {
@@ -326,7 +326,7 @@
                 "headers": [],
                 "params": [],
                 "body": {
-                  "mode": "json",
+                  "mode": "multipartForm",
                   "json": "{\"studiengang\":\"Biotechnologie B.Sc.\",\"prüfungstermin\":\"26-10-2025\",\"thema\":\"test\",\"prüfer\":\"Prof. Fabian Volk\"}\n\n",
                   "formUrlEncoded": [],
                   "multipartForm": [
@@ -339,7 +339,7 @@
                     {
                       "type": "text",
                       "name": "prüfungstermin",
-                      "value": "01.04.2026",
+                      "value": "01-04-2026",
                       "enabled": true
                     }
                   ],
@@ -626,7 +626,7 @@
                     {
                       "type": "text",
                       "name": "prüfungstermin",
-                      "value": "01.04.2026",
+                      "value": "01-04-2026",
                       "enabled": true
                     },
                     {
@@ -835,7 +835,7 @@
                     {
                       "type": "text",
                       "name": "prüfungstermin",
-                      "value": "01.04.2026",
+                      "value": "01-04-2026",
                       "enabled": true
                     }
                   ],
@@ -1002,7 +1002,7 @@
       "auth": {
         "mode": "bearer",
         "bearer": {
-          "token": ""
+          "token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1RXE2dlVzSHNxMEtQd2VRVmNwY2s2TGNMLU51VGNHcjhFSmJDMjhEV1Q4In0.eyJleHAiOjE3NjE5MTM0NjksImlhdCI6MTc2MTkxMzE2OSwiYXV0aF90aW1lIjoxNzYxOTA2MTU2LCJqdGkiOiJvbnJ0cnQ6YTFmYzgzNzQtNTNjZi1lOGNiLTg4MzYtNTA3YzBmYTA2MjRkIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5zYXUtcG9ydGFsLmRlL3JlYWxtcy9zYXUiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiYjdhY2I4MjUtNGU3MC00OWU0LTg0YTEtYmY1ZGM3YzhmNTA5IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicm9vdC11aSIsInNpZCI6IjkwOGQxOWYzLWRmYWItNDA4YS05ZDk5LWM2OGFmYjAwODUyNSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9zYXUtcG9ydGFsLmRlIiwiKiIsImh0dHBzOi8vc2F1LXBvcnRhbC5kZS8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJBcmVhLTIuVGVhbS02LlVwZGF0ZS5hbnRyYWctdXBkYXRlIiwiQXJlYS0yLlRlYW0tNy5SZWFkLnJlYWQtZG9jdW1lbnQiLCJBcmVhLTIuVGVhbS02LlJlYWQuYW50cmFnLXJlYWQiLCJzdHVkZW50IiwiQXJlYS0yLlRlYW0tNS5SZWFkLk5ld3NQb3N0LUNoZW1pc3RyeSIsIkFyZWEtMi5UZWFtLTUuUmVhZC5OZXdzUG9zdC1Db21wdXRlclNjaWVuY2UiLCJBcmVhLTIuVGVhbS01LlJlYWQuTmV3c1Bvc3QtRW5naW5lZXJpbmciLCJBcmVhLTEuVGVhbS0yLlJlYWQuRXZlbnRzIiwiQXJlYS0yLlRlYW0tNi5EZWxldGUuYW50cmFnLWRlbGV0ZSIsImRlZmF1bHQtcm9sZXMtc2F1Iiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkFyZWEtMi5UZWFtLTUuUmVhZC5OZXdzUG9zdC1CdXNpbmVzcyJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgbWljcm9wcm9maWxlLWp3dCBlbWFpbCIsInVwbiI6InRlc3Qtc3R1ZCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiVGVzdCBTdHVkIiwiZ3JvdXBzIjpbIkFyZWEtMi5UZWFtLTYuVXBkYXRlLmFudHJhZy11cGRhdGUiLCJBcmVhLTIuVGVhbS03LlJlYWQucmVhZC1kb2N1bWVudCIsIkFyZWEtMi5UZWFtLTYuUmVhZC5hbnRyYWctcmVhZCIsInN0dWRlbnQiLCJBcmVhLTIuVGVhbS01LlJlYWQuTmV3c1Bvc3QtQ2hlbWlzdHJ5IiwiQXJlYS0yLlRlYW0tNS5SZWFkLk5ld3NQb3N0LUNvbXB1dGVyU2NpZW5jZSIsIkFyZWEtMi5UZWFtLTUuUmVhZC5OZXdzUG9zdC1FbmdpbmVlcmluZyIsIkFyZWEtMS5UZWFtLTIuUmVhZC5FdmVudHMiLCJBcmVhLTIuVGVhbS02LkRlbGV0ZS5hbnRyYWctZGVsZXRlIiwiZGVmYXVsdC1yb2xlcy1zYXUiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiQXJlYS0yLlRlYW0tNS5SZWFkLk5ld3NQb3N0LUJ1c2luZXNzIl0sInByZWZlcnJlZF91c2VybmFtZSI6InRlc3Qtc3R1ZCIsImdpdmVuX25hbWUiOiJUZXN0IiwiZmFtaWx5X25hbWUiOiJTdHVkIiwiZW1haWwiOiJ0ZXN0LXN0dWRAc2F1LXBvcnRhbC5kZSJ9.gjJMxLJRV6ol3fzIswnUMMwcapNWDtzv4EJYF1Sh_WUyyplX8vG7GFTYCJ3SegychCqMV6SSelaQ4JczWOpS2InhBe4TMLsOOaG6Ss7nSY9fwYpapvv1pcqRgCxRPGgZ4YR8FFb0F1MA_VQRJSmsK1wyDADzIVDD5IfcMyVyrbqTmHSvVG76y08CJoN5x4gpnQ8tecperTZtkHsUgqqRwKVGEtod96dN-tH1hMUuNNEgMl9o3P1Yxrr9sbICu3zfw1f-M_gruMdCqTs1FNkp7U3-GVcIstru8lzDbuU3vJlfdMaiiX53e8KFa_Bq3SUwH92SFaAMVq9YK25WAocSVA"
         }
       }
     }
@@ -1015,7 +1015,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0.008020401000976562,
+    "size": 0.005629539489746094,
     "filesCount": 35
   }
 }

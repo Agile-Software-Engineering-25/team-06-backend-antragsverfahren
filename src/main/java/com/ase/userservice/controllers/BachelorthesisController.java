@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ase.userservice.database.entities.BachelorthesisRequest;
 import com.ase.userservice.services.BachelorthesisService;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -67,6 +68,28 @@ public class BachelorthesisController {
       @RequestParam("expose") MultipartFile exposeFile) throws IOException, ExecutionException, InterruptedException {
 
     StudentDTO student;
+
+
+
+    if( pruefungstermin == null || pruefungstermin.isBlank()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send prüfungstermin cannot be empty!");
+    } else if(pruefungstermin.length() > 10) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send prüfungstermin is too long!");
+    } else if(!LocalDate.parse(pruefungstermin, DateTimeFormatter.ofPattern("dd-MM-yyyy")).isAfter(LocalDate.now())) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send prüfungstermin is invalid!");
+    }
+
+    if(thema == null || thema.isBlank()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send thema cannot be empty!");
+    } else if(thema.length() > 300) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send thema is too long!");
+    }
+
+    if(pruefer == null || pruefer.isBlank()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send prüfer cannot be empty!");
+    } else if(pruefer.length() > 100) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send prüfer is too long!");
+    }
 
     if(!bachelorthesisService.isValidPdf(exposeFile)) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send file is not a valid pdf!");

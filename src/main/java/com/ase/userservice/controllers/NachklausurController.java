@@ -21,6 +21,8 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import com.ase.userservice.services.NachklausurService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -65,7 +67,22 @@ public class  NachklausurController {
       @RequestParam("modul") String modul,
       @RequestParam("prüfungstermin") String pruefungstermin) throws ExecutionException, InterruptedException {
 
+    if(pruefungstermin == null || pruefungstermin.isBlank()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send prüfungstermin cannot be empty!");
+    } else if(pruefungstermin.length() > 10) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send prüfungstermin is too long!");
+    } else if(!LocalDate.parse(pruefungstermin, DateTimeFormatter.ofPattern("dd-MM-yyyy")).isAfter(LocalDate.now())) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send prüfungstermin is invalid!");
+    }
+
+    if(modul == null || modul.isBlank()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send modul cannot be empty!");
+    } else if(modul.length() > 100) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Send modul is too long!");
+    }
+
     StudentDTO student;
+
     try {
       student = stammdatenService.fetchUserInfo();
       if (student.getId() == null) {
