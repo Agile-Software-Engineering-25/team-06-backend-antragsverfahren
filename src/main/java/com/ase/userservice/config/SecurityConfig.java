@@ -34,6 +34,7 @@ public class SecurityConfig {
         )
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers("/api/antrag").permitAll()
+            .requestMatchers("/api/antrag/").permitAll()
             .requestMatchers(HttpMethod.GET,"/api/antrag/**").hasRole("Area-2.Team-6.Read.antrag-read")
             .requestMatchers(HttpMethod.HEAD,"/api/antrag/**").hasRole("Area-2.Team-6.Read.antrag-read")
             .requestMatchers(HttpMethod.POST,"/api/antrag/**").hasRole("Area-2.Team-6.Update.antrag-update")

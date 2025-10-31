@@ -28,13 +28,13 @@ spec:
               cpu: "300m"
           readinessProbe:
             httpGet:
-              path: /api/antrag # you might need to change this to a health endpoint of your application
+              path: /api/antrag/ # you might need to change this to a health endpoint of your application
               port: 8080
             initialDelaySeconds: 90
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /api/antrag # you might need to change this to a health endpoint of your application
+              path: /api/antrag/ # you might need to change this to a health endpoint of your application
               port: 8080
             initialDelaySeconds: 120
             periodSeconds: 20
